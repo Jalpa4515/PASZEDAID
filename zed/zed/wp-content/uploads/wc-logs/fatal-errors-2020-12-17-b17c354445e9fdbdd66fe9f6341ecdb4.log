@@ -1,0 +1,8 @@
+2020-12-17T13:26:32+00:00 CRITICAL Uncaught Error: Cannot use object of type stdClass as array in /var/www/html/zed/wp-content/themes/alone/templates/browsefundraiserdetail.php:26
+Stack trace:
+#0 /var/www/html/zed/wp-includes/template-loader.php(106): include()
+#1 /var/www/html/zed/wp-blog-header.php(19): require_once('/var/www/html/z...')
+#2 /var/www/html/zed/index.php(17): require('/var/www/html/z...')
+#3 {main}
+  thrown in /var/www/html/zed/wp-content/themes/alone/templates/browsefundraiserdetail.php on line 26
+

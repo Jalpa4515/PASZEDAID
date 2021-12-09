@@ -1,0 +1,23 @@
+2021-01-20T20:47:46+00:00 CRITICAL Uncaught Exception: expecting color: failed at `background: fade_out($fw-menu-bg, $fw-header-absolute-opacity) !important;` /home/jedaites/public_html/zed/wp-content/themes/alone/assets/style-scss/headers/_header-absolute.scss on line 9 in /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php:4066
+Stack trace:
+#0 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(2506): scss_parser->throwParseError('expecting color', 155)
+#1 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(1845): scssc->throwError('expecting color')
+#2 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(2269): scssc->assertColor(Array)
+#3 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(2279): scssc->lib_transparentize(Array)
+#4 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(1732): scssc->lib_fade in /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php on line 4066
+
+2021-01-20T20:48:39+00:00 CRITICAL Uncaught Exception: expecting color: failed at `background: fade_out($fw-menu-bg, $fw-header-absolute-opacity) !important;` /home/jedaites/public_html/zed/wp-content/themes/alone/assets/style-scss/headers/_header-absolute.scss on line 9 in /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php:4066
+Stack trace:
+#0 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(2506): scss_parser->throwParseError('expecting color', 155)
+#1 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(1845): scssc->throwError('expecting color')
+#2 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(2269): scssc->assertColor(Array)
+#3 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(2279): scssc->lib_transparentize(Array)
+#4 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(1732): scssc->lib_fade in /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php on line 4066
+
+2021-01-20T20:48:41+00:00 CRITICAL Uncaught Exception: parse error: failed at `$fw-menu-bg: #; $fw-dropdown-bg-color: #282828; $fw-footer-widgets-bg: #282828; $fw-footer-widgets-title: #ffffff; $fw-footer-widgets-text-color: #898d8e; $fw-footer-bar-bg: #000000; $fw-footer-bar-padding-top: 15px; $fw-footer-bar-padding-bot: 15px; $fw-menu-logo-width: 42px; $fw-menu-logo-height: 50px; $theme-color-1: #0ec4f7; $theme-color-2: #ed3889; $theme-color-3: #2f2f2f; $theme-color-4: #282828; $theme-color-5: #eaeaeb;// Variable` line: 1 in /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php:4066
+Stack trace:
+#0 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(2754): scss_parser->throwParseError()
+#1 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php(121): scss_parser->parse('$website-bg-col...')
+#2 /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/helpers.php(251): scssc->compile('$website-bg-col...')
+#3 /home/jeda in /home/jedaites/public_html/zed/wp-content/themes/alone/theme-includes/includes/scss.inc.php on line 4066
+

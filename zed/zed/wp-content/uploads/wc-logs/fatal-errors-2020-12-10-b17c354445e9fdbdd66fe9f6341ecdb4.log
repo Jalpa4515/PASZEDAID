@@ -1,0 +1,33 @@
+2020-12-10T13:04:18+00:00 CRITICAL Uncaught Error: Call to undefined method stdClass::ID() in /home/jedaites/public_html/zed/wp-content/themes/alone/woocommerce/myaccount/dashboard.php:192
+Stack trace:
+#0 /home/jedaites/public_html/zed/wp-content/plugins/woocommerce/includes/wc-core-functions.php(345): include()
+#1 /home/jedaites/public_html/zed/wp-content/plugins/woocommerce/includes/wc-template-functions.php(3086): wc_get_template('myaccount/dashb...', Array)
+#2 /home/jedaites/public_html/zed/wp-includes/class-wp-hook.php(287): woocommerce_account_content('')
+#3 /home/jedaites/public_html/zed/wp-includes/class-wp-hook.php(311): WP_Hook->apply_filters(NULL, Array)
+#4 /home/jedaites/public_html/zed/wp-includes/plugin.php(478): WP_Hook->do_action(Array)
+#5 /home/jedaites/public_html/zed/wp-content/themes/alone/woocommerce/myaccount/my-account.php(34): do_action('woocommerce_acc...')
+#6 /home/jedaites/public_html/zed/wp-content/plugins/woocommerce/includes/wc-core-functions.php(345): include('/home/jedaites/...')
+#7 /home/jedaites/public_html/ze in /home/jedaites/public_html/zed/wp-content/themes/alone/woocommerce/myaccount/dashboard.php on line 192
+
+2020-12-10T13:06:12+00:00 CRITICAL Uncaught Error: Call to a member function get_results() on null in /home/jedaites/public_html/zed/wp-content/themes/alone/woocommerce/myaccount/dashboard.php:193
+Stack trace:
+#0 /home/jedaites/public_html/zed/wp-content/plugins/woocommerce/includes/wc-core-functions.php(345): include()
+#1 /home/jedaites/public_html/zed/wp-content/plugins/woocommerce/includes/wc-template-functions.php(3086): wc_get_template('myaccount/dashb...', Array)
+#2 /home/jedaites/public_html/zed/wp-includes/class-wp-hook.php(287): woocommerce_account_content('')
+#3 /home/jedaites/public_html/zed/wp-includes/class-wp-hook.php(311): WP_Hook->apply_filters(NULL, Array)
+#4 /home/jedaites/public_html/zed/wp-includes/plugin.php(478): WP_Hook->do_action(Array)
+#5 /home/jedaites/public_html/zed/wp-content/themes/alone/woocommerce/myaccount/my-account.php(34): do_action('woocommerce_acc...')
+#6 /home/jedaites/public_html/zed/wp-content/plugins/woocommerce/includes/wc-core-functions.php(345): include('/home/jedaites/...')
+#7 /home/jedaites/public in /home/jedaites/public_html/zed/wp-content/themes/alone/woocommerce/myaccount/dashboard.php on line 193
+
+2020-12-10T13:06:48+00:00 CRITICAL Uncaught Error: Call to a member function get_results() on null in /home/jedaites/public_html/zed/wp-content/themes/alone/woocommerce/myaccount/dashboard.php:193
+Stack trace:
+#0 /home/jedaites/public_html/zed/wp-content/plugins/woocommerce/includes/wc-core-functions.php(345): include()
+#1 /home/jedaites/public_html/zed/wp-content/plugins/woocommerce/includes/wc-template-functions.php(3086): wc_get_template('myaccount/dashb...', Array)
+#2 /home/jedaites/public_html/zed/wp-includes/class-wp-hook.php(287): woocommerce_account_content('')
+#3 /home/jedaites/public_html/zed/wp-includes/class-wp-hook.php(311): WP_Hook->apply_filters(NULL, Array)
+#4 /home/jedaites/public_html/zed/wp-includes/plugin.php(478): WP_Hook->do_action(Array)
+#5 /home/jedaites/public_html/zed/wp-content/themes/alone/woocommerce/myaccount/my-account.php(34): do_action('woocommerce_acc...')
+#6 /home/jedaites/public_html/zed/wp-content/plugins/woocommerce/includes/wc-core-functions.php(345): include('/home/jedaites/...')
+#7 /home/jedaites/public in /home/jedaites/public_html/zed/wp-content/themes/alone/woocommerce/myaccount/dashboard.php on line 193
+
