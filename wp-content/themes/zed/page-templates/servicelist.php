@@ -55,6 +55,59 @@ $requests = (array) $requests;
     <script src="<?php echo bloginfo('template_directory'); ?>/js/jquery.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDps_MnqrPbo_tQ1ZqJ60czXZjFaS421co&libraries=places"></script>
     <style>
+
+
+
+@media screen and (min-width:768px) {
+.tp-counter-grids {
+        display: inline-flex;
+    background: rgb(0 0 0 / 22%);
+    padding: 0px 100px;
+}
+
+.grid {
+    padding: 20px 20px;
+}
+
+.grid h2 {
+    font-size: 70px;
+    font-weight: 600;
+}
+
+.grid p {
+    color: #fff;
+    font-weight: 500;
+    font-size: 20px;
+}
+}
+.btn {
+        min-width: 105px;
+        height: 40px;
+        margin: 0;
+        padding: 0 20px;
+        vertical-align: middle;
+        border: 0;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 40px;
+        color: #fff;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        text-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        -o-transition: all .3s;
+        -moz-transition: all .3s;
+        -webkit-transition: all .3s;
+        -ms-transition: all .3s;
+        transition: all .3s;
+    }
+.btn-next {
+        background: #3d3d8a;
+    }
         input#vehicle1 {
             width: 15px;
             height: 15px;
@@ -173,6 +226,44 @@ $requests = (array) $requests;
                         <div class="tp-breadcumb-wrap">
                             <h2><?= $service_name; ?></h2>
                             <p class="para"><?= $description; ?></p>
+                            <?php
+                                        $requestcount1 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+
+                                        $requestcount2 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_support_data WHERE service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+
+                                        /* $resultsdonaccxcam = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}campaigns WHERE admin_approved = 1 AND `status` = 1", ARRAY_A);
+                                        $resultsdonaccx = $wpdb->get_results("SELECT sum(lives_count) as livecount FROM {$wpdb->prefix}campaigns WHERE admin_approved = 1", ARRAY_A);
+                                        $resultsdonaccxe = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'tribe_events' AND post_status = 'publish'", ARRAY_A); */
+
+                                        ///$resultsdonaccxcam = array();
+                                        $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE request_status ='0' and service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                        ?>
+                                        <div class="tp-counter-grids">
+                                            <div class="grid">
+                                                <div>
+                                                    <h2><span class="odometer" data-count="<?= count($requestcount1); ?>"><?= count($requestcount1); ?></span></h2>
+                                                </div>
+                                                <p>Total Requests</p>
+                                            </div>
+                                            <div class="grid">
+                                                <div>
+                                                    <h2><span class="odometer" data-count="<?= count($requestcount2); ?>"><?= count($requestcount2); ?></span></h2>
+                                                </div>
+                                                <p>Total Supports</p>
+                                            </div>
+                                            <div class="grid">
+                                                <div>
+                                                    <h2><span class="odometer" data-count="<?= count($requestcount3); ?>"><?= count($requestcount3); ?></span></h2>
+                                                </div>
+                                                <p>Total Close Request</p>
+                                            </div>
+                                            <!--<div class="grid">-->
+                                            <!--    <div>-->
+                                            <!--        <h2><span class="odometer" data-count="<?= count($resultsdonaccxe); ?>"><?= count($resultsdonaccxe); ?></span></h2>-->
+                                            <!--    </div>-->
+                                            <!--    <p>ZED EVENTS</p>-->
+                                            <!--</div>-->
+                                        </div>
                         </div>
                     </div>
                 </div>
@@ -435,10 +526,11 @@ $requests = (array) $requests;
                                     <?php
                                     foreach ($requests as $res) {
                                         $fundtitle = $res['name'];
+                                        $emailAddress = $res['email'];
                                         $mobile_number = $res['mobile_number'];
                                         $address = $res['address'];
                                         $zed_verified = $res['zed_verified'];
-                                        $shareurl = BASE_URL . 'fundraiser-detail/?id=' . $res['id'];
+                                      //  $shareurl = BASE_URL . 'fundraiser-detail/?id=' . $res['id'];
                                         $goal_amount = '0';
                                         $currency = 'QTY';
                                         $iimage = "https://img.youtube.com/vi/" . $iimagei . "/maxresdefault.jpg";
@@ -499,13 +591,41 @@ $requests = (array) $requests;
 
                                         $supp = '';
                                         if(!empty($supports)){
-                                            if(!empty($iconpin)){
-                                                $icon_name = BASE_URL."/icon-mappin/".$iconpin->icon2;
+
+                                            $contact= $supports['mobile_number'] ;
+                                        $result_contact = substr($contact, 0, 5);
+                                        $result_contact .= "*****";
+
+                                        $email= $supports['email'] ;
+                                        $result_email = substr($email, 0, 5);
+                                        $result_email .= "*****";
+
+                                        $address= $supports['address'] ;
+                                        $result_address = substr($address, 0, 5);
+                                        $result_address .= "*****";
+
+
+                                        $supportButton = '<input type="hidden" id="support-email" value="'.$email.'"><input type="hidden" id="status-title-'.$request_id.'" value="'.$title.'"><input type="hidden" id="support-phone" value="'.$contact.'"><button type="button" class="btn btn-next" style="margin-left:10px"  onclick="openSupportContact('.$service_id.','.$category_id.','.$request_id.','.$userId.');"><i class="fa fa-envelope" style="padding-right:5px;"></i>Request for Support</button> ';  
+
+                                            if(($userId != '0' && $userId == $services->userId) || ($userId == '1') ){
+                                                if(!empty($iconpin)){
+                                                    $icon_name = BASE_URL."/icon-mappin/".$iconpin->icon2;
+                                                }else{
+                                                    $icon_name = BASE_URL."/wp-content/uploads/2021/08/orange_marker.png";
+                                                }
+                                                $supp .= '<br> Supporter Info:<br> Name: <b>'.$supports['name'] .'</b> <br> Email: <b> '.$supports['email'].'</b> <br> Mobile Number: <b>'.$supports['mobile_number'].'</b> <br> Address: <b>'.$supports['address'].'</b> <br> '.$req1.'<br>';
+                                           
                                             }else{
-                                                $icon_name = BASE_URL."/wp-content/uploads/2021/08/orange_marker.png";
+                                                
+                                                if(!empty($iconpin)){
+                                                    $icon_name = BASE_URL."/icon-mappin/".$iconpin->icon2;
+                                                }else{
+                                                    $icon_name = BASE_URL."/wp-content/uploads/2021/08/orange_marker.png";
+                                                }
+                                                $supp .= '<br> Supporter Info:<br> Name: <b>'.$supports['name'] .'</b> <br> Email: <b> '.$result_email.'</b> <br> Mobile Number: <b>'.$result_contact.'</b>'.$supportButton. '<br> Address: <b>'.$result_address.'</b> <br> '.$req1.'<br>';
                                             }
-                                            $supp .= '<br> Supporter Info:<br> Name: <b>'.$supports['name'] .'</b> <br> Email: <b> '.$supports['email'].'</b> <br> Mobile Number: <b>'.$supports['mobile_number'].'</b> <br> Address: <b>'.$supports['address'].'</b> <br> '.$req1.'<br>';
-                                        }else{
+
+                                           }else{
                                             if (empty($changeStatus)) {
                                                 if (!empty($support_required)) {
                                                     $supp .= '<br><a class="btn btn-next" style="background-color: #3d3d8a; color: white; margin-left: 0px;" onclick="openPopupSupportThem('.$service_id.','.$category_id.','.$request_id.');">Support Them</a>';
@@ -514,9 +634,12 @@ $requests = (array) $requests;
                                         }
 
                                         if (empty($changeStatus)) {
-                                            if (!empty($support_required)) {
+                                            if ((!empty($support_required)) && (($userId == $res['userId']) && $userId != 0) || ($emailid == $emailAddress) ||($userId == '1')) {
                                                     $chnageStatusBtn = '<a type="button" class="btn btn-next" style="margin-top: 10px;margin-bottom: 10px;background-color: #3d3d8a; color: white; margin-left: 0px;" onclick="openPopup('.$service_id.','.$category_id.','.$request_id.','.$userId.');">Close Request</a>';
+                                            }else{
+                                                $chnageStatusBtn='';
                                             }
+
                                         }else{
                                             if(!empty($iconpin)){
                                                 $icon_name = BASE_URL."/icon-mappin/".$iconpin->icon3;
@@ -526,7 +649,7 @@ $requests = (array) $requests;
                                             $chnageStatusBtn = 'Change Status Info:<br> Name: <b>'.$changeStatus['name'] .'</b> <br> Email: <b> '.$changeStatus['email'].'</b> <br> Mobile Number: <b>'.$changeStatus['mobile_number'].'</b> <br> Support Details: <b>'.$changeStatus['supportDetails'].'</b><br>';
                                         }
 
-                                        ?>['<div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;"><a href="<?php echo $shareurl; ?>" style="text-decoration: none;color:#282828 !important;"><div class="/ccc/" style="text-align: center;"></div><br><div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;margin-left: 5%;"><?php echo $fundtitle; ?> <br>Mobile Number: <b><?= $mobile_number;?></b> <br> Address: <b><?= $address; ?></b><br> <?= $req; ?> <?= $supp; ?> <br> <?= $chnageStatusBtn; ?> </div><div class="" style="margin: 10px 0 0 0;text-align:center;color: <?= $closedc; ?>;"><b style="font-weight: 500;text-align:center"><?= $closed; ?></b></div><div class="" style="margin: 10px 0 0 0;margin-left: 5%;text-align:center"><b ><?= $zed_verified; ?></b></div></a></div>', <?php echo $res['latitude']; ?>, <?php echo $res['longitude']; ?>, 1, 12, '<?php echo $cstatus; ?>','<?= $icon_name; ?>'],
+                                        ?>['<div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;"><a style="text-decoration: none;color:#282828 !important;"><div class="/ccc/" style="text-align: center;"></div><br><div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;margin-left: 5%;"><?php echo $fundtitle; ?> <br>Mobile Number: <b><?= $mobile_number;?></b> <br> Address: <b><?= $address; ?></b><br> <?= $req; ?> <?= $supp; ?> <br> <?= $chnageStatusBtn; ?> </div><div class="" style="margin: 10px 0 0 0;text-align:center;color: <?= $closedc; ?>;"><b style="font-weight: 500;text-align:center"><?= $closed; ?></b></div><div class="" style="margin: 10px 0 0 0;margin-left: 5%;text-align:center"><b ><?= $zed_verified; ?></b></div></a></div>', <?php echo $res['latitude']; ?>, <?php echo $res['longitude']; ?>, 1, 12, '<?php echo $cstatus; ?>','<?= $icon_name; ?>'],
                                     <?php } ?>
                                 ];
                                 // console.log('latitudec');
@@ -540,6 +663,7 @@ $requests = (array) $requests;
                                     mapTypeId: google.maps.MapTypeId.ROADMAP
                                 });
                                 var infowindow = new google.maps.InfoWindow();
+                                var markers = new Array();
                                 var marker, i;
                                 for (i = 0; i < locations.length; i++) {
                                     var shouldInclude = false;
@@ -576,6 +700,26 @@ $requests = (array) $requests;
                                                 infowindow.open(map, marker);
                                             }
                                         })(marker, i));
+                                        markers.push(marker);
+
+                                        <?php if((($services->service_status)=='private')) {
+                                            if(($userId==$services->userId) || ($userId== 1)){ ?>
+                                        
+                                        markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(false);  
+                                        });
+                                            <?php } ?>
+
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+                                        <?php }?>
                                     }
                                 }
                             }
@@ -1089,6 +1233,52 @@ $requests = (array) $requests;
         </div>
     </div>
     <!-- End -->
+     <!---Support COntact --->
+     <div class="modal fade" id="supportContact" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" onclick="formreset()">&times;</button>
+                        <h4 class="modal-title text-center" id="change_status">Contact Supporter</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmsupportContact" action="<?php echo BASE_URL ?>contactsupporter.php" enctype="multipart/form-data" method="post" class="f1">
+                        <input type="hidden" value="<?= $userId; ?>" name="userId" />
+                            <input type="hidden" value="" name="request_id" id="request_id"/>
+                        <br>
+                            <div class="mainvalid">
+                                <div class="form-group valid">
+                                    <label class="lbform">Name</label>
+                                    <input type="text" id="name" value="" name="name" placeholder="Enter Name" maxlength="50" class="form-control">
+                                    <span id="error-name"></span> 
+                                </div>
+                                <div class="form-group valid">
+                                    <label class="lbform">Email</label>
+                                    <input type="text" id="email" value="" name="email" placeholder="Enter Email" maxlength="100" class="form-control">
+                                    <span id="error-email"></span>
+                                </div>
+                                <div class="form-group valid">
+                                    <label class="lbform">Phone Number</label>
+                                    <input type="text" id="phone_number" value="" name="phone_number" placeholder="Enter Phone Number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" minlength="10" maxlength="10" class="form-control">
+                                    <span id="error-mobile_number"></span>
+                                </div>
+                                <div class="form-group valid">
+                                    <label class="lbform">Reason for help</label>
+                                    <textarea id="supportDetails" name="supportDetails" class="form-control"></textarea>
+                                    <span id="error-supportDetails"></span>
+                                </div>
+                            </div>
+                            <div class="f1-buttons">
+                                <button type="button" id="btn-submit-supporthelp" class="btn btn-next">Submit</button>
+                               
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
 
     <!-- All JavaScript files
     ================================================== -->
@@ -1100,6 +1290,55 @@ $requests = (array) $requests;
     <script src="<?php echo bloginfo('template_directory'); ?>/js/script.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <script>
+
+
+
+function openSupportContact(request_id, userId){
+       
+       jQuery('#supportContact').modal('show');
+       jQuery('#request_id').val(request_id);
+   }
+   
+   jQuery('#btn-submit-supporthelp').on('click', function() {
+		
+        
+        var name = document.getElementById("name").value;
+       
+
+        var email = document.getElementById("email").value;
+       
+
+       
+
+        var supportDetails = document.getElementById("supportDetails").value;
+       
+
+        var mobile_number = document.getElementById("phone_number").value;
+       
+
+        
+
+            jQuery.ajax({
+                type: "POST",
+                url: '../contactservice_supporter.php',
+                data: 'request_id='+request_id+'&supportDetails='+supportDetails+'&name='+name+'&email='+email+'&phone_number='+phone_number+'&userId='+userId,
+                success: function(response)
+                {
+                    jQuery('#btn-submit-supporthelp').css('display', '');
+                    jQuery('#btn-submit-loader-supporthelp').css('display', 'none');
+                    jQuery('#changeStatus').modal('hide');
+                    bootbox.alert("Details send successfully.", function(){ 
+                      window.location.reload(true);
+                    // window.location.href='../contactsupporter.php';
+                   });
+                }
+            });
+        
+    });
+
+
+
+
         function collectionformreset(){
             jQuery("#name1").val("");
             jQuery("#email1").val("");

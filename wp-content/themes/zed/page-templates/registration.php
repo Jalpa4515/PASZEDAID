@@ -87,13 +87,13 @@ get_header();
                             $cookie_name = "register_data";
                             setcookie($cookie_name, json_encode($_POST), time() + (86400 * 30), "/"); // 86400 = 1 day
                             $errors = array();
-                            if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
-                            {
-                                $secret = '6LdAzmYbAAAAAOkATjmL2ASVmjZDFQIsinlODDCs';
-                                $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
-                                $responseData = json_decode($verifyResponse);
-                                if($responseData->success)
-                                {
+                           // if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
+                           // {
+                            //    $secret = '6LdAzmYbAAAAAOkATjmL2ASVmjZDFQIsinlODDCs';
+                            //    $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+                            //    $responseData = json_decode($verifyResponse);
+                            //    if($responseData->success)
+                            //    {
                                     $fname = $wpdb->escape($_POST['first_name']);
                                     $lname = $wpdb->escape($_POST['last_name']);
                                     $phone = $_POST['phone_number'] . $_POST['phoneNumber'];
@@ -132,16 +132,16 @@ get_header();
                                         setcookie('register_data', null, -1, '/');
                                         header("Location: " . $returnUrl);
                                     }
-                                }else{
-                                    $errors['invaliddetail'] = "Robot verification failed, please try again.";
+                             //   }else{
+                             //       $errors['invaliddetail'] = "Robot verification failed, please try again.";
                                     /* header("Location: " .BASE_URL."/login?f=2" );
                                     exit; */
-                                }
-                            }else{
-                                $errors['invaliddetail'] = "Robot verification failed, please try again.";
+                              //  }
+                         //   }else{
+                         //       $errors['invaliddetail'] = "Robot verification failed, please try again.";
                                 /* header("Location: " .BASE_URL."/login?f=2" );
                                 exit; */
-                            }
+                          //  }
                         }
                     }
                     $register_datajson = $_COOKIE['register_data'];

@@ -43,19 +43,19 @@ ini_set('max_execution_time', '4000');
 
 /** The name of the database for WordPress */
 
-define( 'DB_NAME', 'zed' );
+define( 'DB_NAME', 'zedaid_service' );
 
 
 
 /** MySQL database username */
 
-define( 'DB_USER', 'root' );
+define( 'DB_USER', 'root1' );
 
 
 
 /** MySQL database password */
 
-define( 'DB_PASSWORD', 'Shopotito@123' );
+define( 'DB_PASSWORD', 'Admin@123' );
 
 
 
@@ -77,7 +77,7 @@ define( 'DB_COLLATE', '' );
 
 
 
-define( 'BASE_URL', 'http://3.7.53.246/zedaid/' );
+define( 'BASE_URL', 'http://localhost/PASZEDAID/' );
 
 
 define('FS_METHOD', 'direct');

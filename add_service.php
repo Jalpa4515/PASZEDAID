@@ -8,6 +8,7 @@ $userId = $_POST['userId'];
 $service_id = $_POST['service_id'];
 $description = $_POST['description'];
 $service_name = $_POST['service_name'];
+$service_status = $_POST['service_status'];
 $start_date = $_POST['start_date'];
 $end_date = $_POST['end_date'];
 $banner_img = $_POST['banner_img'];
@@ -25,6 +26,7 @@ if (empty($results)) {
     $wpdb->insert('wp_services', array(
         'userId' => $userId,
         'service_name' => $service_name,
+        'service_status' => $service_status,
         'start_date' => $start_date,
         'end_date' => $end_date,
         'banner' => $filename,

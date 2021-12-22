@@ -13,9 +13,9 @@ function services()
 {
 	add_menu_page('Services', 'Services', 'publish_pages', 'services-view', 'services_manage_view', '', 10);
 
-	/* add_submenu_page('flood-crisis-view', 'Covid Partner List', 'Add Covid Hospital', 'publish_pages', 'covid-partner-add1', 'covid_partner_manage_add1');
+	 add_submenu_page('services-view', 'services list', 'Service Category', 'publish_pages', 'services-add1', 'services_manage_add1');
 
-	add_submenu_page('flood-crisis-view', 'Covid Partner List', 'Add Remdesivir Injection', 'publish_pages', 'covid-partner-add2', 'covid_partner_manage_add2');
+	/*add_submenu_page('flood-crisis-view', 'Covid Partner List', 'Add Remdesivir Injection', 'publish_pages', 'covid-partner-add2', 'covid_partner_manage_add2');
 
 	add_submenu_page('flood-crisis-view', 'Covid Partner List', 'Add Plasma', 'publish_pages', 'covid-partner-add3', 'covid_partner_manage_add3');
 
@@ -1149,4 +1149,161 @@ function my_action_javascript2112()
 		});
 	</script>
 <?php
+}
+function services_manage_add1()
+{
+	// if (!current_user_can('manage_options')) {
+	// 	wp_die(__('You do not have sufficient permissions to access this page.'));
+	// }
+	//css call function
+	partner_style2();
+	//url get
+	
+	//js call function
+	partner_script2();
+	global $wpdb;
+
+	if (isset($_POST['submit'])) {
+
+		//exit;
+
+		//extract($_POST);
+		//print_r($_POST);
+
+		if (isset($_FILES['webp_icon'])) {
+			$errors = array();
+			$file_name = $_FILES['webp_icon']['name'];
+			$file_size = $_FILES['webp_icon']['size'];
+			$file_tmp = $_FILES['webp_icon']['tmp_name'];
+			$file_type = $_FILES['webp_icon']['type'];
+			$file_ext = strtolower(end(explode('.', $_FILES['webp_icon']['name'])));
+			$file_name = rand() . $file_name;
+			move_uploaded_file($file_tmp, "../icon-mappin/" . $file_name);
+			$webp_icon = $file_name;
+		}
+		
+		
+
+
+			$updated_at = date('Y-m-d H:i:s');
+			$created_at = date('Y-m-d H:i:s');
+
+		$sql2 = $wpdb->prepare(
+			"INSERT INTO `wp_service_icons`      
+			   (icon, status, created_at, updated_at) 
+		 values ('" . $webp_icon . "','1','".$created_at."','".$updated_at."')"
+		);
+		$wpdb->query($sql2);
+		
+	}
+
+
+	?>
+	<br /><br />
+	<div class="container">	
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Add New Category & Icons</h3>
+					</div>
+					<div class="panel-body">
+						<style>
+							.error {
+								color: red !important;
+							}
+						</style>
+
+						<form id="validform" accept-charset="UTF-8" role="form" method="post" enctype="multipart/form-data">
+							
+								<div class="col-md-12">
+									
+									<div class="col-md-8">
+										<div class="form-group">
+											<label>Category Icon</label>
+											<input type ="file" class="form-control"  name="webp_icon" id="webp_icon" >
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-md-12" >
+									<br />
+									<input class="btn btn-lg btn-success" name="submit" type="submit" value="Submit New Icon">
+								</div>
+
+							
+						</form>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Icon</th>
+					<th>Delete</th>
+				</tr>
+				<tbody>
+					<?php 	
+					$serviceIcons =  $wpdb->get_results("select * from wp_service_icons" );
+							if($serviceIcons){
+								foreach($serviceIcons as $icons){
+									$iconID = $icons->id;
+									 $webp = $icons->icon;
+									
+								
+							
+					  ?>
+				 
+					<tr>
+					<td><?php echo $iconID ?></td>
+							<td><?php echo $webp ?></td>
+							
+							
+							<td><button type="button" class="btn btn-success align-middle" onclick="approveUpdateReq('<?php echo $iconID ?>');">Delete</button></td>
+					</tr>
+					<?php }
+					} else {
+						?>
+							<tr>
+						<td colspan="6" style="text-align:center">No record found.</td>
+					</tr>
+				<?php
+					}
+					?>
+				</tbody>
+
+			</thead>
+
+		</table>
+		<script>
+			function approveUpdateReq(id){
+     <?php
+
+
+				$sql2 = $wpdb->prepare(
+			"DELETE FROM `wp_service_icons` WHERE  id='.$iconID')"
+		);
+		$wpdb->query($sql2);
+		
+		?>
+    } 
+		</script>
+
+
+
+	</div>
+
+	<?php // popup link
+		add_thickbox(); ?>
+
+<?php
+
 }

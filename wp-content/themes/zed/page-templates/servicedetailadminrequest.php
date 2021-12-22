@@ -995,7 +995,16 @@ $resultsdonacc = $wpdb->get_results("SELECT srd.*, srd.id, sc.name as category_n
 <script src="<?php echo bloginfo('template_directory'); ?>/js/jquery.min.js"></script>
 <script src="<?php echo bloginfo('template_directory'); ?>/js/bootstrap.min.js"></script>
 
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+
 <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap.min.js"></script>
@@ -1028,7 +1037,24 @@ $resultsdonacc = $wpdb->get_results("SELECT srd.*, srd.id, sc.name as category_n
 <script>
 jQuery(document).ready(function() {
     jQuery('#example').DataTable({
-        "scrollX": true
+        scrollX: true,
+        dom: 'Blfrtip',
+        colReorder: true,
+        buttons: [
+            
+            {
+                extend: 'collection',
+                text: 'Export',
+                buttons: [
+                    'excel',
+                    'pdf',
+                    'print'
+                ]
+            }
+        ],
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        
+        
     });
 });
 
