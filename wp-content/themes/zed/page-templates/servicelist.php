@@ -105,6 +105,30 @@ $requests = (array) $requests;
         -ms-transition: all .3s;
         transition: all .3s;
     }
+    .btn1 {
+      
+        margin: 0;
+        padding: 0 5px;
+        vertical-align: middle;
+        border: 0;
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 18px;
+        color: #fff;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        text-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        -o-transition: all .3s;
+        -moz-transition: all .3s;
+        -webkit-transition: all .3s;
+        -ms-transition: all .3s;
+        transition: all .3s;
+    }
 .btn-next {
         background: #3d3d8a;
     }
@@ -605,7 +629,7 @@ $requests = (array) $requests;
                                         $result_address .= "*****";
 
 
-                                        $supportButton = '<input type="hidden" id="support-email" value="'.$email.'"><input type="hidden" id="status-title-'.$request_id.'" value="'.$title.'"><input type="hidden" id="support-phone" value="'.$contact.'"><button type="button" class="btn btn-next" style="margin-left:10px"  onclick="openSupportContact('.$service_id.','.$category_id.','.$request_id.','.$userId.');"><i class="fa fa-envelope" style="padding-right:5px;"></i>Request for Support</button> ';  
+                                        $supportButton = '<input type="hidden" id="support-email" value="'.$email.'"><input type="hidden" id="status-title-'.$request_id.'" value="'.$title.'"><input type="hidden" id="support-phone" value="'.$contact.'"><button type="button" class="btn1 btn-next" style="margin-left:5px"  onclick="openSupportContact('.$service_id.','.$category_id.','.$request_id.','.$userId.');"><i class="fa fa-envelope" style="padding-right:5px;"></i>Request for Support</button> ';  
 
                                             if(($userId != '0' && $userId == $services->userId) || ($userId == '1') ){
                                                 if(!empty($iconpin)){
