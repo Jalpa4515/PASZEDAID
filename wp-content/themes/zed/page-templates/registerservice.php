@@ -18,6 +18,10 @@ get_header();
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 <script src="<?php echo bloginfo('template_directory'); ?>/js/jquery.min.js"></script>
+<!-- CSS only -->
+
+<!-- JavaScript Bundle with Popper -->
+
 <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDps_MnqrPbo_tQ1ZqJ60czXZjFaS421co&libraries=places"></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -431,6 +435,25 @@ get_header();
       width: 15px;
       height: 15px;
   }
+  input#radio {
+    display: inline-flex;
+    width: 15px;
+    box-shadow: none;
+    height: auto;
+    margin-left: 20px;
+}
+
+.md-form.mb-5.row-inline {
+    display: inline-flex;
+    width: 100%;
+}
+.row1 {
+    width: 50%;
+}
+.row2 {
+    /* padding-left: 50px; */
+    width: 100%;
+}
 </style>
 <?php
 $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -461,6 +484,13 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
     <h1 class="section_between_space">Tell us about your Service</h1>
     <!-- One "tab" for each step in the form: -->
     <div class="tab mainvalid">
+    <div class="col-lg-12 col-md-12 col-12 valid" style="padding:0px;">
+        <p class="valid">
+            <p> Your sevice would be ?</p>
+            <input type="radio" id="radio" class="radio radiobtn" name="service_status" value="public"><label>Public</label>
+            <input type="radio" id="radio" class="radio radiobtn" name="service_status" value="private"><label>Private</label>
+      </p>  
+    </div>
       <div class="col-lg-12 col-md-12 col-12 valid" style="padding:0px;">
         <p class="valid">
             <p>Service Name</p>
@@ -610,22 +640,33 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                             <img style="    object-fit: contain;" width="20%" height="81px" id="blah" src="https://jedaidevbed.in/zedaid/wp-content/uploads/2021/08/cloud-upload-a30f385a928e44e199a62210d578375a.jpg" alt="your image" /> 
                         </div> -->
                         <div class="modal-body mx-3">
-                            <div class="md-form mb-5">
+                           <!-- <div class="md-form mb-5">
                               <p>Icon</p>
                             </div>
                             <div class="md-form mb-5">
                               <select name="icon_id" id="icon_id" class="phonedropdown drp" style="margin-bottom: 10px; width: 40%;" onchange="getImg()">
                                   <?php foreach($icons as $v){?>
-                                  <option data-thumbnail="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>"><?= $v['icon_name']?></option>
+                                  <option data-thumbnail="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>"></option>
                                   <?php } ?>
                               </select>
                               <img src="<?= BASE_URL ?>icon-mappin/<?= $icons[0]['icon'];?>" id="icon-pin-src">
-                            </div>
+                            </div>-->
 
                         
-                        <div class="md-form mb-5">
-                            <p>Category Name</p>
+                        <div class="md-form mb-5 row-inline">
+                        <div class="row1">
+                        <p>Select specific icon for service</p>
+                        <select name="icon_id" id="icon_id" class="phonedropdown drp" style="margin-bottom: 10px; width: 40%;" onchange="getImg()">
+                                  <?php foreach($icons as $v){?>
+                                  <option data-thumbnail="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>">
+                                </option>
+                                  <?php } ?>
+                              </select></div>
+                              <div class="row2">
+                              <p>Category Name</p>
                             <input type="text" id="category_name" class="" name="category_name" maxlength="50">
+                              </div>
+                           
                         </div>
 
                         <div class="md-form mb-5">
@@ -637,12 +678,15 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                         </div>
                         
                         <table id="data_collection">
-                            <tr id="data_collection_tr">
+                          <thead>
+                          <tr id="data_collection_tr">
                                 <th>Field Name</th>
                                 <th>Type</th>
                                 <th>ACTION</th>
                             </tr>
-                            <tr>
+                          </thead>
+                          <tbody class="row_position">
+                          <tr>
                               <td>Name</td>
                               <td>Single Line Text</td>
                               <td> - </td>
@@ -662,6 +706,14 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                               <td>Multiple Line Text</td>
                               <td> - </td>
                             </tr>
+                            <tr>
+                              <td>Description</td>
+                              <td>Multiple Line Text</td>
+                              <td> - </td>
+                            </tr>
+                          </tbody>
+                            
+                            
                         </table>
                         <div class="md-form mb-5" style="display: inline-flex;margin-top: 10px;">
                             <input type="checkbox" id="is_support_request" name="is_support_request" value="1" onclick="showSupportRequest()"> <p>Should response required on request?</p>
@@ -699,6 +751,11 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                           <td>Multiple Line Text</td>
                           <td> - </td>
                         </tr>
+                        <tr>
+                              <td>Description</td>
+                              <td>Multiple Line Text</td>
+                              <td> - </td>
+                            </tr>
                        
                         </table>        
                     </div>      
@@ -708,6 +765,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                 </div>
             </div>
         </div> 
+       
 
         <div class="licause">
             <a href="#modalSubscriptionForm" class="btn btn-default btn-rounded mb-4 openBtn" data-toggle="modal" onclick="addCat()">Add Category</a>
