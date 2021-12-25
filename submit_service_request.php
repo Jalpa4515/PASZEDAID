@@ -11,6 +11,7 @@ $name = $_POST['name'];
 $email = $_POST['email'];
 $mobile_number = $_POST['phone_number'];
 $address = $_POST['address'];
+$description1 = $_POST['description'];
 $latitude = $_POST['lat'];
 $longitude = $_POST['lng'];
 if(isset($_POST['custom_field_name1'])){
@@ -50,6 +51,7 @@ $wpdb->insert('wp_service_request_data', array(
     'email' => $email,
     'mobile_number' => $mobile_number,
     'address' => $address,
+    'description' => $description1,
     'latitude' => $latitude,
     'longitude' => $longitude,
     'status' => '1',

@@ -1190,8 +1190,8 @@ function services_manage_add1()
 
 		$sql2 = $wpdb->prepare(
 			"INSERT INTO `wp_service_icons`      
-			   (icon, status, created_at, updated_at) 
-		 values ('" . $webp_icon . "','1','".$created_at."','".$updated_at."')"
+			   (icon,icon1,icon2,icon3, status, created_at, updated_at) 
+		 values ('" . $webp_icon . "','request_open.png','orange_marker.png','inactive-1.png','1','".$created_at."','".$updated_at."')"
 		);
 		$wpdb->query($sql2);
 		
@@ -1222,6 +1222,7 @@ function services_manage_add1()
 										<div class="form-group">
 											<label>Category Icon</label>
 											<input type ="file" class="form-control"  name="webp_icon" id="webp_icon" >
+											
 										</div>
 									</div>
 								</div>
@@ -1242,11 +1243,12 @@ function services_manage_add1()
 	</div>
 
 
-	<div class="container">
+	<div class="container refresh_data1">
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>ID</th>
+					<th>Icon Name</th>
 					<th>Icon</th>
 					<th>Delete</th>
 				</tr>
@@ -1266,7 +1268,7 @@ function services_manage_add1()
 					<td><?php echo $iconID ?></td>
 							<td><?php echo $webp ?></td>
 							
-							
+							<td><img src="<?= BASE_URL ?>icon-mappin/<?= $icons->icon;?>" id="icon-pin-src" width="50px"  height="50px"></td>
 							<td><button type="button" class="btn btn-success align-middle" onclick="approveUpdateReq('<?php echo $iconID ?>');">Delete</button></td>
 					</tr>
 					<?php }
@@ -1284,17 +1286,30 @@ function services_manage_add1()
 
 		</table>
 		<script>
-			function approveUpdateReq(id){
-     <?php
+ 
+
+	function approveUpdateReq(id){
+     
+	  jQuery.ajax({
+	type: "POST",
+	url: "<?php echo plugin_dir_url(__FILE__); ?>deleteicon.php",
+	data: {
+		fileid: id
+	}
+}).done(function(msg) {
+	jQuery('.refresh_data1').load(document.URL + ' .refresh_data');
+	jQuery('body').css('opacity', '1');
+
+});
+    }
 
 
-				$sql2 = $wpdb->prepare(
-			"DELETE FROM `wp_service_icons` WHERE  id='.$iconID')"
-		);
-		$wpdb->query($sql2);
-		
-		?>
-    } 
+
+
+
+
+
+
 		</script>
 
 

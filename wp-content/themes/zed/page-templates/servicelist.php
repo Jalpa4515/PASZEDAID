@@ -18,11 +18,29 @@ $banner = BASE_URL."/wp-content/uploads/services/".$services->banner;
 
 $user = wp_get_current_user();
 $userId = $user->data->ID;
+$useremail =  $user->user_email;
 
 $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as scr LEFT JOIN wp_service_categories as sc ON scr.category_id = sc.id WHERE scr.service_id = '".$service_id."'");
 
-$requests = $wpdb->get_results("SELECT * FROM wp_service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
-$requests = (array) $requests;
+$showmarker = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE  email = '".$useremail."' AND service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+if((($services->service_status)=='private'))  {                                      
+if(($userId == $services->userId) || ($userId == 1)) {
+    $requests = $wpdb->get_results("SELECT * FROM wp_service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
+    $requests = (array) $requests;
+}elseif(($showmarker != 0)){ 
+    $requests = $wpdb->get_results("SELECT * FROM wp_service_request_data WHERE email = '".$useremail."' AND service_id = '".$service_id."'", ARRAY_A);
+    $requests = (array) $requests;
+}
+else{
+    $requests = $wpdb->get_results("SELECT * FROM wp_service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
+    $requests = (array) $requests;
+    }
+}else{
+
+    $requests = $wpdb->get_results("SELECT * FROM wp_service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
+    $requests = (array) $requests;  
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,7 +75,6 @@ $requests = (array) $requests;
     <style>
 
 
-
 @media screen and (min-width:768px) {
 .tp-counter-grids {
         display: inline-flex;
@@ -66,7 +83,7 @@ $requests = (array) $requests;
 }
 
 .grid {
-    padding: 20px 20px;
+    padding: 15px 20px;
 }
 
 .grid h2 {
@@ -80,7 +97,7 @@ $requests = (array) $requests;
     font-size: 20px;
 }
 }
-.btn {
+.btn2 {
         min-width: 105px;
         height: 40px;
         margin: 0;
@@ -260,14 +277,14 @@ $requests = (array) $requests;
                                         $resultsdonaccxe = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'tribe_events' AND post_status = 'publish'", ARRAY_A); */
 
                                         ///$resultsdonaccxcam = array();
-                                        $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE request_status ='0' and service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                        $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE request_status ='3' and service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
                                         ?>
                                         <div class="tp-counter-grids">
                                             <div class="grid">
                                                 <div>
                                                     <h2><span class="odometer" data-count="<?= count($requestcount1); ?>"><?= count($requestcount1); ?></span></h2>
                                                 </div>
-                                                <p>Total Requests</p>
+                                                <p>Total Services</p>
                                             </div>
                                             <div class="grid">
                                                 <div>
@@ -279,7 +296,7 @@ $requests = (array) $requests;
                                                 <div>
                                                     <h2><span class="odometer" data-count="<?= count($requestcount3); ?>"><?= count($requestcount3); ?></span></h2>
                                                 </div>
-                                                <p>Total Close Request</p>
+                                                <p>Total Close Services</p>
                                             </div>
                                             <!--<div class="grid">-->
                                             <!--    <div>-->
@@ -357,8 +374,10 @@ $requests = (array) $requests;
 
                                 <label style="font-size: 18px;"><b>Legends</b></label>
 
-                                <label style="font-size: 18px;"><b>Legends</b></label>
+                                
                                 <input type="hidden" name="service_id" id="1service_id" value="<?= $service_id; ?>">
+                                <input type="hidden" name="user_email" id="1user_email" value="<?= $useremail; ?>">
+                                <input type="hidden" name="user_id" id="1user_id" value="<?= $userId; ?>">
 
                                 <div class="row">
                                     <div class="col-md-12 line_spacing_top_15">
@@ -553,8 +572,9 @@ $requests = (array) $requests;
                                         $emailAddress = $res['email'];
                                         $mobile_number = $res['mobile_number'];
                                         $address = $res['address'];
+                                        $description1 = $res['description'];
                                         $zed_verified = $res['zed_verified'];
-                                      //  $shareurl = BASE_URL . 'fundraiser-detail/?id=' . $res['id'];
+                                      // $shareurl = BASE_URL . 'fundraiser-detail/?id=' . $res['id'];
                                         $goal_amount = '0';
                                         $currency = 'QTY';
                                         $iimage = "https://img.youtube.com/vi/" . $iimagei . "/maxresdefault.jpg";
@@ -615,7 +635,6 @@ $requests = (array) $requests;
 
                                         $supp = '';
                                         if(!empty($supports)){
-
                                             $contact= $supports['mobile_number'] ;
                                         $result_contact = substr($contact, 0, 5);
                                         $result_contact .= "*****";
@@ -659,11 +678,10 @@ $requests = (array) $requests;
 
                                         if (empty($changeStatus)) {
                                             if ((!empty($support_required)) && (($userId == $res['userId']) && $userId != 0) || ($emailid == $emailAddress) ||($userId == '1')) {
-                                                    $chnageStatusBtn = '<a type="button" class="btn btn-next" style="margin-top: 10px;margin-bottom: 10px;background-color: #3d3d8a; color: white; margin-left: 0px;" onclick="openPopup('.$service_id.','.$category_id.','.$request_id.','.$userId.');">Close Request</a>';
-                                            }else{
-                                                $chnageStatusBtn='';
-                                            }
-
+                                                $chnageStatusBtn = '<a type="button" class="btn btn-next" style="margin-top: 10px;margin-bottom: 10px;background-color: #3d3d8a; color: white; margin-left: 0px;" onclick="openPopup('.$service_id.','.$category_id.','.$request_id.','.$userId.');">Close Request</a>';
+                                        }else{
+                                            $chnageStatusBtn='';
+                                        }
                                         }else{
                                             if(!empty($iconpin)){
                                                 $icon_name = BASE_URL."/icon-mappin/".$iconpin->icon3;
@@ -673,7 +691,7 @@ $requests = (array) $requests;
                                             $chnageStatusBtn = 'Change Status Info:<br> Name: <b>'.$changeStatus['name'] .'</b> <br> Email: <b> '.$changeStatus['email'].'</b> <br> Mobile Number: <b>'.$changeStatus['mobile_number'].'</b> <br> Support Details: <b>'.$changeStatus['supportDetails'].'</b><br>';
                                         }
 
-                                        ?>['<div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;"><a style="text-decoration: none;color:#282828 !important;"><div class="/ccc/" style="text-align: center;"></div><br><div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;margin-left: 5%;"><?php echo $fundtitle; ?> <br>Mobile Number: <b><?= $mobile_number;?></b> <br> Address: <b><?= $address; ?></b><br> <?= $req; ?> <?= $supp; ?> <br> <?= $chnageStatusBtn; ?> </div><div class="" style="margin: 10px 0 0 0;text-align:center;color: <?= $closedc; ?>;"><b style="font-weight: 500;text-align:center"><?= $closed; ?></b></div><div class="" style="margin: 10px 0 0 0;margin-left: 5%;text-align:center"><b ><?= $zed_verified; ?></b></div></a></div>', <?php echo $res['latitude']; ?>, <?php echo $res['longitude']; ?>, 1, 12, '<?php echo $cstatus; ?>','<?= $icon_name; ?>'],
+                                        ?>['<div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;"><a style="text-decoration: none;color:#282828 !important;"><div class="/ccc/" style="text-align: center;"></div><br><div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;margin-left: 5%;"><?php echo $fundtitle; ?> <br>Mobile Number: <b><?= $mobile_number;?></b> <br> Address: <b><?= $address; ?></b><br> Description: <b><?= $description1; ?></b><br> <?= $req; ?> <?= $supp; ?> <br> <?= $chnageStatusBtn; ?> </div><div class="" style="margin: 10px 0 0 0;text-align:center;color: <?= $closedc; ?>;"><b style="font-weight: 500;text-align:center"><?= $closed; ?></b></div><div class="" style="margin: 10px 0 0 0;margin-left: 5%;text-align:center"><b ><?= $zed_verified; ?></b></div></a></div>', <?php echo $res['latitude']; ?>, <?php echo $res['longitude']; ?>, 1, 12, '<?php echo $cstatus; ?>','<?= $icon_name; ?>'],
                                     <?php } ?>
                                 ];
                                 // console.log('latitudec');
@@ -726,13 +744,20 @@ $requests = (array) $requests;
                                         })(marker, i));
                                         markers.push(marker);
 
-                                        <?php if((($services->service_status)=='private')) {
-                                            if(($userId==$services->userId) || ($userId== 1)){ ?>
-                                        
+                                        <?php
+                                      
+                                      $showmarker = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE email = '".$useremail."' AND service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                     
+                                    
+                                        if((($services->service_status)=='private')) {
+                                        if(($userId==$services->userId) || ($userId== 1)){ ?>
                                         markers.forEach(element => {
                                             element.setVisible(true);  
                                         });
-
+                                        <?php }elseif(($showmarker != 0)){ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
                                         <?php }else{ ?>
                                             markers.forEach(element => {
                                             element.setVisible(false);  
@@ -794,13 +819,15 @@ $requests = (array) $requests;
                             var type="category";
                             //console.log(rid);
                             var service_id = $('#1service_id').val();
+                            var user_id = $('#1user_id').val();
+                            var user_email = $('#1user_email').val();
                             var selected = new Array();
                             $("#cat input[type=checkbox]:checked").each(function () {
                                 selected.push(this.value);
                             });
                                      
                             console.log(selected.join(","));            
-                            
+                       
                             $.ajax({
                                 type: "POST",
                                 url: '<?php echo BASE_URL . 'servicefiltermap.php' ?>',
@@ -808,6 +835,8 @@ $requests = (array) $requests;
                                 data: {
                                     id: selected.join(","),
                                     service_id: service_id,
+                                    user_id: user_id,
+                                    user_email: user_email,
                                     type: type
                                 }, //--> send id of checked checkbox on other page
                                 success: function(data) {
@@ -823,6 +852,7 @@ $requests = (array) $requests;
                                     });
                                     var infowindow = new google.maps.InfoWindow();
                                     var marker, i;
+                                    var markers = new Array();
                                     for (i = 0; i < locations.length; i++) {
                                         if (locations[i][3] == 1) {
                                             if (locations[i][5] == 'active') {
@@ -879,21 +909,54 @@ $requests = (array) $requests;
                                                 infowindow.open(map, marker);
                                             }
                                         })(marker, i));
+                                        markers.push(marker);
+                                       
+                                        <?php
+                                      $curr_user = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}users WHERE ID = '.$userId.'",OBJECT);
+                                      $curruser_email = $curr_user->user_email;
+                                      $showmarker = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE email = ".$curruser_email."' AND service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                       
+                                     echo $curruser_email;
+                                        if((($services->service_status)=='private')) {
+                                        if(($userId==$services->userId) || ($userId== 1)){ ?>
+                                        
+                                        markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+
+                                        <?php } elseif (($showmarker != null)){ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(false);  
+                                        });
+                                            <?php } ?>
+
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+                                        <?php }?>
+                                        
                                     }
                                 }
                             });
                         });
-
+                      
                         //function camptypeid(rid,service_id,type) {
                         $(".service_status").click(function () {
                             var type="status";
                             //console.log(rid);
                             var service_id = $('#1service_id').val();
+                            var user_id = $('#1user_id').val();
+                            var user_email = $('#1user_email').val();
                             var selected = new Array();
                             $("#service_status input[type=checkbox]:checked").each(function () {
                                 selected.push(this.value);
                             });
-                                     
                             console.log(selected.join(","));            
                             
                             $.ajax({
@@ -903,6 +966,8 @@ $requests = (array) $requests;
                                 data: {
                                     id: selected.join(","),
                                     service_id: service_id,
+                                    user_id: user_id,
+                                    user_email: user_email,
                                     type: type
                                 }, //--> send id of checked checkbox on other page
                                 success: function(data) {
@@ -918,6 +983,7 @@ $requests = (array) $requests;
                                     });
                                     var infowindow = new google.maps.InfoWindow();
                                     var marker, i;
+                                    var markers = new Array();
                                     for (i = 0; i < locations.length; i++) {
                                         if (locations[i][3] == 1) {
                                             if (locations[i][5] == 'active') {
@@ -974,13 +1040,34 @@ $requests = (array) $requests;
                                                 infowindow.open(map, marker);
                                             }
                                         })(marker, i));
+                                        markers.push(marker);
+                                        <?php if((($services->service_status)=='private')) {
+                                            if(($userId==$services->userId) || ($userId== 1)){ ?>
+                                        
+                                        markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(false);  
+                                        });
+                                            <?php } ?>
+
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+                                        <?php }?>
+
                                     }
                                 }
                             });
                         });
 
-                        function camptypeid(rid,service_id) {
+                        function camptypeid(rid,service_id,user_email) {
                             console.log(rid);
+                            console.log(user_email);
                             var selected = new Array();
                             if ($('#fundraiser_check').is(':checked')) {
                                 selected.push($('#fundraiser_check').val());
@@ -990,14 +1077,15 @@ $requests = (array) $requests;
                             }
                             if ($('#charity_check').is(':checked')) {
                                 selected.push($('#charity_check').val());
-                            }                     
+                            }
                             $.ajax({
                                 type: "POST",
                                 url: '<?php echo BASE_URL . 'servicefiltermap.php' ?>',
                                 dataType: 'json',
                                 data: {
                                     id: selected.join(","),
-                                    service_id: service_id
+                                    service_id: service_id,
+                                    user_email: user_email
                                 }, //--> send id of checked checkbox on other page
                                 success: function(data) {
                                     $("#errorMap").addClass("d-none");
@@ -1012,6 +1100,7 @@ $requests = (array) $requests;
                                     });
                                     var infowindow = new google.maps.InfoWindow();
                                     var marker, i;
+                                    var markers = new Array();
                                     for (i = 0; i < locations.length; i++) {
                                         if (locations[i][3] == 1) {
                                             if (locations[i][5] == 'active') {
@@ -1068,6 +1157,27 @@ $requests = (array) $requests;
                                                 infowindow.open(map, marker);
                                             }
                                         })(marker, i));
+                                        markers.push(marker);
+                                        <?php if((($services->service_status)=='private')) {
+                                            if(($userId==$services->userId) || ($userId== 1)){ ?>
+                                        
+                                        markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(false);  
+                                        });
+                                            <?php } ?>
+
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+                                        <?php }?>
+
+
                                     }
                                 }
                             });
@@ -1124,6 +1234,11 @@ $requests = (array) $requests;
                                 <input type="text" id="address1" name="address" placeholder="Enter Address" class="form-control">
                                 <span id="error-address1"></span>
                             </div>
+                            <div class="form-group valid">
+                                <label class="lbform">Description</label>
+                                <input type="text" id="description1" name="description" placeholder="Enter Description" maxlength="500" class="form-control">
+                                <span id="error-description1"></span>
+                            </div>
 
                             <input type="hidden" name="lat" id="lat" value="19.076011">
                             <input type="hidden" name="lng" id="lng" value="72.877600">
@@ -1154,7 +1269,7 @@ $requests = (array) $requests;
             <div class="modal-content">
                 <div class="modal-header btn-next">
                     <button type="button" class="close"  style="" data-dismiss="modal" onclick="supportThemformreset()">&times;</button>
-                    <h4 class="modal-title text-center" id="support_them_title">Support Them</h4>
+                    <h4 class="modal-title text-center" id="support_them_title" style="color:white;">Support Them</h4>
                 </div>
                 <div class="modal-body">
                     <form id="frm2" action="<?php echo BASE_URL ?>support_them.php" enctype="multipart/form-data" method="post" class="f1">
@@ -1185,6 +1300,11 @@ $requests = (array) $requests;
                                 <label class="lbform">Address</label>
                                 <input type="text" id="address2" value="" name="address2" placeholder="Enter Address" class="form-control">
                                 <span id="error-address2"></span>
+                            </div>
+                            <div class="form-group valid">
+                                <label class="lbform">Description</label>
+                                <input type="text" id="description2" value="" name="description2" placeholder="Enter Description" maxlength="500" class="form-control">
+                                <span id="error-description2"></span>
                             </div>
                             
                             <input type="hidden" name="lat" id="lat2" value="19.076011">
@@ -1257,8 +1377,8 @@ $requests = (array) $requests;
         </div>
     </div>
     <!-- End -->
-     <!---Support COntact --->
-     <div class="modal fade" id="supportContact" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
+   <!---Support COntact --->
+    <div class="modal fade" id="supportContact" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1266,34 +1386,35 @@ $requests = (array) $requests;
                         <h4 class="modal-title text-center" id="change_status">Contact Supporter</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="frmsupportContact" action="<?php echo BASE_URL ?>contactsupporter.php" enctype="multipart/form-data" method="post" class="f1">
-                        <input type="hidden" value="<?= $userId; ?>" name="userId" />
-                            <input type="hidden" value="" name="request_id" id="request_id"/>
+                        <form id="frmsupportContact" action="<?php echo BASE_URL ?>contactservice_supporter.php" enctype="multipart/form-data" method="post" class="f1">
+                        <input type="hidden" value="" name="userId" id="userId" />
+                        <input type="hidden" value="" name="request_id" id="request_id"/>
+                        <input type="hidden" value="" name="service_id" id="service_id"/>
                         <br>
                             <div class="mainvalid">
                                 <div class="form-group valid">
                                     <label class="lbform">Name</label>
-                                    <input type="text" id="name" value="" name="name" placeholder="Enter Name" maxlength="50" class="form-control">
+                                    <input type="text" id="fname" value="" name="fname" placeholder="Enter Name" maxlength="50" class="form-control">
                                     <span id="error-name"></span> 
                                 </div>
                                 <div class="form-group valid">
                                     <label class="lbform">Email</label>
-                                    <input type="text" id="email" value="" name="email" placeholder="Enter Email" maxlength="100" class="form-control">
+                                    <input type="text" id="femail" value="" name="femail" placeholder="Enter Email" maxlength="100" class="form-control">
                                     <span id="error-email"></span>
                                 </div>
                                 <div class="form-group valid">
                                     <label class="lbform">Phone Number</label>
-                                    <input type="text" id="phone_number" value="" name="phone_number" placeholder="Enter Phone Number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" minlength="10" maxlength="10" class="form-control">
+                                    <input type="text" id="fphone_number" value="" name="fphone_number" placeholder="Enter Phone Number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" minlength="10" maxlength="10" class="form-control">
                                     <span id="error-mobile_number"></span>
                                 </div>
                                 <div class="form-group valid">
                                     <label class="lbform">Reason for help</label>
-                                    <textarea id="supportDetails" name="supportDetails" class="form-control"></textarea>
+                                    <textarea id="fsupportDetails" name="fsupportDetails" class="form-control"></textarea>
                                     <span id="error-supportDetails"></span>
                                 </div>
                             </div>
                             <div class="f1-buttons">
-                                <button type="button" id="btn-submit-supporthelp" class="btn btn-next">Submit</button>
+                                <button type="button" id="btn-submit-supporthelp" class="btn2 btn-next">Submit</button>
                                
                             </div>
                             <br>
@@ -1317,42 +1438,52 @@ $requests = (array) $requests;
 
 
 
-function openSupportContact(request_id, userId){
+function openSupportContact(request_id, userId , service_id){
        
        jQuery('#supportContact').modal('show');
        jQuery('#request_id').val(request_id);
+       jQuery('#service_id').val(service_id);
    }
    
    jQuery('#btn-submit-supporthelp').on('click', function() {
 		
+        var name = $("#fname").val();
+    
+        var email = $("#femail").val();
+    
+        var supportDetails = $("#fsupportDetails").val();
+       
+        var mobile_number = $("#fphone_number").val();
+       
+        var request_id = $("#request_id").val();
+        var service_id = $("#service_id").val();
+
+        var userId = $("#userId").val();
         
-        var name = document.getElementById("name").value;
        
 
-        var email = document.getElementById("email").value;
-       
-
-       
-
-        var supportDetails = document.getElementById("supportDetails").value;
-       
-
-        var mobile_number = document.getElementById("phone_number").value;
-       
-
-        
 
             jQuery.ajax({
                 type: "POST",
                 url: '../contactservice_supporter.php',
-                data: 'request_id='+request_id+'&supportDetails='+supportDetails+'&name='+name+'&email='+email+'&phone_number='+phone_number+'&userId='+userId,
+                data: 'service_id='+service_id+'request_id='+request_id+'&supportDetails='+supportDetails+'&name='+name+'&email='+email+'&mobile_number='+mobile_number+'&userId='+userId,
                 success: function(response)
                 {
+                    console.log(name);
+                    console.log(email);
+                    console.log(supportDetails);
+                    console.log(mobile_number);
+                    console.log(service_id);
+                    console.log(request_id);
+                    console.log(userId);
+
+                // window.location.href='../contactservice_supporter.php';
+
                     jQuery('#btn-submit-supporthelp').css('display', '');
                     jQuery('#btn-submit-loader-supporthelp').css('display', 'none');
                     jQuery('#changeStatus').modal('hide');
-                    bootbox.alert("Details send successfully.", function(){ 
-                      window.location.reload(true);
+                   bootbox.alert("Details send successfully.", function(){ 
+                  window.location.reload(true);
                     // window.location.href='../contactsupporter.php';
                    });
                 }

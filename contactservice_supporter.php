@@ -7,26 +7,35 @@ global $wpdb;
 
 
 $userId = $_POST['userId'];
-$request_id = $_POST['request_id'];
+
+$service_id = $_POST['service_id'];
 $supportDetails = $_POST['supportDetails'];
 $name = $_POST['name'];
 $email = $_POST['email'];
-$phone_number = $_POST['phone_number'];
+$phone_number = $_POST['mobile_number'];
 
 
-$results_supports = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_support_data WHERE request_id = '".$request_id."'", OBJECT);
+$results_supports = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_support_data WHERE request_id = '".$service_id."'", OBJECT);
 
 $supporter_email = $results_supports[0]->email;
 $supporter_phone  = $results_supports[0]->mobile_number;
 $supporter_name  = $results_supports[0]->name;
 
 
+echo $userId;
 
+echo $supportDetails;
+echo $name;
+echo $email;
+echo $phone_number;
+echo $supporter_email;
+echo $supporter_name;
+echo $supporter_phone;
 
 
 
 /* Email to Request Owner */
-$to = $supporter_email;
+$to = 'sandesh.phadtare06@gmail.com';
 $subject = 'Geo Info Facility! - Request Support';
 $from = 'info@zedaid.org';
 
@@ -55,3 +64,4 @@ wp_mail($to, $subject, $message2, $headers);
 
 echo 'true';
 exit;
+

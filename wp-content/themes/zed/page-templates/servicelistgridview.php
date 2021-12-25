@@ -75,7 +75,7 @@ $results = (array) $requests;
 }
 
 .grid {
-    padding: 20px 20px;
+    padding: 15px 20px;
 }
 
 .grid h2 {
@@ -91,7 +91,7 @@ $results = (array) $requests;
     
 }
 
-.btn {
+.btn1 {
         min-width: 105px;
         height: 40px;
         margin: 0;
@@ -276,14 +276,14 @@ $results = (array) $requests;
                                         $resultsdonaccxe = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'tribe_events' AND post_status = 'publish'", ARRAY_A); */
 
                                         ///$resultsdonaccxcam = array();
-                                        $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE request_status ='0' and service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                        $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE request_status ='3' and service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
                                         ?>
                                         <div class="tp-counter-grids">
                                             <div class="grid">
                                                 <div>
                                                     <h2><span class="odometer" data-count="<?= count($requestcount1); ?>"><?= count($requestcount1); ?></span></h2>
                                                 </div>
-                                                <p>Total Requests</p>
+                                                <p>Total Services</p>
                                             </div>
                                             <div class="grid">
                                                 <div>
@@ -295,7 +295,7 @@ $results = (array) $requests;
                                                 <div>
                                                     <h2><span class="odometer" data-count="<?= count($requestcount3); ?>"><?= count($requestcount3); ?></span></h2>
                                                 </div>
-                                                <p>Total Close Request</p>
+                                                <p>Total Close Services</p>
                                             </div>
                                             <!--<div class="grid">-->
                                             <!--    <div>-->
@@ -541,7 +541,7 @@ $results = (array) $requests;
                         $result_address .= "*****";
 
 
-                        $supportButton = '<input type="hidden" id="support-email" value="'.$email.'"><input type="hidden" id="status-title-'.$request_id.'" value="'.$title.'"><input type="hidden" id="support-phone" value="'.$contact.'"><button type="button" class="btn btn-next" style="margin-left:10px"  onclick="openSupportContact('.$service_id.','.$category_id.','.$request_id.','.$userId.');"><i class="fa fa-envelope" style="padding-right:5px;"></i>Request for Support</button> ';
+                        $supportButton = '<input type="hidden" id="support-email" value="'.$email.'"><input type="hidden" id="status-title-'.$request_id.'" value="'.$title.'"><input type="hidden" id="support-phone" value="'.$contact.'"><button type="button" class="btn1 btn-next" style="margin-left:10px"  onclick="openSupportContact('.$service_id.','.$category_id.','.$request_id.','.$userId.');"><i class="fa fa-envelope" style="padding-right:5px;"></i>Request for Support</button> ';
 
 
                     ?>
@@ -714,6 +714,11 @@ $results = (array) $requests;
                                 <input type="text" id="address1" name="address" placeholder="Enter Address" class="form-control">
                                 <span id="error-address1"></span>
                             </div>
+                            <div class="form-group valid">
+                                <label class="lbform">Description</label>
+                                <input type="text" id="description1" name="description" placeholder="Enter Description" maxlength="500" class="form-control">
+                                <span id="error-description1"></span>
+                            </div>
 
                             <input type="hidden" name="lat" id="lat" value="19.076011">
                             <input type="hidden" name="lng" id="lng" value="72.877600">
@@ -775,6 +780,11 @@ $results = (array) $requests;
                                 <label class="lbform">Address</label>
                                 <input type="text" id="address2" value="" name="address2" placeholder="Enter Address" class="form-control">
                                 <span id="error-address2"></span>
+                            </div>
+                            <div class="form-group valid">
+                                <label class="lbform">Description</label>
+                                <input type="text" id="description2" value="" name="description2" placeholder="Enter Description" maxlength="500" class="form-control">
+                                <span id="error-description2"></span>
                             </div>
                             
                             <input type="hidden" name="lat" id="lat2" value="19.076011">
@@ -847,8 +857,8 @@ $results = (array) $requests;
         </div>
     </div>
     <!-- End -->
-     <!---Support COntact --->
-     <div class="modal fade" id="supportContact" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
+       <!---Support COntact --->
+       <div class="modal fade" id="supportContact" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -856,34 +866,35 @@ $results = (array) $requests;
                         <h4 class="modal-title text-center" id="change_status">Contact Supporter</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="frmsupportContact" action="<?php echo BASE_URL ?>contactsupporter.php" enctype="multipart/form-data" method="post" class="f1">
-                        <input type="hidden" value="<?= $userId; ?>" name="userId" />
-                            <input type="hidden" value="" name="request_id" id="request_id"/>
+                        <form id="frmsupportContact" action="<?php echo BASE_URL ?>contactservice_supporter.php" enctype="multipart/form-data" method="post" class="f1">
+                        <input type="hidden" value="" name="userId" id="userId" />
+                        <input type="hidden" value="" name="request_id" id="request_id"/>
+                        <input type="hidden" value="" name="service_id" id="service_id"/>
                         <br>
                             <div class="mainvalid">
                                 <div class="form-group valid">
                                     <label class="lbform">Name</label>
-                                    <input type="text" id="name" value="" name="name" placeholder="Enter Name" maxlength="50" class="form-control">
+                                    <input type="text" id="fname" value="" name="fname" placeholder="Enter Name" maxlength="50" class="form-control">
                                     <span id="error-name"></span> 
                                 </div>
                                 <div class="form-group valid">
                                     <label class="lbform">Email</label>
-                                    <input type="text" id="email" value="" name="email" placeholder="Enter Email" maxlength="100" class="form-control">
+                                    <input type="text" id="femail" value="" name="femail" placeholder="Enter Email" maxlength="100" class="form-control">
                                     <span id="error-email"></span>
                                 </div>
                                 <div class="form-group valid">
                                     <label class="lbform">Phone Number</label>
-                                    <input type="text" id="phone_number" value="" name="phone_number" placeholder="Enter Phone Number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" minlength="10" maxlength="10" class="form-control">
+                                    <input type="text" id="fphone_number" value="" name="fphone_number" placeholder="Enter Phone Number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" minlength="10" maxlength="10" class="form-control">
                                     <span id="error-mobile_number"></span>
                                 </div>
                                 <div class="form-group valid">
                                     <label class="lbform">Reason for help</label>
-                                    <textarea id="supportDetails" name="supportDetails" class="form-control"></textarea>
+                                    <textarea id="fsupportDetails" name="fsupportDetails" class="form-control"></textarea>
                                     <span id="error-supportDetails"></span>
                                 </div>
                             </div>
                             <div class="f1-buttons">
-                                <button type="button" id="btn-submit-supporthelp" class="btn btn-next">Submit</button>
+                                <button type="button" id="btn-submit-supporthelp" class="btn1 btn-next">Submit</button>
                                
                             </div>
                             <br>
@@ -905,55 +916,60 @@ $results = (array) $requests;
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <script>
 
-function openSupportContact(request_id, userId){
+
+
+function openSupportContact(request_id, userId , service_id){
        
        jQuery('#supportContact').modal('show');
        jQuery('#request_id').val(request_id);
+       jQuery('#service_id').val(service_id);
    }
    
    jQuery('#btn-submit-supporthelp').on('click', function() {
 		
+        var name = $("#fname").val();
+    
+        var email = $("#femail").val();
+    
+        var supportDetails = $("#fsupportDetails").val();
+       
+        var mobile_number = $("#fphone_number").val();
+       
+        var request_id = $("#request_id").val();
+        var service_id = $("#service_id").val();
+
+        var userId = $("#userId").val();
         
-        var name = document.getElementById("name").value;
        
 
-        var email = document.getElementById("email").value;
-       
-
-       
-
-        var supportDetails = document.getElementById("supportDetails").value;
-       
-
-        var mobile_number = document.getElementById("phone_number").value;
-       
-
-        
 
             jQuery.ajax({
                 type: "POST",
                 url: '../contactservice_supporter.php',
-                data: 'request_id='+request_id+'&supportDetails='+supportDetails+'&name='+name+'&email='+email+'&phone_number='+phone_number+'&userId='+userId,
+                data: 'service_id='+service_id+'request_id='+request_id+'&supportDetails='+supportDetails+'&name='+name+'&email='+email+'&mobile_number='+mobile_number+'&userId='+userId,
                 success: function(response)
                 {
+                    console.log(name);
+                    console.log(email);
+                    console.log(supportDetails);
+                    console.log(mobile_number);
+                    console.log(service_id);
+                    console.log(request_id);
+                    console.log(userId);
+
+                // window.location.href='../contactservice_supporter.php';
+
                     jQuery('#btn-submit-supporthelp').css('display', '');
                     jQuery('#btn-submit-loader-supporthelp').css('display', 'none');
                     jQuery('#changeStatus').modal('hide');
-                    bootbox.alert("Details send successfully.", function(){ 
-                      window.location.reload(true);
+                   bootbox.alert("Details send successfully.", function(){ 
+                  window.location.reload(true);
                     // window.location.href='../contactsupporter.php';
                    });
                 }
             });
         
     });
-
-
-
-
-
-
-
 
 
 

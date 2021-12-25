@@ -1209,3 +1209,15 @@ function shorturl($url){
 	$short_url = $short_url_list[0]['short_url'];
 	return $short_url;
 }
+
+
+
+
+
+// define the wp_mail_failed callback
+function action_wp_mail_failed($wp_error)
+{
+    return error_log(print_r($wp_error, true));
+}
+ 
+

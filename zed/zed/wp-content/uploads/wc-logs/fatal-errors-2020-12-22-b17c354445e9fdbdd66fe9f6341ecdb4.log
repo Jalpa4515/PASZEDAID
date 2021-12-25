@@ -1,9 +1,0 @@
-2020-12-22T15:08:44+00:00 CRITICAL Uncaught Error: Cannot use object of type WP_Error as array in /home/jedaites/public_html/zed/wp-content/plugins/mobile-login-woocommerce/includes/class-xoo-ml-verification.php:446
-Stack trace:
-#0 /home/jedaites/public_html/zed/wp-includes/class-wp-hook.php(287): Xoo_Ml_Phone_Verification->process_otp_form('')
-#1 /home/jedaites/public_html/zed/wp-includes/class-wp-hook.php(311): WP_Hook->apply_filters('', Array)
-#2 /home/jedaites/public_html/zed/wp-includes/plugin.php(478): WP_Hook->do_action(Array)
-#3 /home/jedaites/public_html/zed/wp-admin/admin-ajax.php(191): do_action('wp_ajax_nopriv_...')
-#4 {main}
-  thrown in /home/jedaites/public_html/zed/wp-content/plugins/mobile-login-woocommerce/includes/class-xoo-ml-verification.php on line 446
-

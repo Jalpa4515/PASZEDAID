@@ -56,6 +56,16 @@ global $wpdb;
             border-bottom-right-radius: 10px;
             border-top-left-radius: 10px;
         }
+        .top-right {
+            position: absolute;
+            top: 1px;
+            right: 0;
+            background-color: #3D3D8A;
+            padding: 8px;
+            color: #fff;
+            border-bottom-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
         input#vehicle1 {
             width: 15px;
             height: 15px;
@@ -291,10 +301,21 @@ global $wpdb;
                                                     <?php
                                                             }
                                                             ?>
+                                                         <?php
+                                                          
+                                                          if (($res->service_status)== 'private') {
+                                                              ?>  
+                                                                <div class="top-right">Private</div>
+                                                        <?php
+                                                            }?>
                                                 </div>
                                             </div>
                                             <div class="cause-text">
-                                                <h3 class="cp-name"><a href="<?php echo $shareurl; ?>"><?php echo $fundtitle; ?></a></h3>
+                                                <h3 class="cp-name"><a href="<?php echo $shareurl; ?>"><?php echo $fundtitle; ?></a>
+                                                
+                                            
+                                            </h3>
+                                               
                                                 <div class="container1" style="    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
                                                     <img src="<?php echo bloginfo('template_directory'); ?>/images/user.png" width="30">
                                                     <?php if($user_name == 'admin'){?>

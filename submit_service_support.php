@@ -13,6 +13,9 @@ $name = $_POST['name'];
 $email = $_POST['email'];
 $mobile_number = $_POST['phone_number'];
 $address = $_POST['address2'];
+$description1 = $_POST['description2'];
+
+
 $latitude = $_POST['lat'];
 $longitude = $_POST['lng'];
 
@@ -55,6 +58,7 @@ $wpdb->insert('wp_service_support_data', array(
     'email' => $email,
     'mobile_number' => $mobile_number,
     'address' => $address,
+    'description' => $description1,
     'latitude' => $latitude,
     'longitude' => $longitude,
     'status' => '1',

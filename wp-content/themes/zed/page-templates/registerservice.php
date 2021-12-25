@@ -17,15 +17,19 @@ get_header();
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<?php echo bloginfo('template_directory'); ?>/inc/ms-Dropdown-master/dist/css/dd.css" />
 <script src="<?php echo bloginfo('template_directory'); ?>/js/jquery.min.js"></script>
-<!-- CSS only -->
-
-<!-- JavaScript Bundle with Popper -->
 
 <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDps_MnqrPbo_tQ1ZqJ60czXZjFaS421co&libraries=places"></script> -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+<!-- Latest compiled and minified Locales -->
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/locale/bootstrap-table-zh-CN.min.js"></script>
 <style>
   * {
     box-sizing: border-box;
@@ -486,7 +490,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
     <div class="tab mainvalid">
     <div class="col-lg-12 col-md-12 col-12 valid" style="padding:0px;">
         <p class="valid">
-            <p> Your sevice would be ?</p>
+        <p> Your sevice would be ?</p>
             <input type="radio" id="radio" class="radio radiobtn" name="service_status" value="public"><label>Public</label>
             <input type="radio" id="radio" class="radio radiobtn" name="service_status" value="private"><label>Private</label>
       </p>  
@@ -644,30 +648,47 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                               <p>Icon</p>
                             </div>
                             <div class="md-form mb-5">
-                              <select name="icon_id" id="icon_id" class="phonedropdown drp" style="margin-bottom: 10px; width: 40%;" onchange="getImg()">
+                              <select name="icon_id" id="icon_id" is="ms-dropdown" class="phonedropdown drp" style="margin-bottom: 10px; width: 40%;">
                                   <?php foreach($icons as $v){?>
-                                  <option data-thumbnail="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>"></option>
+                                  
+                                  <option data-image="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>"><?= $v['icon_name']?></option>
                                   <?php } ?>
                               </select>
                               <img src="<?= BASE_URL ?>icon-mappin/<?= $icons[0]['icon'];?>" id="icon-pin-src">
-                            </div>-->
+                            </div>
 
-                        
+                        <div class="md-form mb-5">
+                       
+                            <p>Category Name</p>
+                            <input type="text" id="category_name" class="" name="category_name" maxlength="50">
+                        </div>-->
+
+
+
+
                         <div class="md-form mb-5 row-inline">
                         <div class="row1">
-                        <p>Select specific icon for service</p>
-                        <select name="icon_id" id="icon_id" class="phonedropdown drp" style="margin-bottom: 10px; width: 40%;" onchange="getImg()">
-                                  <?php foreach($icons as $v){?>
-                                  <option data-thumbnail="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>">
-                                </option>
+                       <p>Select specific icon for service</p>
+                        <select name="icon_id" id="icon_id" is="ms-dropdown" class="phonedropdown drp" style="margin-bottom: 10px; width: 40%;" onchange="getImg()">
+                             
+                        <?php foreach($icons as $v){?>
+                          <option data-thumbnail="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>" data-image="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>"></option>
                                   <?php } ?>
                               </select></div>
                               <div class="row2">
                               <p>Category Name</p>
                             <input type="text" id="category_name" class="" name="category_name" maxlength="50">
                               </div>
-                           
+
                         </div>
+
+
+
+
+
+
+
+
 
                         <div class="md-form mb-5">
                             <div class="licause" style="display: inline-flex;align-items: baseline;">
@@ -677,15 +698,15 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                             </div>
                         </div>
                         
-                        <table id="data_collection">
-                          <thead>
+                        <table id="data_collection" class="table table-striped">
+                         
                           <tr id="data_collection_tr">
                                 <th>Field Name</th>
                                 <th>Type</th>
                                 <th>ACTION</th>
                             </tr>
-                          </thead>
-                          <tbody class="row_position">
+                      
+                         
                           <tr>
                               <td>Name</td>
                               <td>Single Line Text</td>
@@ -711,10 +732,12 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                               <td>Multiple Line Text</td>
                               <td> - </td>
                             </tr>
-                          </tbody>
+                         
                             
                             
                         </table>
+
+                       
                         <div class="md-form mb-5" style="display: inline-flex;margin-top: 10px;">
                             <input type="checkbox" id="is_support_request" name="is_support_request" value="1" onclick="showSupportRequest()"> <p>Should response required on request?</p>
                         </div>
@@ -795,16 +818,16 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
         
         
         <div class="md-form mb-5">
-            <p>Request Label</p>
-            <input type="text" id="status_label1" class="" name="status_label1" placeholder="Request is open" maxlength="100">
+            <p>Service Label</p>
+            <input type="text" id="status_label1" class="" name="status_label1" placeholder="Service is open" maxlength="100">
         </div>
         <div class="md-form mb-5">
             <p>Response Label</p>
-            <input type="text" id="status_label2" class="" name="status_label2" placeholder="Responder has responded on Request." maxlength="100">
+            <input type="text" id="status_label2" class="" name="status_label2" placeholder="Responder has responded on Service." maxlength="100">
         </div>
         <div class="md-form mb-5">
-            <p>Request Close Label</p>
-            <input type="text" id="status_label3" class="" name="status_label3" placeholder="Request is Closed" maxlength="100">
+            <p>Service Close Label</p>
+            <input type="text" id="status_label3" class="" name="status_label3" placeholder="Service is Closed" maxlength="100">
         </div>
 
     </div>
@@ -954,6 +977,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
       </div>
     </div>         
   </div>
+  <script src="<?php echo bloginfo('template_directory'); ?>/inc/ms-Dropdown-master/dist/js/dd.min.js"></script>
 
   <script>
     // document.querySelector(".numberic_class").addEventListener("keypress", function (evt) {
