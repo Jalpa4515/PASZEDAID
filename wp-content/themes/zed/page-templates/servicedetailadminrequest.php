@@ -39,10 +39,18 @@ get_header();
 
     <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/searchpanes/1.4.0/css/searchPanes.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet">
 
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     
     <style>
+      .dt-button-collection {
+    margin-top: -10px !important;
+}
+      .dtsp-titleRow {
+    display: none;
+}
         b, strong {
             font-weight: 600;
         }
@@ -754,6 +762,14 @@ td {
 li.paginate_button.active a {
     background: #3D3D8A;
 }
+
+div.dtsp-topRow button.dtsp-collapseButton span.dtsp-caret {
+   
+    color: black !important;
+    font-weight: 900 !important;
+}
+
+
     </style>
 </head>
 <?php 
@@ -842,6 +858,7 @@ $resultsdonacc = $wpdb->get_results("SELECT srd.*, srd.id, sc.name as category_n
                                         </tr>
                                         <?php } ?>
                                     </tbody>
+                                  
                                 </table>
                             </div>
                         </div>
@@ -996,6 +1013,10 @@ $resultsdonacc = $wpdb->get_results("SELECT srd.*, srd.id, sc.name as category_n
 <script src="<?php echo bloginfo('template_directory'); ?>/js/bootstrap.min.js"></script>
 
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/searchpanes/1.4.0/js/dataTables.searchPanes.min.js"></script>
+
+<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+
 
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
@@ -1037,8 +1058,18 @@ $resultsdonacc = $wpdb->get_results("SELECT srd.*, srd.id, sc.name as category_n
 <script>
 jQuery(document).ready(function() {
     jQuery('#example').DataTable({
+      searchPanes: {
+          "viewTotal": true
+    },
+    columnDefs: [{
+        searchPanes: {
+            show: true,
+            searching: false
+        },
+        targets: [0]
+    }],
         scrollX: true,
-        dom: 'Blfrtip',
+        dom: 'BPlfrtip',
         colReorder: true,
         buttons: [
             
@@ -1052,7 +1083,27 @@ jQuery(document).ready(function() {
                 ]
             }
         ],
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+       /* initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }*/
         
         
     });

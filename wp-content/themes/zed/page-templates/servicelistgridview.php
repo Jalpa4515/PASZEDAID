@@ -65,12 +65,37 @@ $results = (array) $requests;
     <script src="<?php echo bloginfo('template_directory'); ?>/js/jquery.min.js"></script>
     <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDps_MnqrPbo_tQ1ZqJ60czXZjFaS421co&libraries=places"></script> -->
     <style>
-
-
+ #addCollections{
+            overflow: auto !important;
+        }
+.mappop1{
+        width: auto;
+    }
+a.loc-icon {
+    position: absolute;
+   
+    margin: -33px 0px 10px 0px ;
+    left: 94%;
+}
+.custom-map-control-button {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  height: 40px;
+  cursor: pointer;
+}
+.custom-map-control-button:hover {
+  background: #ebebeb;
+}
 @media screen and (min-width:768px) {
     .tp-counter-grids {
         display: inline-flex;
-    background: rgb(0 0 0 / 22%);
+     /* background: rgb(0 0 0 / 22%);*/
     padding: 0px 100px;
 }
 
@@ -81,18 +106,23 @@ $results = (array) $requests;
 .grid h2 {
     font-size: 70px;
     font-weight: 600;
+    color: #eee;
+    /* background-color: #d5d5d5; */
+    letter-spacing: .05em;
+    text-shadow: 4px 4px 0px #171778, 7px 7px 0px rgb(0 0 0 / 20%);
 }
 
 .grid p {
     color: #fff;
     font-weight: 500;
     font-size: 20px;
+    text-transform: capitalize;
 }
     
 }
 
 .btn1 {
-        min-width: 105px;
+       /* min-width: 105px;*/
         height: 40px;
         margin: 0;
         padding: 0 20px;
@@ -176,7 +206,7 @@ $results = (array) $requests;
         }
         .tp-bg {
             background: linear-gradient(0deg, rgb(0 0 0 / 31%), rgb(0 0 0 / 42%)), url(<?= $banner; ?>);
-            height: 400px;
+            height: 450px;
 			background-repeat: no-repeat;
     		background-size: cover;
         }
@@ -189,18 +219,18 @@ $results = (array) $requests;
             padding: 10px 20px;
             background: #fff;
             border-radius: 10px;
-            width: 155% !important;
+            width: 155%;
         }
         ul.register-now {
             background: #3D3D8A !important;
-            height: 34px;
+            height: 30px;
             border-radius: 10px;
-            width: 20%;
+            width: 22%;
             text-align: center;
             font-size: 18px;
             margin-right: 29px;
-            float: right;
-            margin-top: -11%;
+           /* float: right;*/
+            margin-top: 10px;
         }
         ul.register-now1 {
             background: #3D3D8A !important;
@@ -246,6 +276,49 @@ $results = (array) $requests;
             margin-bottom: 10px;
             
         }
+        @media (max-width:767px) {
+.btn-next{
+    width: 60px !important;
+}
+            .list-tab{
+                margin-bottom: 12% !important;
+            }
+            ul.register-now {
+          
+            margin-left: 0px !important;
+            width: 50%;
+            
+          
+        }
+
+            .gridview{
+                width: 100%;
+            }
+            .grid h2 {
+    font-size: 25px;
+    font-weight: 600;
+    color: #eee;
+    /* background-color: #d5d5d5; */
+    letter-spacing: .05em;
+    text-shadow: 4px 4px 0px #171778, 7px 7px 0px rgb(0 0 0 / 20%);
+}
+
+.grid p {
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+.tp-breadcumb-wrap {
+    margin-top: 45%;
+}
+.para {
+    padding: 10px;
+}
+            a.loc-icon {
+        
+        left: 92%;
+    }}
     </style>
 
 </head>
@@ -263,53 +336,60 @@ $results = (array) $requests;
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <div class="tp-breadcumb-wrap">
-                            <h2><?= $service_name; ?></h2>
+                    <div class="tp-breadcumb-wrap">
+                        <h2 style=" letter-spacing: .1em;text-transform:uppercase;text-shadow: 0 -1px 0 #ffffff, 0 1px 0 #2e2e2e, 0 2px 0 #2c2c2c, 0 3px 0 #2a2a2a, 0 4px 0 #282828, 0 5px 0 #262626, 0 6px 0 #242424, 0 7px 0 #222222, 0 8px 0 #202020, 0 9px 0 #1e1e1e, 0 10px 0 #1c1c1c, 0 11px 0 #1a1a1a, 0 12px 0 #181818, 0 13px 0 #161616, 0 14px 0 #141414, 0 15px 0 #121212, 0 22px 30px rgba(0, 0, 0, 0.9);"><?= $service_name; ?></h2>
                             <p class="para"><?= $description; ?></p>
                             <?php
-                                        $requestcount1 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                        // default
 
-                                        $requestcount2 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_support_data WHERE service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                $requestcount1 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
 
-                                        /* $resultsdonaccxcam = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}campaigns WHERE admin_approved = 1 AND `status` = 1", ARRAY_A);
-                                        $resultsdonaccx = $wpdb->get_results("SELECT sum(lives_count) as livecount FROM {$wpdb->prefix}campaigns WHERE admin_approved = 1", ARRAY_A);
-                                        $resultsdonaccxe = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'tribe_events' AND post_status = 'publish'", ARRAY_A); */
 
-                                        ///$resultsdonaccxcam = array();
-                                        $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE request_status ='3' and service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                $requestcount2 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_support_data WHERE service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+
+                                $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE request_status ='3' and service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                                                        
                                         ?>
-                                        <div class="tp-counter-grids">
+
+                                        <div class="counter_stats" id="counter_stats">
+                                        <div class="tp-counter-grids" id="tp-counter-grids">  
                                             <div class="grid">
                                                 <div>
-                                                    <h2><span class="odometer" data-count="<?= count($requestcount1); ?>"><?= count($requestcount1); ?></span></h2>
+                                                        <h2><span class="odometer" data-count="<?= count($requestcount1); ?>"><?= count($requestcount1); ?></span></h2>
+                              
                                                 </div>
+                                                
                                                 <p>Total Services</p>
+                                           
+                                                
                                             </div>
                                             <div class="grid">
                                                 <div>
-                                                    <h2><span class="odometer" data-count="<?= count($requestcount2); ?>"><?= count($requestcount2); ?></span></h2>
+                                                
+                                                        <h2><span class="odometer" data-count="<?= count($requestcount2); ?>"><?= count($requestcount2); ?></span></h2>
+                                                       
                                                 </div>
+                                               
                                                 <p>Total Supports</p>
+                                            
                                             </div>
                                             <div class="grid">
                                                 <div>
-                                                    <h2><span class="odometer" data-count="<?= count($requestcount3); ?>"><?= count($requestcount3); ?></span></h2>
+
+                                                       <h2><span class="odometer" data-count="<?= count($requestcount3); ?>"><?= count($requestcount3); ?></span></h2>
                                                 </div>
+                                               
                                                 <p>Total Close Services</p>
+                                           
                                             </div>
-                                            <!--<div class="grid">-->
-                                            <!--    <div>-->
-                                            <!--        <h2><span class="odometer" data-count="<?= count($resultsdonaccxe); ?>"><?= count($resultsdonaccxe); ?></span></h2>-->
-                                            <!--    </div>-->
-                                            <!--    <p>ZED EVENTS</p>-->
-                                            <!--</div>-->
-                                        </div>
+                                            </div>
+                                            </div>
+                                       
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
         <!-- .tp-breadcumb-area end -->
         <!-- start contact-pg-contact-section -->
         <section class="tp-blog-single-section section-pad" style="background: #eee;">
@@ -389,7 +469,7 @@ $results = (array) $requests;
                                         <?php if(!empty($services->status_label1)){ ?>
                                             <?= $services->status_label1; ?>
                                         <?php } else { ?>
-                                            Request is open
+                                            Service is open
                                         <?php } ?>
                                         </label>
                                     </div>
@@ -399,7 +479,7 @@ $results = (array) $requests;
                                         <?php if(!empty($services->status_label2)){ ?>
                                             <?= $services->status_label2; ?>
                                         <?php } else { ?>
-                                            Supporter has responded on Request.
+                                            Supporter has responded on Service.
                                         <?php } ?>
                                         </label>
                                     </div>
@@ -410,7 +490,7 @@ $results = (array) $requests;
                                     <?php if(!empty($services->status_label3)){ ?>
                                         <?= $services->status_label3; ?>
                                     <?php } else { ?>
-                                        Request is Closed
+                                        Service is Closed
                                     <?php } ?>
                                     </label>
                                 </div>
@@ -419,7 +499,7 @@ $results = (array) $requests;
 
                     </div>
 
-                    <div class="col-md-8"  style="margin-bottom: 2%;">
+                    <div class="col-md-8  list-tab"  style="margin-bottom: 2%;">
                         <ul class="register-now1" style="border-bottom-right-radius: 10px;background-color:#fff !important;" >
                             <li  style="margin-top:3px">
                                 <a href="<?= BASE_URL ?>/service-list/?slug=<?= $service_id?>" class=" " style="color:#3d3d8a">Map</a>
@@ -459,10 +539,12 @@ $results = (array) $requests;
                                 <p><b style="font-weight:600">Email:</b> <?= $val['email'];?></p>
                                 <p><b style="font-weight:600">Phone No:</b> <?= $val['mobile_number'];?></p>
                                 <p><b style="font-weight:600">Address:</b> <?= $val['address'];?></p>
+                                <p><b style="font-weight:600">Description:</b> <?= $val['description'];?></p>
                                 <?php foreach($requst_arr as $r){?>
                                 <p><b style="font-weight:600"><?= $r['display_name']?>:</b> <?= $val[$r['table_field_name']];?></p>
                                 <?php } ?>
                                 <?php if(empty($supports)){?>
+                                    
                                     <ul class="register-now">
                                         <li class="licause1">
                                             <a href="javascript:void(0)" class=" " style="color:#fff" onclick="openPopupSupportThem('<?= $val['service_id'];?>','<?= $val['category_id'];?>','<?= $val['id'];?>');">Support</a>
@@ -532,9 +614,6 @@ $results = (array) $requests;
                         $result_contact = substr($contact, 0, 5);
                         $result_contact .= "*****";
 
-                        $email= $supports['email'] ;
-                        $result_email = substr($email, 0, 5);
-                        $result_email .= "*****";
 
                         $address= $supports['address'] ;
                         $result_address = substr($address, 0, 5);
@@ -552,6 +631,7 @@ $results = (array) $requests;
                                 <p><b style="font-weight:600">Email:</b> <?= $val['email'];?></p>
                                 <p><b style="font-weight:600">Phone No:</b> <?= $val['mobile_number'];?></p>
                                 <p><b style="font-weight:600">Address:</b> <?= $val['address'];?></p>
+                                <p><b style="font-weight:600">Description:</b> <?= $val['description'];?></p>
                                 <?php foreach($requst_arr as $r){?>
                                 <p><b style="font-weight:600"><?= $r['display_name']?>:</b> <?= $val[$r['table_field_name']];?></p>
                                 <?php } ?>
@@ -565,7 +645,7 @@ $results = (array) $requests;
                                     <hr>
                                     <p><b style="font-weight:600">Supporter Info:</b></p>
                                     <p><b style="font-weight:600">Name:</b> <?= $supports['name'];?></p>
-                                    <p><b style="font-weight:600">Email:</b> <?= $result_email;?></p>
+                                    <p><b style="font-weight:600">Email:</b> <?= $supports['email'];?></p>
                                     <p><b style="font-weight:600">Phone No:</b> <?= $result_contact;?> &nbsp; <?= $supportButton;?></p>
                                     <p><b style="font-weight:600">Address:</b> <?= $result_address;?></p>
                                     <?php foreach($support_arr as $r){?>
@@ -711,7 +791,8 @@ $results = (array) $requests;
                             </div>
                             <div class="form-group valid">
                                 <label class="lbform">Address</label>
-                                <input type="text" id="address1" name="address" placeholder="Enter Address" class="form-control">
+                                <input type="text" id="address1" name="address" placeholder="Enter Address" class="form-control" style="width: 95% !important;">
+                                <a class="loc-icon" id="pop" href="#"><img src="<?= BASE_URL ?>wp-content/uploads/2021/08/request_open.png"></a>
                                 <span id="error-address1"></span>
                             </div>
                             <div class="form-group valid">
@@ -904,6 +985,22 @@ $results = (array) $requests;
             </div>
         </div>
         <!-- End -->
+        <!-- map=popup -->
+        <div class="modal fade  " id="map-pop" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mappop1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title text-center" id="exampleModalLongTitle">Location</h4>
+                    </div>
+                    <div class="modal-body">
+                    <div class="contact-map" id="mapholder" style="width: 100%;  height: 460px;border-radius: 10px;">
+      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
 
     <!-- All JavaScript files
     ================================================== -->
@@ -915,7 +1012,240 @@ $results = (array) $requests;
     <script src="<?php echo bloginfo('template_directory'); ?>/js/script.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <script>
+             
+             function initialize() {
+            $( document ).ready(function() {
+latitude = 20.5937;
+ longitude = 78.9629;
 
+  var mapCenter = new google.maps.LatLng(latitude, longitude);
+ setMap(mapCenter, latitude, longitude, '');
+ 
+
+});
+
+var geocoder = new google.maps.Geocoder();
+
+var autocomplete = new google.maps.places.Autocomplete($("#address1")[0], {});
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+  var place = autocomplete.getPlace();
+  var address = place.formatted_address;
+  geocoder.geocode({
+    'address': address
+  }, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      var latitude = results[0].geometry.location.lat();
+      var longitude = results[0].geometry.location.lng();
+      var mapCenter = new google.maps.LatLng(latitude, longitude); //Google map Coordinates
+      setMap(mapCenter, latitude, longitude, '');
+
+      
+
+    }
+    console.log(latitude);
+   console.log(longitude);
+   var map;
+   map = new google.maps.Map(document.getElementById('mapholder'), {
+            center: mapCenter,
+            zoom: 15					
+          });
+    marker =  new google.maps.Marker({
+                      position: new google.maps.LatLng(latitude, longitude),
+                      map: map,
+                draggable:true,
+                animation: google.maps.Animation.DROP,
+                  });
+
+                  
+
+    google.maps.event.addListener(marker, 'dragend', function() 
+    {
+    geocodePosition(marker.getPosition());
+    lat1 = this.getPosition().lat();
+    long1 = this.getPosition().lng();
+
+
+    jQuery("#lat").val(lat1);
+                    jQuery("#lng").val(long1);
+
+    console.log(lat1);
+    console.log(long1);
+    });
+
+      function geocodePosition(pos) 
+      {
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode
+          ({
+              latLng: pos
+
+          }, 
+              function(results, status) 
+              {
+                  if (status == google.maps.GeocoderStatus.OK) 
+                  {
+                      $("#address1").val(results[0].formatted_address);
+                      $("#mapErrorMsg").hide(100);
+                  } 
+                  else 
+                  {
+                      $("#mapErrorMsg").html('Cannot determine address at this location.'+status).show(100);
+                  }
+              }
+
+              
+          );
+      }
+    
+  });
+});
+
+
+
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+function setMap(mapCenter, latitude = 0, longitude = 0, locations = '') {
+    var map; 
+var india = {lat:20.5937, lng:78.9629};
+    function addYourLocationButton(map, marker) 
+{
+var controlDiv = document.createElement('div');
+
+	
+	var firstChild = document.createElement('button');
+	firstChild.style.backgroundColor = '#fff';
+	firstChild.style.border = 'none';
+	firstChild.style.outline = 'none';
+	firstChild.style.width = '40px';
+	firstChild.style.height = '40px';
+	firstChild.style.borderRadius = '50px';
+	firstChild.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
+	firstChild.style.cursor = 'pointer';
+	firstChild.style.marginRight = '10px';
+	firstChild.style.padding = '5px 6px';
+	firstChild.title = 'Your Location';
+	controlDiv.appendChild(firstChild);
+	
+	var secondChild = document.createElement('div');
+	secondChild.style.margin = '5px';
+	secondChild.style.width = '18px';
+	secondChild.style.height = '18px';
+	secondChild.style.backgroundImage = 'url(https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-1x.png)';
+	secondChild.style.backgroundSize = '180px 18px';
+	secondChild.style.backgroundPosition = '0px 0px';
+	secondChild.style.backgroundRepeat = 'no-repeat';
+	secondChild.id = 'you_location_img';
+	firstChild.appendChild(secondChild);
+
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+
+    firstChild.addEventListener('click', function() {
+		var imgX = '0';
+		var animationInterval = setInterval(function(){
+			if(imgX == '-18') imgX = '0';
+			else imgX = '-18';
+			$('#you_location_img').css('background-position', imgX+'px 0px');
+		}, 500);
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+				marker.setPosition(latlng);
+				map.setCenter(latlng);
+				clearInterval(animationInterval);
+				$('#you_location_img').css('background-position', '-144px 0px');
+			});
+		}
+		else{
+			clearInterval(animationInterval);
+			$('#you_location_img').css('background-position', '0px 0px');
+		}
+	});
+    controlDiv.index = 1;
+	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+}
+
+
+var map = new google.maps.Map(document.getElementById('mapholder'), {
+  zoom: 15,
+  center: new google.maps.LatLng(latitude, longitude),
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+var myMarker = new google.maps.Marker({
+		map: map,
+		animation: google.maps.Animation.DROP,
+        draggable:true,
+		//position: india
+	});  
+	addYourLocationButton(map, myMarker);
+
+
+    google.maps.event.addListener(myMarker, 'position_changed', function() 
+    {
+    geocodePosition(myMarker.getPosition());
+    lat1 = this.getPosition().lat();
+    long1 = this.getPosition().lng();
+
+
+    jQuery("#lat").val(lat1);
+     jQuery("#lng").val(long1);
+
+    console.log(lat1);
+    console.log(long1);
+    });
+
+
+    google.maps.event.addListener(myMarker, 'dragend', function() 
+    {
+    geocodePosition(myMarker.getPosition());
+    lat1 = this.getPosition().lat();
+    long1 = this.getPosition().lng();
+
+
+    jQuery("#lat").val(lat1);
+     jQuery("#lng").val(long1);
+
+    console.log(lat1);
+    console.log(long1);
+    });
+
+    
+   
+
+    function geocodePosition(pos) 
+      {
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode
+          ({
+              latLng: pos
+
+          }, 
+              function(results, status) 
+              {
+                  if (status == google.maps.GeocoderStatus.OK) 
+                  {
+                      $("#address1").val(results[0].formatted_address);
+                      $("#mapErrorMsg").hide(100);
+                  } 
+                  else 
+                  {
+                      $("#mapErrorMsg").html('Cannot determine address at this location.'+status).show(100);
+                  }
+              }
+
+              
+          );
+      }
+    
+
+}
+
+    </script>
+    <script>
+$(document).ready(function () {
+        $("#pop").click(function () {
+            $('#map-pop').modal('show'); 
+        });
+    });
 
 
 function openSupportContact(request_id, userId , service_id){
@@ -1019,30 +1349,7 @@ function openSupportContact(request_id, userId , service_id){
         jQuery('#btn-submit-loader-support').css('display', 'none');
         function openAddCollectionsPopup(service_id,category_id,userId){
 
-            var geocoder = new google.maps.Geocoder();
-
-            var input = document.getElementById('address1');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-
-            google.maps.event.addListener(autocomplete, 'place_changed', function() {
-
-                var place = autocomplete.getPlace();
-                var address = place.formatted_address;
-                geocoder.geocode({
-                    'address': address
-                }, function(results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        var latitude = results[0].geometry.location.lat();
-                        var longitude = results[0].geometry.location.lng();
-
-                        jQuery("#lat").val(latitude);
-                        jQuery("#lng").val(longitude);
-
-                        console.log(latitude + "==" + longitude);
-                    }
-                });
-            });
-
+       
             /* jQuery('#categoryNameTitle').text(categoryName); */
             jQuery('#hidcategoryId').val(category_id);
             jQuery('#service_id').val(service_id);
@@ -1269,7 +1576,7 @@ function openSupportContact(request_id, userId , service_id){
                         jQuery('#btn-submit-food').css('display', '');
                         jQuery('#btn-submit-loader-food').css('display', 'none');
                         jQuery('#addCollections').modal('hide');
-                        bootbox.alert("Record added successfully.", function(){ 
+                        bootbox.alert("Service added successfully.", function(){ 
                             jQuery("#frm1")[0].reset();
                             window.location.reload(true);
                         });

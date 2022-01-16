@@ -178,6 +178,7 @@ session_start();
 <script src="<?php echo bloginfo('template_directory'); ?>/js/gsap.min.js"></script>
 <!-- Custom script for this template -->
 <script src="<?php echo bloginfo('template_directory'); ?>/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     function startcamp() {
         $.cookie("actual_link", null, { path: '/' });

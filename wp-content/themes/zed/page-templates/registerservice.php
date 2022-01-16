@@ -25,12 +25,20 @@ get_header();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 <!-- Latest compiled and minified Locales -->
 <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/locale/bootstrap-table-zh-CN.min.js"></script>
 <style>
+  table{
+    box-shadow: 5px 10px #888888;
+  }
+  thead{
+    text-transform: uppercase;
+    background: white;
+    
+  }
   * {
     box-sizing: border-box;
   }
@@ -240,16 +248,12 @@ get_header();
     width: 100%;
   }
   td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid rgb(0 0 0 / 10%);
     text-align: center;
     padding: 8px;
   }
-  th {
-      background: #9e9e9e6e;
-  }
-  tr {
-      background: #ddd;
-  }
+  
+  
   tr:nth-child(even) {
     background-color: #fff;
   }
@@ -259,7 +263,45 @@ get_header();
  .larges{
          width:75%;
      }
+
+     .select_drop {
+    width: 100%;
+}
+@media screen and (min-width:770px) {
+  .stats-row {
+    display: inline-flex;
+    width: 100%;
+}
+.label-row {
+    width: 60%;
+}
+.counter-row {
+    width: 40%;
+    padding-left: 15px;
+}
+
+  
+}
+
+
   @media (max-width: 767px) {
+    .row1 {
+    width: 60% !important;
+}
+
+div#modalSubscriptionForm {
+    padding: 0 20px 0 5px;
+}
+
+.btn {
+     margin-left: 0 !important; 
+   
+}
+
+.modal-header .close {
+   
+    padding-left: 90% !important;
+}
       
       .enddate {
     padding: 0px;
@@ -439,12 +481,20 @@ get_header();
       width: 15px;
       height: 15px;
   }
-  input#radio {
+  .rdb1 {
     display: inline-flex;
-    width: 15px;
-    box-shadow: none;
-    height: auto;
-    margin-left: 20px;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: none;
+    border: 0;
+    box-shadow: inset 0 0 0 1px #a94442;
+    box-shadow: inset 0 0 0 1.5px pink;
+    appearance: none;
+    margin: 0;
+    transition: box-shadow 150ms cubic-bezier(.95,.15,.5,1.25);
+    pointer-events: none;
 }
 
 .md-form.mb-5.row-inline {
@@ -452,11 +502,74 @@ get_header();
     width: 100%;
 }
 .row1 {
-    width: 50%;
+    width: 15%;
 }
 .row2 {
     /* padding-left: 50px; */
     width: 100%;
+}
+
+.blink{
+  color: red;
+    animation: blink 2s linear infinite;
+
+}
+label.l-radio {
+    padding: 6px;
+    border-radius: 50px;
+    display: inline-flex;
+    cursor: pointer;
+    transition: background .2s ease;
+    /* margin: 8px 0; */
+    -webkit-tap-highlight-color: transparent;
+}
+label.l-radio:hover {
+    background: #eee;
+}
+
+label.l-radio:focus-within {
+    background: #eee;
+}
+.rdb1:checked {
+    box-shadow: inset 0 0 0 6px black;
+}
+.span1{
+  vertical-align: middle;
+    display: inline-block;
+    line-height: 20px;
+    padding: 0 8px;
+}
+
+/* category icon */
+.ms-dd .ms-list-option.option-selected, .ms-dd .ms-optgroup ul .ms-list-option.option-selected {
+    background: #ffffff !important;
+}
+.ms-dd .ms-value-input {
+    top: 0px !important;
+}
+.ms-dd .ms-dd-header .option-selected {
+
+    padding: 5px 10px 5px 10px !important;
+border-radius: 10px !important;
+  
+}
+.ms-dd.ms-pr {
+    margin-bottom: 10px !important;
+    width: 80% !important;
+}
+.ms-dd {
+    border-radius: 10px !important;
+box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
+}
+.ms-dd .ms-dd-header {
+    border: 0px solid #ccc !important;
+  
+}
+.md-form.mb-5 img {
+   
+    width: 40px !important;
+    height: 40px !important;
+  
 }
 </style>
 <?php
@@ -491,8 +604,8 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
     <div class="col-lg-12 col-md-12 col-12 valid" style="padding:0px;">
         <p class="valid">
         <p> Your sevice would be ?</p>
-            <input type="radio" id="radio" class="radio radiobtn" name="service_status" value="public"><label>Public</label>
-            <input type="radio" id="radio" class="radio radiobtn" name="service_status" value="private"><label>Private</label>
+        <label class="l-radio"><input type="radio" id="radio" class="radio radiobtn rdb1" name="service_status" value="public"><span class="span1">Public</span></label>
+        <label class="l-radio">  <input type="radio" id="radio" class="radio radiobtn rdb1" name="service_status" value="private"><span class="span1">Private</span></label>
       </p>  
     </div>
       <div class="col-lg-12 col-md-12 col-12 valid" style="padding:0px;">
@@ -668,7 +781,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
 
                         <div class="md-form mb-5 row-inline">
                         <div class="row1">
-                       <p>Select specific icon for service</p>
+                       <p>Category Icon</p>
                         <select name="icon_id" id="icon_id" is="ms-dropdown" class="phonedropdown drp" style="margin-bottom: 10px; width: 40%;" onchange="getImg()">
                              
                         <?php foreach($icons as $v){?>
@@ -683,59 +796,75 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                         </div>
 
 
-
-
-
-
-
-
-
                         <div class="md-form mb-5">
                             <div class="licause" style="display: inline-flex;align-items: baseline;">
                                 <p>Data Collection Fields</p>
                                 <a href="javascript:void(0)" class="btn btn-default btn-rounded mb-4 add" id="add_collection_fields" onclick="submitCat();">ADD</a>
                                 <!-- data-toggle="modal" data-target="#modalSubscriptionForms" -->
+                                <p style="padding-left: 15px;" class="blink">Note:You can move rows up & down --- Fields can be rearranged by drag-drop.</p>
                             </div>
                         </div>
+                     
+                       
                         
                         <table id="data_collection" class="table table-striped">
-                         
-                          <tr id="data_collection_tr">
+                         <thead>
+                         <tr id="data_collection_tr">
                                 <th>Field Name</th>
                                 <th>Type</th>
                                 <th>ACTION</th>
                             </tr>
+                         </thead>
+                          
                       
-                         
-                          <tr>
+                         <tbody id="sortable">
+                          <tr class="unsortable">
                               <td>Name</td>
                               <td>Single Line Text</td>
                               <td> - </td>
                             </tr>
-                            <tr>
+                            <tr class="unsortable">
                               <td>Mobile Number</td>
                               <td>Single Line Text</td>
                               <td> - </td>
                             </tr>
-                            <tr>
+                            <tr class="unsortable">
                               <td>Email</td>
                               <td>Single Line Text</td>
                               <td> - </td>
                             </tr>
-                            <tr>
+                            <tr class="unsortable">
                               <td>Address</td>
                               <td>Multiple Line Text</td>
                               <td> - </td>
                             </tr>
-                            <tr>
+                            <tr class="unsortable">
                               <td>Description</td>
                               <td>Multiple Line Text</td>
                               <td> - </td>
                             </tr>
-                         
-                            
-                            
+                            </tbody>
                         </table>
+
+                        <script>
+                      $(document).ready(function () {
+
+    $('#sortable').sortable({
+      items: "tr:not(.unsortable)",
+        axis: 'y',
+        stop: function (event, ui) {
+	        var data = $(this).sortable('serialize');
+        //    $('.span1').text(data);
+            $.ajax({
+                    data: data,
+                type: 'POST',
+                url: '../add_category.php',
+            });
+	}
+    }); 
+    $("#sortable").disableSelection();
+});
+                        </script>
 
                        
                         <div class="md-form mb-5" style="display: inline-flex;margin-top: 10px;">
@@ -746,41 +875,65 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                             <p>Response Fields</p>
                             <a href="javascript:void(0)" id="add_response_fields" class="btn btn-default btn-rounded mb-4 add" onclick="submitCat();">ADD</a>
                             <!-- #modalSubscriptionForms1 -->
+                            <p style="padding-left: 15px;" class="blink">Note:You can move rows up & down --- Fields can be rearranged by drag-drop.</p>
                             </div>
                         </div>
-                        <table id="request_frm" class="support-fields" style="display: none; ">
-                        <tr>
+
+                        <table id="request_frm" class="support-fields table table-striped" style="display: none; ">
+                       <thead>
+                       <tr>
                             <th>Field Name</th>
                             <th>Type</th>
                             <th>ACTION</th>
                         </tr>
-                        <tr>
+                       </thead>
+                        <tbody id="sortable1">
+                        <tr class="unsortable">
                           <td>Name</td>
                           <td>Single Line Text</td>
                           <td> - </td>
                         </tr>
-                        <tr>
+                        <tr class="unsortable">
                           <td>Mobile Number</td>
                           <td>Single Line Text</td>
                           <td> - </td>
                         </tr>
-                        <tr>
+                        <tr class="unsortable">
                           <td>Email</td>
                           <td>Single Line Text</td>
                           <td> - </td>
                         </tr>
-                        <tr>
+                        <tr class="unsortable">
                           <td>Address</td>
                           <td>Multiple Line Text</td>
                           <td> - </td>
                         </tr>
-                        <tr>
-                              <td>Description</td>
-                              <td>Multiple Line Text</td>
-                              <td> - </td>
+                        <tr class="unsortable">
+                          <td>Description</td>
+                          <td>Multiple Line Text</td>
+                          <td> - </td>
                             </tr>
-                       
-                        </table>        
+                        </tbody>
+                        </table>  
+                        <script>
+                      $(document).ready(function () {
+
+
+    $('#sortable1').sortable({
+      items: "tr:not(.unsortable)",
+        axis: 'y',
+        stop: function (event, ui) {
+	        var data = $(this).sortable('serialize');
+           // $('.span1').text(data);
+            $.ajax({
+                    data: data,
+                type: 'POST',
+                url: '../add_category.php',
+            });
+	}
+    }); $("#sortable1").disableSelection();
+});
+                        </script>      
                     </div>      
                     <div class="modal-footer d-flex justify-content-center">
                         <button class="btn btn-indigo" type="button" onclick="showcategorytbl();">Submit</button>
@@ -798,23 +951,27 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                    
         </div>
 
-        <table id="category_table">
+        <table id="category_table" class="table table-striped">
+          <thead>
             <tr>
                 <th>Icon</th>
                 <th>Category Name</th>
                 <th>ACTION</th>
             </tr>
+            </thead>
+            <tbody>
             <tr class="cat_tr">
               <td colspan="3">
               No Categories Added
               </td>
             </tr>
+            </tbody>
         </table>
 
       </div>
     </div>
 
-    <div class="tab mainvalid">
+   <!-- <div class="tab mainvalid">
         
         
         <div class="md-form mb-5">
@@ -830,7 +987,228 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
             <input type="text" id="status_label3" class="" name="status_label3" placeholder="Service is Closed" maxlength="100">
         </div>
 
+    </div>-->
+
+
+   <div class="tab mainvalid">
+   <div>
+     <div>
+       <h3>Would you like to show statistics on banner?</h3>
+      <p> Please check the box for custom Statistics</p>
+        <label class="l-radio"><input type="radio" id="radioyes" class="radio radiobtn rdb1" name="stats_check" value="1"><span class="span1">YES</span></label>
+        <label class="l-radio">  <input type="radio" id="radiono" class="radio radiobtn rdb1" name="stats_check" value="0"><span class="span1">NO</span></label>
+        <p>Select category</p>
+        <select class="select_drop phonedropdown" id="select_cat1" name="select_cat1" disabled="disabled">
+          <option>Select any category</option>
+         <!-- <option value="201" cat_name="category1" >category1</option>
+          <option value="202" cat_name="category2" >category2</option>
+          <option value="203" cat_name="category3" >category3</option>-->
+        </select>
+      </div>
+    </br>
+      
+        <div class="md-form mb-5 stats-row">
+          <div class="label-row"><p>Total Services Label</p>
+            <input type="text" id="banner_label1" class="" name="banner_label1" placeholder="Total Services" maxlength="100" disabled="disabled"></div>
+            <div class="counter-row">
+            <p>Select field for counter</p>
+        <select class="select_drop phonedropdown" id="select_drop1" name="select_drop1" disabled="disabled">
+          <option>Select any field</option>
+        </select>
+          
+            </div>
+          </div> <hr mb=2>
+        <div class="md-form mb-5 stats-row">
+           <div class="label-row"><p>Total Supports Label</p>
+            <input type="text" id="banner_label2" class="" name="banner_label2" placeholder="Total Supports" maxlength="100" disabled="disabled"></div> 
+            <div class="counter-row"><p>Select field for counter</p>
+            <select class="select_drop phonedropdown" id="select_drop2" name="select_drop2" disabled="disabled">
+            <option>Select any field</option>
+            </select>
+         </div>
+            </div><hr mb=2>
+        <div class="md-form mb-5 stats-row">
+          <div class="label-row"><p>Total Closed Services Label</p>
+            <input type="text" id="banner_label3" class="" name="banner_label3" placeholder="Total Closed Services" maxlength="100" disabled="disabled"></div>
+            <div class="counter-row">  <p>Select field for counter</p>
+            <select class="select_drop phonedropdown" id="select_drop3" name="select_drop3" disabled="disabled">
+            <option>Select any field</option>
+            </select>
+          </div>
+          </div>
+
+          <button type="button" id="saveBtn" onclick="submitcounter()">Save</button><br>
+         <div style="overflow: auto;">
+          <table id="counter_table" class="table table-striped">
+          <thead>
+            <tr>
+                <th>Category Name</th>
+                <th>Label1</th>
+                <th>Counter</th>
+                <th>Label2</th>
+                <th>Counter2</th>
+                <th>Label3</th>
+                <th>Counter3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="counter_tr">
+              <td colspan="7">
+              No Categories Added
+              </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+          <script type="text/javascript">
+    $(function () {
+        $("input[name='stats_check']").click(function () {
+            if ($("#radioyes").is(":checked")) {
+                $("#banner_label1").removeAttr("disabled");
+                $("#banner_label2").removeAttr("disabled");
+                $("#banner_label3").removeAttr("disabled");
+                $("#select_drop1").removeAttr("disabled");
+                $("#select_drop2").removeAttr("disabled");
+                $("#select_drop3").removeAttr("disabled");
+                $("#select_cat1").removeAttr("disabled");
+               // $("#txtPassportNumber").focus();
+            } else {
+               // $("#txtPassportNumber").attr("disabled", "disabled");
+                $("#banner_label1").attr("disabled", "disabled");
+                $("#banner_label2").attr("disabled", "disabled");
+                $("#banner_label3").attr("disabled", "disabled");
+                $("#select_drop1").attr("disabled", "disabled");
+                $("#select_drop2").attr("disabled", "disabled");
+                $("#select_drop3").attr("disabled", "disabled");
+                $("#select_cat1").attr("disabled", "disabled");
+            }
+        });
+    });
+
+
+
+$('#select_cat1').change(function(){
+
+  var element = $(this).find('option:selected'); 
+  var cat_name = element.attr("cat_name");
+  var category_id = $(this).val();
+
+  jQuery.ajax({
+
+    type: "POST",
+          url: '../fields_counter.php',
+          data: 'cat_name='+cat_name+'&category_id='+category_id,
+          success: function(response)
+          {
+
+        console.log(response);
+          var data = JSON.parse(response);
+console.log(data);
+$('#select_drop1').empty();
+$('#select_drop2').empty();
+$('#select_drop3').empty();
+  for (var i = 0; i < data.length; i++) {
+        //  foreach(data as dd){
+            var select = "<option value="+ data[i].id +">"+data[i].field_name+"</option>";
+            
+            $('#select_drop1').append(select);
+            $('#select_drop2').append(select);
+            $('#select_drop3').append(select);
+          }
+              //console.log(data.id);
+
+          }
+
+
+  });
+
+});
+
+
+function submitcounter(){
+
+  var element = $('#select_cat1').find('option:selected'); 
+  var cat_name = element.attr("cat_name");
+  var category_id = $('#select_cat1').val();
+  var banner_label1 = $('#banner_label1').val();
+  var banner_label2 = $('#banner_label2').val();
+  var banner_label3 = $('#banner_label3').val();
+  var select_drop1 = $('#select_drop1').val();
+  var select_drop2 = $('#select_drop2').val();
+  var select_drop3 = $('#select_drop3').val();
+
+  var option1 = $('#select_drop1').find('option:selected'); 
+  var opt_name1 = option1.attr("opt_name");
+
+  var option2 = $('#select_drop2').find('option:selected'); 
+  var opt_name2 = option2.attr("opt_name");
+
+  var option3 = $('#select_drop3').find('option:selected'); 
+  var opt_name3 = option3.attr("opt_name");
+
+  jQuery.ajax({
+
+type: "POST",
+      url: '../save_fields_counter.php',
+      data: 'cat_name='+cat_name+'&category_id='+category_id+'&banner_label1='+banner_label1+'&banner_label2='+banner_label2+'&banner_label3='+banner_label3+'&select_drop1='+select_drop1+'&select_drop2='+select_drop2+'&select_drop3='+select_drop3+'&opt_name1='+opt_name1+'&opt_name2='+opt_name2+'&opt_name3='+opt_name3,
+      success: function(response)
+      {
+
+ $('#select_drop1').empty();
+$('#select_drop2').empty();
+$('#select_drop3').empty();
+$('#banner_label1').val("");
+$('#banner_label2').val("");
+$('#banner_label3').val("");
+var category = JSON.parse(response);
+              
+            //  $("#is_category_edit").val(id);
+            //  $("#category_id").val(id);
+           //   $("#category_name").val(category.name);
+           //   $("#blah").attr('src','<?php echo home_url();?>/wp-content/uploads/services/'+category.icon);
+              //$('#modalSubscriptionForm').modal('show'); 
+              jQuery('.counter_tr').css('display', 'none');
+              
+           //   $("#icon_id").val(category.icon_id);
+           //   var icon_img = $('#icon_id').find('option:selected').attr('data-thumbnail');
+           //   $('#icon-pin-src').attr('src',icon_img);
+
+             // var array = category.request_fields;
+             // var array1 = category.support_fields;
+              console.log( category );
+
+              $.each(category,function(key,val){
+                console.log( "Key: " + key + ", Value: " + val.id );
+
+                jQuery('#collection_data_tr_'+val.id).css('display', 'none');
+
+                var tr = '<tr class="counter_data_tr" id="counter_data_tr_'+val.id+'"><td>'+val.category_name+'</td><td>'+val.banner1+'</td><td>'+val.counter1_label+'</td><td>'+val.banner2+'</td><td>'+val.counter2_label+'</td><td>'+val.banner3+'</td><td>'+val.counter3_label+'</td></tr>';
+                $('#counter_table').append(tr);
+              });
+
+
+
+          //console.log(data.id);
+
+      }
+
+
+});
+
+
+
+
+}
+
+
+</script>
+</div>
+
+
+
     </div>
+
+
     <div class="tab mainvalid">
         <h3 style="color: #3D3D8A;">Configuration Information</h3>
         <div style="display:flex;margin: 15px 0px;">
@@ -857,14 +1235,14 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
             <input type="radio" id="aaa" name="enable_searchbar" value="0" class="radiobtn" disabled style="margin-left: 10% !important;">No
         </div>
         </div>
-        <div style="display:flex;margin: 15px 0px;">
+       <!-- <div style="display:flex;margin: 15px 0px;">
         <div style="width:50%">Would you like to show<br> statistics on banner?
         </div>
         <div style="width:50%;display: flex;">
             <input type="radio" id="bbb" name="statistics_on_banner" value="1" class="radiobtn" checked>Yes
             <input type="radio" id="aaa" name="statistics_on_banner" value="0" class="radiobtn" disabled style="margin-left: 10% !important;">No
         </div>
-        </div>
+        </div>-->
     </div>
     
     <!-- <div class="tab mainvalid">
@@ -884,6 +1262,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
     <div style="text-align:center;margin-top:40px;">
       <span class="step"></span>
       <span class="step"></span>
+      <!--<span class="step"></span>-->
       <span class="step"></span>
       <span class="step"></span>
     </div>
@@ -907,6 +1286,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                 <select name="field_type" id="field_type" class="phonedropdown drp" style="margin-bottom: 0;width: 43%;" onchange="showhidefields('collection',this.val)">
                     <option value="Single Line Text">Single Line Text</option>
                     <option value="Multiline Text">Multiline Text</option>
+                    <option value="Number">Number</option>
                     <option value="Single Check">Single Check</option>
                     <option value="Checkbox">Checkbox</option>
                     <option value="Date & Time">Date & Time</option>
@@ -914,7 +1294,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
               </div>
               <div class="md-form mb-5" style="display: flex;align-items: center; margin-top:10px; ">
                 <input type="checkbox" id="vehicle1" name="is_mandatory"> <p style="padding-top: 13px;padding-right: 46%;">is it mandatory?</p>
-                <input type="number" id="ordering" name="ordering" value="" maxlength="50" placeholder="Display Order" style="margin-bottom: 0;width: 29.7%;">
+               <!-- <input type="number" id="ordering" name="ordering" value="" maxlength="50" placeholder="Display Order" style="margin-bottom: 0;width: 29.7%;">-->
               </div>
 
               <p style="margin-top: 5%;" class="option-fields">Options</p>
@@ -950,6 +1330,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                   <select name="field_type1" id="field_type1" class="phonedropdown drp" style="margin-bottom: 0;width: 43%;" onchange="showhidefields('supporter',this.val)">
                       <option value="Single Line Text">Single Line Text</option>
                       <option value="Multiline Text">Multiline Text</option>
+                      <option value="Number">Number</option>
                       <option value="Single Check">Single Check</option>
                       <option value="Checkbox">Checkbox</option>
                       <option value="Date & Time">Date & Time</option>
@@ -957,7 +1338,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                 </div>
                 <div class="md-form mb-5" style="display: flex;align-items: center; margin-top:10px; ">
                   <input type="checkbox" id="vehicle1" name="is_mandatory"> <p style="padding-top: 13px;padding-right: 46%;">is it mandatory?</p>
-                  <input type="number" id="ordering1" name="ordering1" value="1" placeholder="Display Order" style="margin-bottom: 0;width: 29.7%;">
+                  <!--<input type="number" id="ordering1" name="ordering1" value="1" placeholder="Display Order" style="margin-bottom: 0;width: 29.7%;">-->
                 </div>
 
                 <p style="margin-top: 5%;" class="s-option">Options</p>
@@ -978,7 +1359,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
     </div>         
   </div>
   <script src="<?php echo bloginfo('template_directory'); ?>/inc/ms-Dropdown-master/dist/js/dd.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     // document.querySelector(".numberic_class").addEventListener("keypress", function (evt) {
     //     if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
@@ -1199,8 +1580,8 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
       // if you have reached the end of the form...
       if (currentTab >= x.length) {
         console.log(currentTab);
-        if(currentTab == 4){
-          showTab(3);
+        if(currentTab == 5){
+          showTab(4);
         }
         // ... the form gets submitted:
         $("#nextBtn").prop('disabled', true);
@@ -1336,7 +1717,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
               {
                   jQuery('#category_id').val(response);
                   jQuery('#vehicle1').prop('checked', this.value==1);
-                  jQuery('#ordering').val('1');
+                 // jQuery('#ordering').val('1');
               }
           }); 
         }               
@@ -1404,7 +1785,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
       var category_id = $("#category_id").val();
       var userId = $("#userId").val();
       var field_type = $("#field_type").val();
-      var ordering = $("#ordering").val();
+     // var ordering = $("#ordering").val();
       if ($('#is_support_request').is(":checked"))
       {
         var is_mandatory = '1';
@@ -1414,7 +1795,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
       
       var options = $("input[name='options[]']").map(function(){return $(this).val();}).get();
 
-      if(field_name == '' || ordering == ''){
+      if(field_name == ''){
           $("#field_name").addClass("invalid");
           return false;
       }
@@ -1424,11 +1805,27 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
       jQuery.ajax({
           type: "POST",
           url: '../add_fields.php',
-          data: 'field_name='+field_name+'&category_id='+category_id+'&userId='+userId+'&field_type='+field_type+'&is_mandatory='+is_mandatory+'&ordering='+ordering+'&options='+options+'&edit_collection_id='+edit_collection_id,
+          data: 'field_name='+field_name+'&category_id='+category_id+'&userId='+userId+'&field_type='+field_type+'&is_mandatory='+is_mandatory+'&options='+options+'&edit_collection_id='+edit_collection_id,
           success: function(response)
           {
+            console.log(response);
+            //jQuery('.select_drop').css('display', 'none');
               jQuery('.collection_tr').css('display', 'none');
-              
+             // let i=1;
+       
+             // var select= for(let i=1;i<6;i++){ +'<option id='+ i+' value=custom_field_name'+ i +'>'+field_name+'</option>'+ }
+             
+            var select = "<option value="+ response +" opt_name="+field_name+">"+field_name+"</option>";
+            
+
+          // var select = '<option value=custom_field_name1>'+field_name+'</option>';
+
+
+             $('#select_drop1').append(select);
+             $('#select_drop2').append(select);
+             $('#select_drop3').append(select);
+
+
               if(edit_collection_id == ''){
                   var tr = '<tr class="collection_data_tr" id="collection_data_tr_'+response+'"><td>'+field_name+'</td><td>'+field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+response+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i><i class="fas fa-trash" onclick="deletecollection('+response+')></i></td></tr>';
                   $('#data_collection').append(tr);
@@ -1436,9 +1833,11 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                 var tr = '<td>'+field_name+'</td><td>'+field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+response+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i><i class="fas fa-trash" onclick="deletecollection('+response+')></i></td>';
                 $('#collection_data_tr_'+response).html(tr);
               }
+
+              
               $("#field_name").val('');
               $('#optionname').html('');              
-              $("#ordering").val('');
+             // $("#ordering").val('');
               $('.option-fields').css('display', 'none');
               $('select[name^="field_type"] option:selected').attr("selected",null);
               
@@ -1479,7 +1878,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
               $("#edit_collection_id").val(data.id);
               $("#field_name").val(data.field_name);
               $("#field_type").val(data.field_type);
-              $("#ordering").val(data.ordering);
+            //  $("#ordering").val(data.ordering);
           }
       });
     }
@@ -1490,7 +1889,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
       var category_id = $("#category_id").val();
       var userId = $("#userId").val();
       var field_type = $("#field_type1").val();
-      var ordering = $("#ordering1").val();
+      //var ordering = $("#ordering1").val();
       if ($('#is_mandatory1').is(":checked"))
       {
         var is_mandatory = '1';
@@ -1498,7 +1897,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
         var is_mandatory = '1';
       }
       
-      if(field_name == '' || ordering == ''){
+      if(field_name == ''){
           $("#field_name1").addClass("invalid");
           return false;
       }
@@ -1508,7 +1907,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
       jQuery.ajax({
           type: "POST",
           url: '../add_field_for_supporter.php',
-          data: 'field_name='+field_name+'&category_id='+category_id+'&userId='+userId+'&field_type='+field_type+'&is_mandatory='+is_mandatory+'&ordering='+ordering+'&options='+options+'&edit_collection_id='+edit_supporter_id,
+          data: 'field_name='+field_name+'&category_id='+category_id+'&userId='+userId+'&field_type='+field_type+'&is_mandatory='+is_mandatory+'&options='+options+'&edit_collection_id='+edit_supporter_id,
           success: function(response)
           {
               if(edit_supporter_id == ''){
@@ -1548,7 +1947,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
               $("#edit_supporter_id").val(id);
               $("#field_name1").val(data.field_name);
               $("#field_type1").val(data.field_type);
-              $("#ordering1").val(data.ordering);
+              //$("#ordering1").val(data.ordering);
           }
       });
     }
@@ -1572,6 +1971,8 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
       var form = $("#regForm").closest("form");
       var formData = new FormData(form[0]);
 
+
+     // $('#select_cat1').empty();
       jQuery.ajax({
           type: "POST",
           url: '../add_category.php',
@@ -1600,6 +2001,15 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
         var tr = '<td><img src="'+icon_img+'" width="50" height="50"></td><td>'+category_name+'</td><td><i class="fas fa-edit" onclick="editcat('+category_id+')" data-toggle="modal" href="#modalSubscriptionForm"></i><i class="fas fa-trash" onclick="deletecat('+category_id+')></i></td>';
         $('.'+category_id).html(tr);
       }
+
+      
+      var select_cat = "<option value="+ category_id + " cat_name="+ category_name +" >"+category_name+"</option>";
+            
+
+            // var select = '<option value=custom_field_name1>'+field_name+'</option>';
+  
+  
+               $('#select_cat1').append(select_cat);
 
       jQuery('.supporter_tr').css('display', '');
       jQuery('.collection_tr').css('display', '');
@@ -1674,13 +2084,13 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
     $(document).ready(function(){
       $("#field_name").keydown(function(){
         var field_name = $("#field_name").val();
-        var ordering = $("#ordering").val();
-        if(field_name != '' && ordering != ''){
+       // var ordering = $("#ordering").val();
+        if(field_name != '' ){
           $("#collection-btn").attr("data-dismiss", "modal");
           $("#collection-btn").attr("aria-label", "Close");
 
           $("#field_name").removeClass("invalid");
-          $("#ordering").removeClass("invalid");
+         // $("#ordering").removeClass("invalid");
 
         }else{
           $("#collection-btn").attr("data-dismiss", "");
@@ -1690,13 +2100,13 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
 
       $("#field_name1").keydown(function(){
         var field_name = $("#field_name1").val();
-        var ordering = $("#ordering1").val();
-        if(field_name != '' && ordering != ''){
+        //var ordering = $("#ordering1").val();
+        if(field_name != '' ){
           $("#supporter-btn").attr("data-dismiss", "modal");
           $("#supporter-btn").attr("aria-label", "Close");
 
           $("#field_name1").removeClass("invalid");
-          $("#ordering1").removeClass("invalid");
+        //  $("#ordering1").removeClass("invalid");
 
         }else{
           $("#supporter-btn").attr("data-dismiss", "");

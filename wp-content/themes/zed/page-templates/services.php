@@ -60,7 +60,7 @@ global $wpdb;
             position: absolute;
             top: 1px;
             right: 0;
-            background-color: #3D3D8A;
+            background-color: #F12C41;
             padding: 8px;
             color: #fff;
             border-bottom-left-radius: 10px;
@@ -242,10 +242,10 @@ global $wpdb;
                             };  
                             $start_from = ($page-1) * $limit;
                             if (!empty($c)) {
-                                $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}services WHERE service_name LIKE '%" . $c . "%' AND admin_approved = 1 AND is_draft = 0 AND status = 1 order by id DESC LIMIT $start_from, $limit", OBJECT);
+                                $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}services WHERE service_name LIKE '%" . $c . "%' AND admin_approved = 1 AND is_draft = 0 AND status IN (0,1) order by id DESC LIMIT $start_from, $limit", OBJECT);
                                 $campaigns = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}services WHERE service_name LIKE '%" . $c . "%' AND admin_approved = 1 AND is_draft = 0 order by id DESC", OBJECT);
                             } else {
-                                $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}services WHERE admin_approved = 1 AND is_draft = 0 AND status = 1 order by id DESC LIMIT $start_from, $limit", OBJECT);
+                                $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}services WHERE admin_approved = 1 AND is_draft = 0 AND status IN (0,1)  order by id DESC LIMIT $start_from, $limit", OBJECT);
                                 $campaigns = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}services WHERE admin_approved = 1 AND is_draft = 0 order by id DESC", OBJECT); 
                             }
                             $total_records = count($campaigns);  
@@ -267,7 +267,12 @@ global $wpdb;
                                         $btntext = 'Closed';
                                         $donationurl = $shareurl;
                                         $viewclass = 'viewdetails';
-                                    } else {
+                                    } elseif($res->status == 0) {
+                                        $btn = 1;
+                                        $btntext = 'Closed';
+                                        $donationurl = $shareurl;
+                                        $viewclass = 'viewdetails';
+                                    }else {
                                         $btn = 1;
                                         $btntext = $btntext;
                                         $donationurl = $donationurl;

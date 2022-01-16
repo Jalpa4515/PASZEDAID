@@ -8,6 +8,11 @@ $id = ltrim(rtrim($_POST['id'], ','), ',');
 $service_id = $_POST['service_id'];
 $userId = $_POST['user_id'];
 $user_email = $_POST['user_email'];
+
+
+$services =  $wpdb->get_row("SELECT * FROM wp_services WHERE id = '".$service_id."'");
+$showmarker = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE  email = '".$user_email."' AND service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+
 // echo "SELECT * FROM {$wpdb->prefix}campaigns WHERE admin_approved = 1 AND campaign_typeId IN (" . $id . ")";
 /* if ($id) {
     $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."' AND category_id IN (" . $id . ")", ARRAY_A);
@@ -17,18 +22,78 @@ $user_email = $_POST['user_email'];
 
 $type = $_POST['type'];
 if ($type == 'category') {
-    // echo "SELECT * FROM {$wpdb->prefix}campaigns WHERE admin_approved = 1 AND campaign_typeId IN (" . $id . ")";
-    if ($id) {
-        $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."' AND category_id IN (" . $id . ")", ARRAY_A);
-    } else {
-        $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
+    if((($services->service_status)=='private'))  {    
+        if(($userId == $services->userId) || ($userId == 1)){
+
+            if ($id) {
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."' AND category_id IN (" . $id . ")", ARRAY_A);
+            } else {
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
+            }
+        }
+        elseif(($showmarker != 0)){
+
+            if ($id) {
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE email = '".$user_email."' AND service_id = '".$service_id."' AND category_id IN (" . $id . ")", ARRAY_A);
+            } else {
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE email = '".$user_email."' AND service_id = '".$service_id."'", ARRAY_A);
+            }
+        }else{
+
+            if ($id) {
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."' AND category_id IN (" . $id . ")", ARRAY_A);
+            } else {
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
+            }
+        }
+    }else{
+        if ($id) {
+            $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."' AND category_id IN (" . $id . ")", ARRAY_A);
+        } else {
+            $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
+        }
     }
+
+
+
+
 }else{
+
+    if((($services->service_status)=='private'))  {    
+        if(($userId == $services->userId) || ($userId == 1)){
+
+            if ($id) {
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."' AND request_status IN (" . $id . ")", ARRAY_A);
+            }else{
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
+            }
+        }
+        elseif(($showmarker != 0)){
+
+            if ($id) {
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE email = '".$user_email."' AND service_id = '".$service_id."' AND request_status IN (" . $id . ")", ARRAY_A);
+            }else{
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE email = '".$user_email."' AND service_id = '".$service_id."'", ARRAY_A);
+            }
+
+
+        }else{
+
+            if ($id) {
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."' AND request_status IN (" . $id . ")", ARRAY_A);
+            }else{
+                $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
+            }
+        }
+    }else{
+        
     if ($id) {
         $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."' AND request_status IN (" . $id . ")", ARRAY_A);
     }else{
         $resultscc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id = '".$service_id."'", ARRAY_A);
     }
+    }
+
 }
 
 // return $resultscc;

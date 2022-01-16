@@ -1202,7 +1202,7 @@ function services_manage_add1()
 	<br /><br />
 	<div class="container">	
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-10">
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">Add New Category & Icons</h3>
@@ -1222,7 +1222,7 @@ function services_manage_add1()
 										<div class="form-group">
 											<label>Category Icon</label>
 											<input type ="file" class="form-control"  name="webp_icon" id="webp_icon" >
-											
+											<p style="padding-top: 5px;"><strong>Note:</strong>Please upload icons in png, jpeg, jpg or webp format under 50kb.</p>
 										</div>
 									</div>
 								</div>
@@ -1242,8 +1242,9 @@ function services_manage_add1()
 		</div>
 	</div>
 
-
+	
 	<div class="container refresh_data1">
+	<div class="col-md-10">
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -1314,7 +1315,7 @@ function services_manage_add1()
 
 
 
-	</div>
+	</div></div>
 
 	<?php // popup link
 		add_thickbox(); ?>

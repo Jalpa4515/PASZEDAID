@@ -252,7 +252,14 @@ $userId = $user_ID;
 $user = wp_get_current_user();
 $user_email = $user->user_email;
 
-$resultsdonacc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}services WHERE status != 2 AND is_draft = 0 AND userId = '" . $userId . "' ORDER BY id DESC", ARRAY_A);
+if($userId == "1"){
+    $resultsdonacc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}services WHERE status != 2 AND is_draft = 0  ORDER BY id DESC", ARRAY_A);
+
+}else{
+    $resultsdonacc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}services WHERE status != 2 AND is_draft = 0 AND userId = '" . $userId . "' ORDER BY id DESC", ARRAY_A);
+
+}
+//$resultsdonacc = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}services WHERE status != 2 AND is_draft = 0 AND userId = '" . $userId . "' ORDER BY id DESC", ARRAY_A);
 ?>
 <body>
     <div class="page-wrapper">

@@ -58,4 +58,30 @@ if (empty($results)) {
     
     echo $uid = $results[0]->id;
 }
+  
+$i = 1;
+
+foreach ($_POST['collection_data_tr'] as $value) {
+    // Execute statement:
+   
+$sql = $wpdb->prepare(
+    "UPDATE `wp_fields` SET `sort` = $i WHERE `id` = $value"
+);
+$wpdb->query($sql);
+$i++;
+}
+
+
+
+
+foreach ($_POST['supporter_data_tr'] as $value) {
+    // Execute statement:
+   
+$sql = $wpdb->prepare(
+    "UPDATE `wp_fields` SET `sort` = $i WHERE `id` = $value"
+);
+$wpdb->query($sql);
+$i++;
+}
+
 exit;

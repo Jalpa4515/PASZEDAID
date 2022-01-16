@@ -28,9 +28,12 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <link rel="stylesheet" type="text/css" href="<?php echo bloginfo('template_directory'); ?>/inc/ms-Dropdown-master/dist/css/dd.css" />
+
   <script src="<?php echo bloginfo('template_directory'); ?>/js/jquery.min.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDps_MnqrPbo_tQ1ZqJ60czXZjFaS421co&libraries=places"></script>
   <style>
+    
   .bootbox-body {
     text-align: center;
 }
@@ -169,15 +172,15 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
       margin-top: 0px;
     }
     .radiobtn{
-      width: 8%;
-      font-size: 15px;
-      margin: 0px !important;
-      padding-left: 20px;
-      height: 25px;
-      border-radius: 10px;
-      border: none;
-      background: none;
-      box-shadow:none;
+    width: 8%;
+        font-size: 15px;
+        margin: 0px !important;
+        padding-left: 20px;
+        height: 25px;
+        border-radius: 10px;
+        border: none;
+        background: none;
+        box-shadow:none;
     }
     ul.register-now {
       background: #3D3D8A !important;
@@ -342,18 +345,21 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
       font-family: arial, sans-serif;
       border-collapse: collapse;
       width: 100%;
+      box-shadow: 5px 10px #888888;
     }
+    
+  thead{
+    text-transform: uppercase;
+    background: white;
+    
+  }
     td, th {
       border: 1px solid #dddddd;
       text-align: center;
       padding: 8px;
     }
-    th {
-      background: #9e9e9e6e;
-    }
-    tr {
-      background: #ddd;
-    }
+    
+   
     tr:nth-child(even) {
       background-color: #fff;
     }
@@ -363,6 +369,27 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
     .larges{
      width:75%;
    }
+
+   .select_drop {
+    width: 100%;
+}
+   @media screen and (min-width:770px) {
+  .stats-row {
+    display: inline-flex;
+    width: 100%;
+}
+.label-row {
+    width: 60%;
+}
+.counter-row {
+    width: 40%;
+    padding-left: 15px;
+}
+
+  
+}
+
+
    @media (max-width: 767px) {
        a.btn.btn-default.btn-rounded.mb-4 {
            padding:10px;
@@ -548,6 +575,91 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
       .modal {
         overflow-y:auto;
       }
+    
+      .rdb1 {
+    display: inline-flex;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: none;
+    border: 0;
+    box-shadow: inset 0 0 0 1px #a94442;
+    box-shadow: inset 0 0 0 1.5px pink;
+    appearance: none;
+    margin: 0;
+    transition: box-shadow 150ms cubic-bezier(.95,.15,.5,1.25);
+    pointer-events: none;
+}
+.rdb1:checked {
+    box-shadow: inset 0 0 0 6px black;
+}
+
+
+
+.md-form.mb-5.row-inline {
+    display: inline-flex;
+    width: 100%;
+}
+.row1 {
+    width: 20%;
+}
+.row2 {
+    /* padding-left: 50px; */
+    width: 100%;
+}
+
+label.l-radio {
+    padding: 6px;
+    border-radius: 50px;
+    display: inline-flex;
+    cursor: pointer;
+    transition: background .2s ease;
+    /* margin: 8px 0; */
+    -webkit-tap-highlight-color: transparent;
+}
+label.l-radio:hover {
+    background: #eee;
+}
+
+
+label.l-radio:focus-within {
+    background: #eee;
+}
+
+.span1{
+  vertical-align: middle;
+    display: inline-block;
+    line-height: 20px;
+    padding: 0 8px;
+}
+
+
+/* category icon */
+.ms-dd .ms-list-option.option-selected, .ms-dd .ms-optgroup ul .ms-list-option.option-selected {
+    background: #ffffff !important;
+}
+.ms-dd .ms-value-input {
+    top: 0px !important;
+}
+.ms-dd .ms-dd-header .option-selected {
+
+    padding: 10px !important;
+border-radius: 10px !important;
+  
+}
+.ms-dd.ms-pr {
+    margin-bottom: 10px !important;
+    width: 80% !important;
+}
+.ms-dd {
+    border-radius: 10px !important;
+box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
+}
+.ms-dd .ms-dd-header {
+    border: 0px solid #ccc !important;
+  
+}
 </style>
 </head>
 <body>
@@ -589,7 +701,16 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
         <div class="col-lg-12 regform">
           <form id="regform" method="post" class="tp-accountWrapper" action="<?=BASE_URL?>editservicedata.php" novalidate="novalidate" enctype="multipart/form-data">
           <input type="hidden" id="service_id" name="service_id" value="<?= $service_id;?>" >
+          <div class="col-lg-12 col-md-12 col-12 valid" style="padding:0px;">
+              <p class="valid">
+              <p> Your sevice would be ?</p>
+                  <label class="l-radio"><input type="radio" id="radio" class="radio radiobtn rdb1" name="service_status" value="public" <?php if($services->service_status=="public") echo 'checked="checked"'; ?>><span class="span1">Public</span></label>
+                 <label class="l-radio">  <input type="radio" id="radio" class="radio radiobtn rdb1" name="service_status" value="private" <?php if($services->service_status=="private") echo 'checked="checked"'; ?>><span class="span1">Private</span></label>
+              </p>  
+          </div>
+         
             <div class="col-lg-12 col-md-12 col-12 valid" style="padding:0px;">
+           
               <p>Service Name</p>
               <input placeholder="Service Name" 
               id="service_name" name="service_name" value="<?= $services->service_name;?>" >
@@ -615,6 +736,114 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
               </div>
             </p>
           </div>
+         <!-- <hr style="border-top: 2px dashed black;" />
+          <div class="col-lg-12 col-md-12 col-12 valid">
+        <p style="text-align: center;font-size:18px;">Service Legends</p>
+        <div class="md-form mb-5">
+            <p>Service Label</p>
+            <input type="text" id="status_label1" class="" name="status_label1" placeholder="Service is open" value="<?= $services->status_label1;?>" maxlength="100">
+        </div>
+        <div class="md-form mb-5">
+            <p>Response Label</p>
+            <input type="text" id="status_label2" class="" name="status_label2" placeholder="Responder has responded on Service." value="<?= $services->status_label2;?>" maxlength="100">
+        </div>
+        <div class="md-form mb-5">
+            <p>Service Close Label</p>
+            <input type="text" id="status_label3" class="" name="status_label3" placeholder="Service is Closed" value="<?= $services->status_label3;?>" maxlength="100">
+        </div>
+
+    </div>-->
+
+
+    <div class="col-lg-12 col-md-12 col-12 valid">
+     <div>
+       <h3>Would you like to show statistics on banner?</h3>
+      <p> Please check the box for custom Statistics</p>
+        <label class="l-radio"><input type="radio" id="radioyes"  class="radio radiobtn rdb1" name="stats_check" value="1" <?php if($services->stats_check=="1") echo 'checked="checked"'; ?>><span class="span1">YES</span></label>
+        <label class="l-radio">  <input type="radio" id="radiono" class="radio radiobtn rdb1" name="stats_check" value="0" <?php if($services->stats_check=="0") echo 'checked="checked"'; ?>><span class="span1">NO</span></label>
+    </div></br>
+      
+        <div class="md-form mb-5 stats-row">
+          <div class="label-row"><p>Total Services Label</p>
+            <input type="text" id="banner_label1" class="" name="banner_label1" placeholder="Total Services" maxlength="100" value="<?= $services->banner_label1;?>" disabled="disabled"></div>
+            <div class="counter-row">
+            <p>Select field for counter</p>
+        <select class="select_drop phonedropdown" id="select_drop1" name="select_drop1" disabled="disabled">
+          <option>Select any field</option>
+        </select>
+          
+            </div>
+          </div> <hr mb=2>
+        <div class="md-form mb-5 stats-row">
+           <div class="label-row"><p>Total Supports Label</p>
+            <input type="text" id="banner_label2" class="" name="banner_label2" placeholder="Total Supports" maxlength="100" value="<?= $services->banner_label2;?>" disabled="disabled"></div> 
+            <div class="counter-row"><p>Select field for counter</p>
+            <select class="select_drop phonedropdown" id="select_drop2" name="select_drop2" disabled="disabled">
+            <option>Select any field</option>
+            </select>
+         </div>
+            </div><hr mb=2>
+        <div class="md-form mb-5 stats-row">
+          <div class="label-row"><p>Total Closed Services Label</p>
+            <input type="text" id="banner_label3" class="" name="banner_label3" placeholder="Total Closed Services" maxlength="100" value="<?= $services->banner_label3;?>" disabled="disabled"></div>
+            <div class="counter-row">  <p>Select field for counter</p>
+            <select class="select_drop phonedropdown" id="select_drop3" name="select_drop3" disabled="disabled">
+            <option>Select any field</option>
+            </select>
+          </div>
+          </div>
+
+
+          <script type="text/javascript">
+            $(document).ready(function (){
+
+              $("input[name='stats_check']").ready(function () {
+                if ($("#radioyes").is(":checked")) {
+                $("#banner_label1").removeAttr("disabled");
+                $("#banner_label2").removeAttr("disabled");
+                $("#banner_label3").removeAttr("disabled");
+                $("#select_drop1").removeAttr("disabled");
+                $("#select_drop2").removeAttr("disabled");
+                $("#select_drop3").removeAttr("disabled");
+               // $("#txtPassportNumber").focus();
+            } else {
+               // $("#txtPassportNumber").attr("disabled", "disabled");
+                $("#banner_label1").attr("disabled", "disabled");
+                $("#banner_label2").attr("disabled", "disabled");
+                $("#banner_label3").attr("disabled", "disabled");
+                $("#select_drop1").attr("disabled", "disabled");
+                $("#select_drop2").attr("disabled", "disabled");
+                $("#select_drop3").attr("disabled", "disabled");
+            }
+        
+    });
+              
+        $("input[name='stats_check']").click(function () {
+            if ($("#radioyes").is(":checked")) {
+                $("#banner_label1").removeAttr("disabled");
+                $("#banner_label2").removeAttr("disabled");
+                $("#banner_label3").removeAttr("disabled");
+                $("#select_drop1").removeAttr("disabled");
+                $("#select_drop2").removeAttr("disabled");
+                $("#select_drop3").removeAttr("disabled");
+               // $("#txtPassportNumber").focus();
+            } else {
+               // $("#txtPassportNumber").attr("disabled", "disabled");
+                $("#banner_label1").attr("disabled", "disabled");
+                $("#banner_label2").attr("disabled", "disabled");
+                $("#banner_label3").attr("disabled", "disabled");
+                $("#select_drop1").attr("disabled", "disabled");
+                $("#select_drop2").attr("disabled", "disabled");
+                $("#select_drop3").attr("disabled", "disabled");
+            }
+        
+    });
+
+            });
+    
+</script>
+
+    </div>
 
           <script>
         document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
@@ -707,7 +936,7 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
                 <?php 
                 $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE status = 1", ARRAY_A); 
                 ?>
-                <div class="md-form mb-5">
+               <!-- <div class="md-form mb-5">
                   <p>Icon</p>
                 </div>
                 <div class="md-form mb-5">
@@ -722,23 +951,43 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
                 <div class="md-form mb-5">
                   <p>Category Name</p>
                   <input type="text" id="category_name" class="" name="category_name">
-                </div>
+                </div>-->
+
+                <div class="md-form mb-5 row-inline">
+                        <div class="row1">
+                       <p>Category Icon</p>
+                        <select name="icon_id" id="icon_id" is="ms-dropdown" class="phonedropdown drp" style="margin-bottom: 10px; width: 40%;" onchange="getImg()">
+                             
+                        <?php foreach($icons as $v){?>
+                          <option data-thumbnail="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>" data-image="<?= BASE_URL ?>icon-mappin/<?= $v['icon'];?>" value="<?= $v['id'];?>"></option>
+                                  <?php } ?>
+                              </select></div>
+                              <div class="row2">
+                              <p>Category Name</p>
+                            <input type="text" id="category_name" class="" name="category_name" maxlength="50">
+                              </div>
+
+                        </div>
+
+
+
+
                 <div class="md-form mb-5">
                   <div class="licause" style="display: inline-flex;align-items: baseline;">
                     <p>Data Collection Fields</p>
                     <a href="" class="btn btn-default btn-rounded mb-4 add" id="add_collection_fields" data-toggle="modal" data-target="#modalSubscriptionForms" onclick="submitCat();">ADD</a>
                   </div>
                 </div>
-                <table id="data_collection">
-                  <tbody><tr id="data_collection_tr">
+                <table id="data_collection" class="table table-striped">
+                  <thead><tr id="data_collection_tr">
                     <th>Field Name</th>
                     <th>Type</th>
                     <th>ACTION</th>
-                  </tr>
+                  </tr></thead><tbody>
                   <tr class="collection_tr">
                     <td colspan="3">No collection fields Added</td>
                   </tr>
-                </tbody></table>
+                  </tbody></table>
                 <div class="md-form mb-5" style="display: inline-flex;margin-top: 10px;">
                   <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"> <p>Should support required on request?</p>                                
                 </div>
@@ -748,16 +997,16 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
                     <a href="#modalSubscriptionForms1" class="btn btn-default btn-rounded mb-4 add" data-toggle="modal" onclick="submitCat();">ADD</a>
                   </div>
                 </div>
-                <table id="request_frm">
-                  <tbody><tr>
+                <table id="request_frm" class="table table-striped">
+                  <thead><tr>
                     <th>Field Name</th>
                     <th>Type</th>
                     <th>ACTION</th>
-                  </tr>
+                  </tr></thead><tbody>
                   <tr class="supporter_tr">
                     <td colspan="3">No supporter fields Added</td>
-                  </tr>
-                </tbody></table>        
+                  </tr></tbody>
+                </table>        
               </div>      
               <div class="modal-footer d-flex justify-content-center">
                 <button class="btn btn-indigo" type="button" onclick="showcategorytbl();" data-dismiss="modal" aria-label="Close">Submit</button>
@@ -775,7 +1024,7 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
           <!--data-toggle="modal" data-target="#modalSubscriptionForm"-->
         </div>
       </div>
-      <table id="category_table">
+      <table id="category_table" class="table table-striped">
         <tbody><tr>
           <th>Icon</th>
           <th>Category Name</th>
@@ -996,7 +1245,9 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
   <!-- Custom script for this template -->
   <script src="<?php echo bloginfo('template_directory'); ?>/js/script.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
-  <script>
+  <script src="<?php echo bloginfo('template_directory'); ?>/inc/ms-Dropdown-master/dist/js/dd.min.js"></script>
+
+ <script>
     // document.querySelector(".numberic_class").addEventListener("keypress", function (evt) {
     //     if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
     //     {
@@ -1386,6 +1637,18 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
           success: function(response)
           {
               jQuery('.collection_tr').css('display', 'none');
+
+
+              var select = "<option value="+ response +">"+field_name+"</option>";
+            
+
+            // var select = '<option value=custom_field_name1>'+field_name+'</option>';
+  
+  
+               $('#select_drop1').append(select);
+               $('#select_drop2').append(select);
+               $('#select_drop3').append(select);
+
               
               if(edit_collection_id == ''){
                   var tr = '<tr class="collection_data_tr" id="collection_data_tr_'+response+'"><td>'+field_name+'</td><td>'+field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+response+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i><i class="fas fa-trash" onclick="deletecollection('+response+')></i></td></tr>';
@@ -1436,6 +1699,9 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
               $("#field_name").val(data.field_name);
               $("#field_type").val(data.field_type);
               $("#ordering").val(data.ordering);
+
+
+              
           }
       });
     }
@@ -1575,6 +1841,12 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
                 console.log( "Key: " + key + ", Value: " + val.id );
                 var tr = '<tr class="collection_data_tr" id="collection_data_tr_'+val.id+'"><td>'+val.field_name+'</td><td>'+val.field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+val.id+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i><i class="fas fa-trash" onclick="deletecollection('+val.id+')></i></td></tr>';
                 $('#data_collection').append(tr);
+
+
+                var select = "<option value="+ val.id +">"+val.field_name+"</option>";
+                $('#select_drop1').append(select);
+             $('#select_drop2').append(select);
+             $('#select_drop3').append(select);
               });
 
               $.each(array1,function(key1,val1){

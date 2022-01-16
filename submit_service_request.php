@@ -1,8 +1,8 @@
 <?php
 require_once('wp-config.php');
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(0);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(0);
 global $wpdb;
 $userId = $_POST['userId'];
 $category_id = $_POST['hidcategoryId'];
@@ -101,7 +101,7 @@ $message2 = str_replace('{{ADDRESS}}', $address , $message2);
 $message2 = str_replace('{{DESCRIPTION}}', $description , $message2);
 $message2 = str_replace('{{LINK}}', $link , $message2);
 $message2 = str_replace('{{DF}}', "", $message2);
-//wp_mail($to, $subject, $message2, $headers);
+wp_mail($to, $subject, $message2, $headers);
 
 /* Owner */
 $user_id = $services->userId;
@@ -132,7 +132,7 @@ $message1 = str_replace('{{ADDRESS}}', $address , $message1);
 $message1 = str_replace('{{DESCRIPTION}}', $description , $message1);
 $message1 = str_replace('{{LINK}}', $link , $message1);
 $message1 = str_replace('{{DF}}', "", $message1);
-//wp_mail($to1, $subject1, $message1, $headers1);
+wp_mail($to1, $subject1, $message1, $headers1);
 
 /* Admin */
 $admin_email = get_option( 'admin_email' );
@@ -164,7 +164,8 @@ $message0 = str_replace('{{ADDRESS}}', $address , $message0);
 $message0 = str_replace('{{DESCRIPTION}}', $description , $message0);
 $message0 = str_replace('{{LINK}}', $link , $message0);
 $message0 = str_replace('{{DF}}', "", $message0);
-//wp_mail($to0, $subject0, $message0, $headers0);
+wp_mail($to0, $subject0, $message0, $headers0);
 
-echo $last_status_updated_id;
+//echo $last_status_updated_id;
+echo 'true';
 exit;

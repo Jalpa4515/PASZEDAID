@@ -41,6 +41,25 @@ if (empty($edit_collection_id)) {
 }
 
 echo $last_status_updated_id;
+
+
+
+/*
+
+
+$i = 0;
+
+foreach ($_POST['item'] as $value) {
+    // Execute statement:
+   
+$sql = $wpdb->prepare(
+    "UPDATE `wp_fields` SET `sort` = $i WHERE `id` = $value"
+);
+$wpdb->query($sql);
+$i++;
+}
+
+*/
 /* }else{
     echo $uid = $results[0]->id;
 } */

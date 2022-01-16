@@ -14,8 +14,55 @@ $statistics_on_banner = $_POST['statistics_on_banner'];
 $status_label1 = $_POST['status_label1'];
 $status_label2 = $_POST['status_label2'];
 $status_label3 = $_POST['status_label3'];
+$banner_label1 = $_POST['banner_label1'];
+$banner_label2 = $_POST['banner_label2'];
+$banner_label3 = $_POST['banner_label3'];
+$select_drop1 = $_POST['select_drop1'];
+$select_drop2 = $_POST['select_drop2'];
+$select_drop3 = $_POST['select_drop3'];
+$stats_check = $_POST['stats_check'];
 
-$request_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE category_id = '".$category_id."' AND type = 'request'");
+/*
+$sort_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE sort = NULL AND category_id = '".$category_id."' AND type = 'request' ORDER BY sort ASC");
+$i = 1;
+foreach($sort_fields as $s){
+    $id1 = $s['id'];
+    $sql = $wpdb->prepare(
+        "UPDATE `wp_fields` SET `sort` = $i WHERE `id` = $id1"
+    );
+    $wpdb->query($sql);
+    $i++;
+}
+*/
+
+
+
+
+
+//if (empty($results)) {
+    $sort_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE sort  IS NULL AND type='request' AND  category_id = '".$category_id."' ORDER BY id ASC");
+
+//}else{
+   // $sort_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE sort  IS NULL AND type='request' AND   category_id = '".$category_id."' ORDER BY id ASC");
+
+//}
+
+
+if(!empty($sort_fields)){
+    $i = 1;
+    foreach($sort_fields as $s){
+        
+        $sql = $wpdb->prepare(
+            "UPDATE `wp_fields` SET `sort` = $i WHERE `id` = $s->id"
+        );
+        $wpdb->query($sql);
+        $i++;
+    } 
+
+}
+
+
+$request_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE category_id = '".$category_id."' AND type = 'request' ORDER BY sort ASC");
 $arr = array();
 if(!empty($request_fields)){
     $i = 1;
@@ -43,7 +90,7 @@ $wpdb->insert('wp_request_fields', array(
     'updated_at' => date("Y-m-d H:i:s"),
 ));
 
-$support_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE category_id = '".$category_id."' AND type = 'support'");
+$support_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE category_id = '".$category_id."' AND type = 'support' ORDER BY sort ASC");
 $arr_support = array();
 if(!empty($support_fields)){
     $i = 1;
@@ -68,8 +115,24 @@ $wpdb->insert('wp_support_fields', array(
     'updated_at' => date("Y-m-d H:i:s"),
 ));
 
-$resultsc = $wpdb->get_results("UPDATE wp_services SET is_draft = 0, admin_approved=0, enable_statistics = '".$statistics_on_banner."', status_label1 = '".$status_label1."', status_label2 = '".$status_label2."', status_label3 = '".$status_label3."'  WHERE id =" . $service_id);
+$resultsc = $wpdb->get_results("UPDATE wp_services SET is_draft = 0, admin_approved=0, enable_statistics = '".$statistics_on_banner."', status_label1 = '".$status_label1."', status_label2 = '".$status_label2."', status_label3 = '".$status_label3."', banner_label1 = '".$banner_label1."', banner_label2 = '".$banner_label2."', banner_label3 = '".$banner_label3."', stats_check = '".$stats_check."', count1 = '".$select_drop1."', count2 = '".$select_drop2."', count3 = '".$select_drop3."'  WHERE id =" . $service_id);
+
+
 $wpdb->get_results("UPDATE wp_service_categories SET is_draft = 0 WHERE id =" . $service_id);
+
+
+
+$count_fields =  $wpdb->get_results("SELECT * FROM wp_counter_fields WHERE category_id =".$category_id);
+
+    //$i = 1;
+  //  foreach($count_fields as $c){
+        $sql = $wpdb->prepare(
+            "UPDATE `wp_counter_fields` SET `service_id` = $service_id WHERE `id` = $count_fields->id"
+        );
+        $wpdb->query($sql);
+    //    $i++;
+ //   } 
+
 
 $users = get_user_by('id',$userId);
 $user_email = $users->user_email;

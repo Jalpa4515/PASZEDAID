@@ -18,6 +18,8 @@ foreach($arr as $r){
         $html .= '<input type="text" id="'.$r['table_field_name'].'" value="" name="'.$r['table_field_name'].'" placeholder="Enter '.$r['display_name'].'" maxlength="50" class="form-control">';
     }else if($r['field_type'] == 'Multiline Text'){
         $html .= '<textarea id="'.$r['table_field_name'].'" name="'.$r['table_field_name'].'" class="form-control" maxlength="100"></textarea>';
+    }else if($r['field_type'] == 'Number'){
+        $html .= '<input type="number" id="'.$r['table_field_name'].'" value="" name="'.$r['table_field_name'].'" placeholder="Enter '.$r['display_name'].'" maxlength="10" class="form-control">';
     }else if($r['field_type'] == 'Single Check'){
         $html .= '<br>';
         $options = $r['options'];

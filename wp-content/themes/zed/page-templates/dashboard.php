@@ -7,6 +7,8 @@ error_reporting(0);
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */
+get_header();
+
 global $wpdb, $user_ID;
 
 if (!$user_ID) {
@@ -52,12 +54,180 @@ $userId = $user_ID;
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap.min.js"></script>
     
     <style>
+
+        /*******************************
+    * MODAL AS LEFT/RIGHT SIDEBAR
+    * Add "left" or "right" in modal parent div, after class="modal".
+    * Get free snippets on bootpen.com
+    *******************************/
+    .modal{z-index: 999999 !important;}
+    .modal.left .modal-dialog,
+    .modal.right .modal-dialog {
+        position: fixed;
+        margin: auto;
+        width: 55%;
+        height: 100%;
+        -webkit-transform: translate3d(0%, 0, 0);
+        -ms-transform: translate3d(0%, 0, 0);
+        -o-transform: translate3d(0%, 0, 0);
+        transform: translate3d(0%, 0, 0);
+    }
+
+    .modal.left .modal-content,
+    .modal.right .modal-content {
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .modal.left .modal-body,
+    .modal.right .modal-body {
+        padding: 15px 15px 80px;
+    }
+
+    /*Right*/
+    .modal.right.fade .modal-dialog {
+        right: -320px;
+        -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+        transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+    .modal.right.fade.in .modal-dialog {
+        right: 0;
+    }
+
+
+    /* ----- MODAL STYLE ----- */
+    .modal-content {
+        border-radius: 0;
+        border: none;
+    }
+    .modal-header {
+        border-bottom-color: #EEEEEE;
+        background-color: #FAFAFA;
+    }
+
+    /* Style the tab */
+    .tab {
+    float: left;
+    /* border: 1px solid #ccc; */
+    background-color: #f1f1f1;
+    width: 30%;
+    height: 300px;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+    background-color: #ddd;
+    }
+
+    /* Create an active/current "tab button" class */
+    .tab button.active {
+    background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        float: left;
+        padding: 0px 16px;
+        /* border: 1px solid #ccc; */
+        /* width: 70%; */
+        border-left: none;
+        height: 300px;
+        padding-top: 25px;
+        width: 100%;
+    }
+    .tabcontent1{
+        float: left;
+        padding: 0px 16px;
+        /* border: 1px solid #ccc; */
+        /* width: 70%; */
+        border-left: none;
+        height: 300px;
+        padding-top: 25px;
+        width: 100%;
+    }
+    .modal-body {
+        padding: 0px !important;
+    }
+ .sidenav {
+        display: block;
+    }
+        
+    /* sidebar */
+    /* Fixed sidenav, full height */
+    .sidenav {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    margin-top: -10px;
+    /* z-index: 1; */
+    top: 57;
+    left: 0;
+    background-color: #FAFAFA;
+    overflow-x: hidden;
+    padding-top: 20px;
+    min-height: 600px;
+    }
+
+    /* Style the sidenav links and the dropdown button */
+    .sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    color: #818181;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    }
+
+    /* On mouse-over */
+    .sidenav a:hover {
+    color: white;
+    }
+
+    .sidenav a:active {
+    color: white !important;
+    }
+
+    .sidenav #nav-icon{
+        display:none;
+    }
+    .col-md-2 {
+    width: 20%;
+}
+    /* Some media queries for responsiveness */
+    @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
+        
+    }
         * {
             box-sizing: border-box
         }
 
         body {
             font-family: "Lato", sans-serif;
+            padding-right: 0px !important;
         }
 
         /* Style the tab */
@@ -79,9 +249,20 @@ $userId = $user_ID;
             font-size: 25px;
         }
 
+        .section-head{
+            text-align: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+    padding: 30px 40px;
+    color: #2c2c2c;
+  background-color: #d5d5d5;
+  letter-spacing: .05em;
+  text-shadow: 4px 4px 0px #d5d5d5, 7px 7px 0px rgba(0, 0, 0, 0.2);
+        }
+
         .section-pad {
-            padding: 20px 0;
-            min-height: 800px;
+            padding: 100px 0 0 0;
+            min-height: 400px;
         }
 
         /* Style the buttons inside the tab */
@@ -132,7 +313,7 @@ $userId = $user_ID;
         /* Style the tab content */
         .tabcontent {
             float: left;
-            padding: 10px 12px 10px 160px;
+            padding: 50px 10px 10px 10px;
             border: none;
             width: 100%;
             border-left: none;
@@ -159,19 +340,101 @@ $userId = $user_ID;
         .licause a {
             color: #fff !important;
         }
+
+        .enquire-btn {
+        text-transform: uppercase;
+        transform: rotate(-90deg);
+        transform-origin: center;
+        height: 45px;
+        top: 63%;
+        right: -56px;
+        margin: auto 0;
+        width: 150px;
+        position: fixed;
+        z-index: 99999;
+    }
+
         @media (min-width: 1200px){
             .container {
-                width: 104%;
+                width: 100%;
             }
         }
         @media (min-width: 992px){
+            .tp-blog-sidebar{
+                padding-right: 0px;
+            }
+           
+            .tp-blog-sidebar .category-widget ul>li+li {
+   
+   margin: 0 5px; 
+}
             .col-md-8 {
                 width: 59.666667%;
             }
+            
+            
+            .widget3{
+                width:40%;
+            }
+
+
+           .count1-sidebar{
+
+            display: inline-flex;
+            align-items: flex-end;
+            margin-top: -10%;
+            }
         }
         @media (max-width: 768px){
+
+            .col-md-2 {
+    width: 100%;
+}
+            .font1{
+                font-size: 20px;
+                padding-top: 15px;
+            }
+            button.tablinks.bod {
+    width: 80px !important;
+}
+            .tp-blog-sidebar.col-md-12.count1-sidebar {
+    padding: 0px;
+}
+           
+            .enquire-btn {
+            text-transform: uppercase;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 94% !important;
+            text-align: center;
+            padding: 10px;
+            transform: rotate(0deg) !important;
+            width: 45%;
+        }
+
+      
+            input#submit {
+    max-width: 100% !important;
+}
+            .tp-blog-sidebar>.widget+.widget {
+    margin-top: 20px;
+}
+
+            .cause-text ul li a {
+        
+            width: 250px;
+        }
+        a.dbtn {
+    width: 250px !important;
+}
+        .copy-link{
+            width: 60px !important;
+        }
+
+
         .tab {
-    
         width: 120%;
         margin: 20px 50px 0px 50px;
         position: unset;
@@ -194,12 +457,12 @@ $userId = $user_ID;
             border: none;
             background: #fff;
             box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%);
-            width:100%;
+            width:100% !important;
         }
         
         .tp-blog-sidebar .widget {
-            margin: 0px 15px;
-            width: 136%;
+            margin: 0px 0px;
+            width: 100%;
         }
         .tab button{
             margin:20px;
@@ -286,6 +549,7 @@ a#decline_btn {
             font-weight: 500;
             box-shadow: 0 0 7px #ffffff;
             width: 400px;
+            text-align: center;
         }
         .preloader1 {
           background-color: rgba(255,255,255,0.7);
@@ -294,11 +558,9 @@ a#decline_btn {
           position: fixed;
           z-index: 1000;
         }
-        .col-md-2 {
-    width: 20%;
-}
+    
         .dashdropdown {
-        width: 85% !important;
+        width: 100% ;
         }
 
           /* Piyush */
@@ -439,23 +701,14 @@ a#decline_btn {
     <?php
     if ($results) {
         ?>
-        <div class="tab">
-            <p><a href="<?= BASE_URL ?>"><img src="<?php echo bloginfo('template_directory'); ?>/images/zed.png" width="50" class="margin-5" alt=""></a> </p>
-            <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen"><img src="<?php echo bloginfo('template_directory'); ?>/images/d1.png" width="80" alt=""></button>
-            <p class="cols">Overview</p>
-            <button class="tablinks" onclick="openCity(event, 'Tokyo')"><img src="<?php echo bloginfo('template_directory'); ?>/images/d3.png" width="80" alt=""></button>
-            <p class="cols">Withdraw</p>
-            <button class="tablinks" onclick="openCity(event, 'usa')"><img src="<?php echo bloginfo('template_directory'); ?>/images/d4.png" width="80" alt=""></button>
-            <p class="cols">Donations</p>
-            
-        </div>
-        <div id="London" class="tabcontent">
+        
+       
             <section class="tp-blog-single-section section-pad" style="background: #eee;">
+            <h2 class="section-head">DASHBOARD</h2>
                 <div class="container">
-
                     <div class="row">
-                        <div class="col-lg-8 col-md-4 col-8">
-                            <p>
+                        <div class="col-lg-7 col-md-4 col-8 ">
+                           
                                 <select name="individual_person" id="individual_person" class="dashdropdown drp fundlist">
 
                                     <?php
@@ -485,12 +738,7 @@ a#decline_btn {
                                         location.href = newurl;
                                     });
                                 </script>
-
-                            </p>
-                        </div>
-
-                        <div class="col-md-8 col-sm-6 col-12">
-                            <div class="tp-blog-sidebar">
+                                <div class="tp-blog-sidebar">
                                 <div class="widget category-widget">
                                     <div class="progress-section pbar">
                                         <div class="process">
@@ -523,23 +771,23 @@ a#decline_btn {
                                     </div>
                                 </div>                                
                             </div>
-                            <div class="tp-blog-sidebar col-md-12" style="display: inline-flex;
-                                align-items: flex-end;margin-top: -10%;">
+                            
+                            <div class="tp-blog-sidebar col-md-12 count1-sidebar" >
                                 <div class="widget category-widget col-md-4" style="display:inline-flex;margin-right: 10px;">
                                     <div style="float:left">
                                         <button style="width:50px" class="tablinks bod"><img src="<?php echo bloginfo('template_directory'); ?>/images/view.png" alt="">
                                         </button>
                                     </div>
-                                    <div style="float:right;text-align: center;col-md-4"> <?= count($resultsipa); ?> views Today </div>
+                                    <div class="font1" style="float:right;text-align: center;col-md-4"> <?= count($resultsipa); ?> views Today </div>
                                 </div>
                                 <div class="widget category-widget" style="display:inline-flex;margin-right: 10px;">
                                     <div style="float:left;">
                                         <button style="width:50px" class="tablinks bod"><img src="<?php echo bloginfo('template_directory'); ?>/images/zero.png" alt="">
                                         </button>
                                     </div>
-                                    <div style="float:right;text-align: center !important;col-md-4"> <?php echo $currency; ?> <?= $achieve_amountc; ?> Raised today </div>
+                                    <div class="font1" style="float:right;text-align: center !important;col-md-4"> <?php echo $currency; ?> <?= $achieve_amountc; ?> Raised today </div>
                                 </div>
-                                <div class="widget category-widget" style="display:inline-flex;width:40%">
+                                <div class="widget category-widget widget3" style="display:inline-flex;">
                                     <div style="float:left">
                                         <button style="width:50px" class="tablinks bod"><img src="<?php echo bloginfo('template_directory'); ?>/images/users.png" alt="">
                                         </button>
@@ -552,15 +800,78 @@ a#decline_btn {
                                         } else {
                                             $donn = count($resultsdona);
                                         }                                   ?>
-                                    <div style="float:right;text-align: center;"> <?php echo $donn; ?> <br>Total Donors </div>
+                                    <div  class="font1" style="float:right;text-align: center;"> <?php echo $donn; ?> <br>Total Donors </div>
                                 </div>
-                            </div>                            
-                            <div class="tp-blog-sidebar">
-                                
-                            </div>
+                            </div> 
+
+
+
                         </div>
-                        <div class="col-md-4 col-sm-6 col-12">
+
+                        <div class="col-lg-5 col-md-6 col-4  ">
+                      
                             <div class="tp-blog-sidebar">
+                                <div class="widget category-widget">
+                                    <div>
+                                        <p style="color:#000;font-weight:400;text-align:center">TOTAL RAISED</p>
+                                        <p style="color:#000;font-weight:600;text-align:center">RS. 0</p>
+                                    </div>
+                                    <div>
+                                        <p style="color:#000;font-weight:400;text-align:center;margin-top:30px">See the Funds breakup in the
+                                            <br><span style="color:#3D3D8A;font-weight:600;">Funds Summary</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p style="color:#000;font-weight:400;text-align:center;margin-top:30px">To withdraw please add bank details of
+                                            <br>the beneficiary.</p>
+                                    </div>
+                                    <div class="comment-respond" style="margin-top:30px">
+                                        <p style="color:#3D3D8A;font-weight:600;text-align:center">Please enter your Account Number
+                                        </p>
+                                        <form method="post" id="commentform" class="comment-form">
+                                            <div class="form-inputs" style="text-align:center">
+                                                <input placeholder="Account Number" type="text" style="float:none;text-align:center">
+                                            </div>
+                                            <div class="form-submit" style="text-align:center">
+                                                <input id="submit" value="Add Beneficiary Documents" type="submit" style="max-width: 50%;float:none;text-align:center">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </section>
+
+            <div class="text-center">
+            <button type="button" id="links" class="btn enquire-btn" data-toggle="modal" data-target="#myModal2" style="background: #3d3d8a; color: white;">
+                Social Share
+            </button>
+        </div>
+
+        <!-- Usefull Links Modal -->
+        <div class="modal right fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel2"><b>Social Share</b></h4>
+                    </div>
+
+                    <div class="modal-body">
+                        
+                        <!-- <div class="tab">
+                        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
+                        <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+                        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+                        </div> -->
+
+                        <button class="tablinks" style="display:none;" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
+                        
+                        <div class="sidenav">
+                            
+                        <div class="tp-blog-sidebar">
                                 <div class="widget category-widget">
                                     <div>
                                         <p style="color:#000;font-weight:600">SHARE</p>
@@ -615,124 +926,23 @@ a#decline_btn {
                                 </div>
                             </div>
                         </div>                        
-                        <!-- <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                            <div class="tp-blog-sidebar">
-                                <div class="widget category-widget" style="display:inline-flex">
-                                    <div style="float:left">
-                                        <button style="width:60px" class="tablinks bod"><img src="<?php echo bloginfo('template_directory'); ?>/images/view.png" alt="">
-                                        </button>
-                                    </div>
-                                    <div style="float:right;text-align: center;"> <?= count($resultsipa); ?> views Today </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                            <div class="tp-blog-sidebar">
-                                <div class="widget category-widget" style="display:inline-flex">
-                                    <div style="float:left;">
-                                        <button style="width:60px" class="tablinks bod"><img src="<?php echo bloginfo('template_directory'); ?>/images/zero.png" alt="">
-                                        </button>
-                                    </div>
-                                    <div style="float:right;text-align: center !important;"> <?php echo $currency; ?> <?= $achieve_amountc; ?> Raised today </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
-                            <div class="tp-blog-sidebar">
-                                <div class="widget category-widget" style="display:inline-flex">
-                                    <div style="float:left">
-                                        <button style="width:60px" class="tablinks bod"><img src="<?php echo bloginfo('template_directory'); ?>/images/users.png" alt="">
-                                        </button>
-                                    </div>
-                                    <?php
-                                        if ($res->id == 24) {
-                                            $donn = 5;
-                                        } else if ($res->id == 25) {
-                                            $donn = 2;
-                                        } else {
-                                            $donn = count($resultsdona);
-                                        }                                   ?>
-                                    <div style="float:right;text-align: center;"> <?php echo $donn; ?> <br>Total Donors </div>
-                                </div>
-                            </div> -->
-                        </div>
                     </div>
+                        </div>
 
-                </div>
-            </section>
+                        
+                       
 
+                    </div>
+                </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
         </div>
-        <div id="Paris" class="tabcontent">
-            <section class="tp-blog-single-section section-pad" style="background: #eee;">
+        <!-- modal -->
+        
+            <!--<section class="tp-blog-single-section section-pad" style="background: #eee;">
+           
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-5 col-md-6 col-sm-6 col-12">
-                            <div class="tp-blog-sidebar">
-                                <div class="widget category-widget">
-                                    <div>
-                                        <p style="color:#000;font-weight:600">SHARE</p>
-                                    </div>
-                                    <div style="border:1px solid #ccc;border-radius:10px; padding:10px;">
-                                        <p style="color:#3D3D8A;font-weight:600"> Fundraising Tip:</p>
-                                        <p style="color:#000;">You are more likely to raise funds by sharing your fundraiser on Whatsapp</p>
-                                    </div>
-                                    <div class="cause-text">
-                                        <ul style="margin-top: 0px;">
-                                            <li><a style="background-color:#25d366" href="https://web.whatsapp.com/send?text=<?php echo $shareurl; ?>" target="_blank"><i class="fab fa-whatsapp ff"></i>Share On Whatsapp</a></li>
-                                        </ul>
-                                        <ul style="margin-top: 0px;">
-                                            <li class=""><a style="background-color:#3b5998" href="https://www.facebook.com/sharer.php?u=<?php echo $shareurl; ?>/" target="_blank"><i class="fab fa-facebook ff"></i>Share On Facebook</a></li>
-                                        </ul>
-                                        <!-- <ul style="margin-top: 0px;">
-                                            <li class=""><a style="background-color:#0078ff" href="#"><i class="fab fa-facebook-messenger ff"></i>Share On Messenger</a></li>
-                                        </ul> -->
-                                        <ul style="margin-top: 0px;">
-                                            <li class=""><a style="background-color:#1da1f2" href="https://twitter.com/share?url=<?php echo $shareurl; ?>/&amp;text=<?php echo $fundtitle; ?>" target="_blank"><i class="fab fa-twitter ff"></i>Share On Twitter</a></li>
-                                        </ul>
-                                        <ul style="margin-top: 0px;">
-                                            <li class=""><a style="background-color:#be362b" href="mailto:?subject=Your Subject&amp;body=Check out this fundraiser <?php echo $shareurl; ?>." target="_blank"><i class="far fa-envelope ff"></i>Share Via E-mail</a></li>
-                                        </ul>
-                                        <ul style="margin-top: 0px;">
-                                            <input type="text" style="display:none;" id="myInput" value="<?php echo $shareurl; ?>">
-                                            <p id="p1" style="display:none;"><?php echo $shareurl; ?></p>
-                                            <li class=""><a style="color: #000;background: #fff;border: 2px solid #444;" href="javascript:void(0)" onclick="copyToClipboard('#p1')"><i class="fas fa-link ff"></i>Copy Share Link</a></li>
-                                        </ul>
-                                        <div class="modal fade" id="copiedtext" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        Copied on clipboard
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <script>
-                                            function copyToClipboard(element) {
-
-                                                var $temp = $("<input>");
-                                                $("body").append($temp);
-                                                $temp.val($(element).text()).select();
-                                                document.execCommand("copy");
-                                                $temp.remove();
-
-                                                $("#copiedtext").modal('show');
-                                            }
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <div id="Tokyo" class="tabcontent">
-            <section class="tp-blog-single-section section-pad" style="background: #eee;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 col-sm-6 col-12">
+                        <div class="col-md-4 col-sm-6 col-12 section2-left">
                             <div class="tp-blog-sidebar">
                                 <div class="widget category-widget">
                                     <div>
@@ -765,8 +975,8 @@ a#decline_btn {
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+            </section>-->
+       
         <?php 
         $camp = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}campaigns WHERE id = $idd LIMIT 1", OBJECT);
         $campaign_typeId = $camp[0]->campaign_typeId;
@@ -817,8 +1027,10 @@ a#decline_btn {
             $totaldeclined += $totalDispatchedns;
         }
         ?>
-        <div id="usa" class="tabcontent">
-            <section class="tp-blog-single-section section-pad" style="background: #eee;">
+        
+            <section class="tp-blog-single-section section-pad" style="background: #eee;padding: 60px 0 0 0;">
+            <h2 class="section-head">DONATIONS</h2>
+            
                 <div class="container" style="width: 100%;">
                     <?php if($campaign_typeId == 3 || $campaign_typeId == 2){?>
                     <div class="row text-center">
@@ -853,7 +1065,7 @@ a#decline_btn {
                     <div class="row">
                         <div class="col-md-12 col-sm-6 col-12">
                             <div class="tp-blog-sidebar">
-                                <div class="widget category-widget">  <!-- dt-responsive -->
+                                <div class="widget category-widget table-responsive">  <!-- dt-responsive -->
                                     <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
                                         <thead>
                                             <tr>
@@ -952,7 +1164,7 @@ a#decline_btn {
                     </div>
                 </div>
             </section>
-        </div>
+        
     <?php
     } else {
         ?>
@@ -973,20 +1185,6 @@ a#decline_btn {
                 "scrollX": true
             });
         });
-
-        function openCity(evt, cityName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(cityName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
 
         
 
@@ -1110,3 +1308,5 @@ a#decline_btn {
 </body>
 
 </html>
+<?php
+get_footer();
