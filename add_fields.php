@@ -9,7 +9,6 @@ $category_id = $_POST['category_id'];
 $field_name = $_POST['field_name'];
 $field_type = $_POST['field_type'];
 $is_mandatory = $_POST['is_mandatory'];
-$ordering = $_POST['ordering'];
 $options = $_POST['options'];
 $edit_collection_id = $_POST['edit_collection_id'];
 
@@ -21,7 +20,6 @@ if (empty($edit_collection_id)) {
         'field_name' => $field_name,
         'field_type' => $field_type,
         'is_mandatory' => $is_mandatory,
-        'ordering' => $ordering,
         'options' => $options,
         'type' => 'request',
         'created_at' => date("Y-m-d H:i:s"),
@@ -32,7 +30,6 @@ if (empty($edit_collection_id)) {
     $dbData['field_name'] = $field_name;
     $dbData['field_type'] = $field_type;
     $dbData['is_mandatory'] = $is_mandatory;
-    $dbData['ordering'] = $ordering;
     $dbData['options'] = $options;
     $dbData['updated_at'] = date("Y-m-d H:i:s");
     $wpdb->update('wp_fields', $dbData, array('id' => $edit_collection_id));
@@ -44,23 +41,4 @@ echo $last_status_updated_id;
 
 
 
-/*
-
-
-$i = 0;
-
-foreach ($_POST['item'] as $value) {
-    // Execute statement:
-   
-$sql = $wpdb->prepare(
-    "UPDATE `wp_fields` SET `sort` = $i WHERE `id` = $value"
-);
-$wpdb->query($sql);
-$i++;
-}
-
-*/
-/* }else{
-    echo $uid = $results[0]->id;
-} */
 exit;

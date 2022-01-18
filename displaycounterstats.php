@@ -8,7 +8,7 @@ global $wpdb;
 $id = ltrim(rtrim($_POST['id'], ','), ',');
 $service_id = $_POST['service_id'];
 
-$results = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}counter_fields WHERE category_id = '".$id."' AND service_id ='".$service_id."' ");
+$results = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}counter_fields WHERE category_id = '".$id."' ");
 
 
  $id11 = $results->counter1;

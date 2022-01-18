@@ -373,7 +373,13 @@ $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as 
    .select_drop {
     width: 100%;
 }
+#saveBtn{
+      margin-bottom: 20px;
+    }
    @media screen and (min-width:770px) {
+    #saveBtn{
+      margin-left: 40%;
+    }
   .stats-row {
     display: inline-flex;
     width: 100%;
@@ -756,16 +762,30 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
 
 
     <div class="col-lg-12 col-md-12 col-12 valid">
+    <div>
      <div>
        <h3>Would you like to show statistics on banner?</h3>
       <p> Please check the box for custom Statistics</p>
-        <label class="l-radio"><input type="radio" id="radioyes"  class="radio radiobtn rdb1" name="stats_check" value="1" <?php if($services->stats_check=="1") echo 'checked="checked"'; ?>><span class="span1">YES</span></label>
-        <label class="l-radio">  <input type="radio" id="radiono" class="radio radiobtn rdb1" name="stats_check" value="0" <?php if($services->stats_check=="0") echo 'checked="checked"'; ?>><span class="span1">NO</span></label>
-    </div></br>
+        <label class="l-radio"><input type="radio" id="radioyes" class="radio radiobtn rdb1" name="stats_check" value="1"><span class="span1">YES</span></label>
+        <label class="l-radio">  <input type="radio" id="radiono" class="radio radiobtn rdb1" name="stats_check" value="0"><span class="span1">NO</span></label>
+        <p>Select category</p>
+        <select class="select_drop phonedropdown" id="select_cat1" name="select_cat1" disabled="disabled">
+          <option>Select any category</option>
+         
+          <?php foreach($categories as $val1){?>
+       
+       <option value="<?= $val1->category_id;?> " cat_name="<?= $val1->name;?>" ><?= $val1->name;?></option>;
+
+       <?php } ?>
+
+
+        </select>
+      </div>
+    </br>
       
         <div class="md-form mb-5 stats-row">
           <div class="label-row"><p>Total Services Label</p>
-            <input type="text" id="banner_label1" class="" name="banner_label1" placeholder="Total Services" maxlength="100" value="<?= $services->banner_label1;?>" disabled="disabled"></div>
+            <input type="text" id="banner_label1" class="" name="banner_label1" placeholder="Total Services" maxlength="100" disabled="disabled"></div>
             <div class="counter-row">
             <p>Select field for counter</p>
         <select class="select_drop phonedropdown" id="select_drop1" name="select_drop1" disabled="disabled">
@@ -776,7 +796,7 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
           </div> <hr mb=2>
         <div class="md-form mb-5 stats-row">
            <div class="label-row"><p>Total Supports Label</p>
-            <input type="text" id="banner_label2" class="" name="banner_label2" placeholder="Total Supports" maxlength="100" value="<?= $services->banner_label2;?>" disabled="disabled"></div> 
+            <input type="text" id="banner_label2" class="" name="banner_label2" placeholder="Total Supports" maxlength="100" disabled="disabled"></div> 
             <div class="counter-row"><p>Select field for counter</p>
             <select class="select_drop phonedropdown" id="select_drop2" name="select_drop2" disabled="disabled">
             <option>Select any field</option>
@@ -785,7 +805,7 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
             </div><hr mb=2>
         <div class="md-form mb-5 stats-row">
           <div class="label-row"><p>Total Closed Services Label</p>
-            <input type="text" id="banner_label3" class="" name="banner_label3" placeholder="Total Closed Services" maxlength="100" value="<?= $services->banner_label3;?>" disabled="disabled"></div>
+            <input type="text" id="banner_label3" class="" name="banner_label3" placeholder="Total Closed Services" maxlength="100" disabled="disabled"></div>
             <div class="counter-row">  <p>Select field for counter</p>
             <select class="select_drop phonedropdown" id="select_drop3" name="select_drop3" disabled="disabled">
             <option>Select any field</option>
@@ -793,31 +813,31 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
           </div>
           </div>
 
-
+          <button type="button" id="saveBtn" onclick="submitcounter()">Save</button><br>
+         <div style="overflow: auto;">
+          <table id="counter_table" class="table table-striped">
+          <thead>
+            <tr>
+                <th>Category Name</th>
+                <th>Label1</th>
+                <th>Counter</th>
+                <th>Label2</th>
+                <th>Counter2</th>
+                <th>Label3</th>
+                <th>Counter3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="counter_tr">
+              <td colspan="7">
+              No Categories Added
+              </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
           <script type="text/javascript">
-            $(document).ready(function (){
-
-              $("input[name='stats_check']").ready(function () {
-                if ($("#radioyes").is(":checked")) {
-                $("#banner_label1").removeAttr("disabled");
-                $("#banner_label2").removeAttr("disabled");
-                $("#banner_label3").removeAttr("disabled");
-                $("#select_drop1").removeAttr("disabled");
-                $("#select_drop2").removeAttr("disabled");
-                $("#select_drop3").removeAttr("disabled");
-               // $("#txtPassportNumber").focus();
-            } else {
-               // $("#txtPassportNumber").attr("disabled", "disabled");
-                $("#banner_label1").attr("disabled", "disabled");
-                $("#banner_label2").attr("disabled", "disabled");
-                $("#banner_label3").attr("disabled", "disabled");
-                $("#select_drop1").attr("disabled", "disabled");
-                $("#select_drop2").attr("disabled", "disabled");
-                $("#select_drop3").attr("disabled", "disabled");
-            }
-        
-    });
-              
+    $(function () {
         $("input[name='stats_check']").click(function () {
             if ($("#radioyes").is(":checked")) {
                 $("#banner_label1").removeAttr("disabled");
@@ -826,6 +846,7 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
                 $("#select_drop1").removeAttr("disabled");
                 $("#select_drop2").removeAttr("disabled");
                 $("#select_drop3").removeAttr("disabled");
+                $("#select_cat1").removeAttr("disabled");
                // $("#txtPassportNumber").focus();
             } else {
                // $("#txtPassportNumber").attr("disabled", "disabled");
@@ -835,13 +856,130 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
                 $("#select_drop1").attr("disabled", "disabled");
                 $("#select_drop2").attr("disabled", "disabled");
                 $("#select_drop3").attr("disabled", "disabled");
+                $("#select_cat1").attr("disabled", "disabled");
             }
-        
+        });
     });
 
-            });
-    
+
+
+$('#select_cat1').change(function(){
+
+  var element = $(this).find('option:selected'); 
+  var cat_name = element.attr("cat_name");
+  var category_id = $(this).val();
+
+  jQuery.ajax({
+
+    type: "POST",
+          url: '../fields_counter.php',
+          data: 'cat_name='+cat_name+'&category_id='+category_id,
+          success: function(response)
+          {
+
+        console.log(response);
+          var data = JSON.parse(response);
+console.log(data);
+$('#select_drop1').empty();
+$('#select_drop2').empty();
+$('#select_drop3').empty();
+  for (var i = 0; i < data.length; i++) {
+        //  foreach(data as dd){
+          var select = "<option value="+ data[i].id +" opt_name="+ data[i].field_name +" >"+data[i].field_name+"</option>";
+
+            
+            $('#select_drop1').append(select);
+            $('#select_drop2').append(select);
+            $('#select_drop3').append(select);
+          }
+              //console.log(data.id);
+
+          }
+
+
+   });
+
+});
+
+
+function submitcounter(){
+
+  var element = $('#select_cat1').find('option:selected'); 
+  var cat_name = element.attr("cat_name");
+  var category_id = $('#select_cat1').val();
+  var banner_label1 = $('#banner_label1').val();
+  var banner_label2 = $('#banner_label2').val();
+  var banner_label3 = $('#banner_label3').val();
+  var select_drop1 = $('#select_drop1').val();
+  var select_drop2 = $('#select_drop2').val();
+  var select_drop3 = $('#select_drop3').val();
+
+  var option1 = $('#select_drop1').find('option:selected'); 
+  var opt_name1 = option1.attr("opt_name");
+
+  var option2 = $('#select_drop2').find('option:selected'); 
+  var opt_name2 = option2.attr("opt_name");
+
+  var option3 = $('#select_drop3').find('option:selected'); 
+  var opt_name3 = option3.attr("opt_name");
+
+  jQuery.ajax({
+
+type: "POST",
+      url: '../save_fields_counter.php',
+      data: 'cat_name='+cat_name+'&category_id='+category_id+'&banner_label1='+banner_label1+'&banner_label2='+banner_label2+'&banner_label3='+banner_label3+'&select_drop1='+select_drop1+'&select_drop2='+select_drop2+'&select_drop3='+select_drop3+'&opt_name1='+opt_name1+'&opt_name2='+opt_name2+'&opt_name3='+opt_name3,
+      success: function(response)
+      {
+
+ $('#select_drop1').empty();
+$('#select_drop2').empty();
+$('#select_drop3').empty();
+$('#banner_label1').val("");
+$('#banner_label2').val("");
+$('#banner_label3').val("");
+var category = JSON.parse(response);
+              
+            //  $("#is_category_edit").val(id);
+            //  $("#category_id").val(id);
+           //   $("#category_name").val(category.name);
+           //   $("#blah").attr('src','<?php echo home_url();?>/wp-content/uploads/services/'+category.icon);
+              //$('#modalSubscriptionForm').modal('show'); 
+              jQuery('.counter_tr').css('display', 'none');
+              
+           //   $("#icon_id").val(category.icon_id);
+           //   var icon_img = $('#icon_id').find('option:selected').attr('data-thumbnail');
+           //   $('#icon-pin-src').attr('src',icon_img);
+
+             // var array = category.request_fields;
+             // var array1 = category.support_fields;
+              console.log( category );
+
+              $.each(category,function(key,val){
+                console.log( "Key: " + key + ", Value: " + val.id );
+
+                jQuery('#collection_data_tr_'+val.id).css('display', 'none');
+
+                var tr = '<tr class="counter_data_tr" id="counter_data_tr_'+val.id+'"><td>'+val.category_name+'</td><td>'+val.banner1+'</td><td>'+val.counter1_label+'</td><td>'+val.banner2+'</td><td>'+val.counter2_label+'</td><td>'+val.banner3+'</td><td>'+val.counter3_label+'</td></tr>';
+                $('#counter_table').append(tr);
+              });
+
+
+
+          //console.log(data.id);
+
+      }
+
+
+});
+
+
+
+
+}
+
+
 </script>
+</div>
 
     </div>
 
@@ -1639,15 +1777,7 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
               jQuery('.collection_tr').css('display', 'none');
 
 
-              var select = "<option value="+ response +">"+field_name+"</option>";
-            
-
-            // var select = '<option value=custom_field_name1>'+field_name+'</option>';
-  
-  
-               $('#select_drop1').append(select);
-               $('#select_drop2').append(select);
-               $('#select_drop3').append(select);
+          
 
               
               if(edit_collection_id == ''){
@@ -1843,10 +1973,6 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
                 $('#data_collection').append(tr);
 
 
-                var select = "<option value="+ val.id +">"+val.field_name+"</option>";
-                $('#select_drop1').append(select);
-             $('#select_drop2').append(select);
-             $('#select_drop3').append(select);
               });
 
               $.each(array1,function(key1,val1){

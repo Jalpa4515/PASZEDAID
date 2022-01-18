@@ -428,55 +428,6 @@ a.loc-icon {
                                 </ul>
                             </div>
                         </div>
-                      <!--  <script>
-
-                    function countstats(service_id) {
-                            
-                            var selected = new Array();
-                            if ($('#fundraiser_check').is(':checked')) {
-                                selected.push($('#fundraiser_check').val());
-                            }
-                           
-
-                            console.log(service_id);
-                            console.log(selected.join(","));
-                            $.ajax({
-                                type: "POST",
-                                url: '<?php echo BASE_URL . 'displaycounterstats.php' ?>',
-                                dataType: 'json',
-                                data: {
-                                    id: selected.join(","),
-                                    service_id: service_id
-                                  
-                                }, send id of checked checkbox on other page
-                                success: function(data) {
-                                    
-
-                            console.log(data);
-
-
-                                }
-                            });
-                        }
-
-                        </script>-->
-
-                        <!-- <div class="tp-blog-sidebar legendstextdesktop">
-                            <div class="widget category-widget">
-                                <label style="font-size: 18px;"><b>Legends</b></label>
-                                <div class="row">
-                                    <div class="col-md-5 line_spacing_top_15">
-                                       <img src="https://jedaitestbed.in/zed/wp-content/uploads/2021/04/available.png" />
-                                       <label style="font-size: 15px;display: inline;">Active</label>
-                                    </div>
-                                    <div class="col-md-7 line_spacing_top_15">
-                                        <img src="<?= BASE_URL ?>/wp-content/uploads/2021/07/inactive-1.png" />
-                                        <label style="font-size: 15px;display: inline;">Inactive</label>
-                                    </div>
-                                 </div>
-                            </div>
-                        </div> -->
-
                         <div class="tp-blog-sidebar legendstextdesktop">
                             <div class="widget category-widget" id="service_status">
 
@@ -920,7 +871,10 @@ a.loc-icon {
                         });
                         
 
-                        $(".cat").click(function () {
+
+                        <?php if(($services->stats_check) == 1) { ?>
+                   
+                            $(".cat").click(function () {
                             var type="category";
                             //console.log(rid);
                             var service_id = $('#1service_id').val();
@@ -932,19 +886,8 @@ a.loc-icon {
                             });
 
 
-                          //  if ($("#fundraiser_check").is(":checked")) {
-                         //       jQuery('#tp-counter-grids').css('display', 'none');
-                         //   }else{
-                          //      jQuery('#tp-counter-grids').css('display', 'inline-flex');
-                         //   }
-                           
-                          //  if ($("#cat input[type=checkbox]").is(":checked")) {
-                            //    jQuery('#tp-counter-grids').css('display', 'none');
-                          //  }else{
-                          //      jQuery('#tp-counter-grids').css('display', 'inline_flex');
-                           // }
 
-                           if($('.cat').is(":checked")) {
+                            if($('.cat').is(":checked")) {
                             $("#tp-counter-grids").hide();
                            }else{
                             $("#tp-counter-grids").show();
@@ -952,9 +895,7 @@ a.loc-icon {
                            }
 
 
-
                             console.log(selected1.join(","));            
-                       
                             $.ajax({
                                 type: "POST",
                                 url: '<?php echo BASE_URL . 'servicefiltermap.php' ?>',
@@ -1082,7 +1023,7 @@ a.loc-icon {
                                 success: function(data) {
                                  console.log(data);
                                  //$('#modalSubscriptionForm').modal('show'); 
-              jQuery('.main_grids').css('display', 'none');
+                jQuery('.main_grids').css('display', 'none');
               
               
                  console.log( data );
@@ -1092,7 +1033,7 @@ a.loc-icon {
    
                   // jQuery('#collection_data_tr_'+val.id).css('display', 'none');
    
-                   var tr = '<div class="tp-counter-grids main_grids"><div class="grid"><div><h2><span class="odometer" data-count="'+val.counter1+'">'+val.counter1+'</span></h2></div><p>'+val.banner1+'</p></div><div class="grid"><div><h2><span class="odometer" data-count="'+val.counter2+'">'+val.counter2+'</span></h2></div><p>'+val.banner2+'</p></div><div class="grid"><div><h2><span class="odometer" data-count="'+val.counter3+'">'+val.counter3+'</span></h2></div><p>'+val.banner3+'</p></div></div>';
+                   var tr = '<div class="tp-counter-grids main_grids"  id="main_grids"><div class="grid"><div><h2><span class="odometer" data-count="'+val.counter1+'">'+val.counter1+'</span></h2></div><p>'+val.banner1+'</p></div><div class="grid"><div><h2><span class="odometer" data-count="'+val.counter2+'">'+val.counter2+'</span></h2></div><p>'+val.banner2+'</p></div><div class="grid"><div><h2><span class="odometer" data-count="'+val.counter3+'">'+val.counter3+'</span></h2></div><p>'+val.banner3+'</p></div></div>';
                    $('#counter_stats').append(tr);
                  });
 
@@ -1104,6 +1045,146 @@ a.loc-icon {
 
 
                         });
+
+                   <?php  }else{  ?>
+
+
+
+                    $(".cat").click(function () {
+                            var type="category";
+                            //console.log(rid);
+                            var service_id = $('#1service_id').val();
+                            var user_id = $('#1user_id').val();
+                            var user_email = $('#1user_email').val();
+                            var selected1 = new Array();
+                            $("#cat input[type=checkbox]:checked").each(function () {
+                                selected1.push(this.value);
+                            });
+
+                            console.log(selected1.join(","));            
+                            $.ajax({
+                                type: "POST",
+                                url: '<?php echo BASE_URL . 'servicefiltermap.php' ?>',
+                                dataType: 'json',
+                                data: {
+                                    id: selected1.join(","),
+                                    service_id: service_id,
+                                    user_id: user_id,
+                                    user_email: user_email,
+                                    type: type
+                                }, //--> send id of checked checkbox on other page
+                                success: function(data) {
+                                    $("#errorMap").addClass("d-none");
+                                    $("#mapholder2").removeClass("d-none");
+                                    var latitudec = $("#latitude").val();
+                                    var longitudec = $("#longitude").val();
+                                    var locations = data;
+                                    var map = new google.maps.Map(document.getElementById('mapholder2'), {
+                                        zoom: 4,
+                                        center: new google.maps.LatLng(latitudec, longitudec),
+                                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                                    });
+                                    var infowindow = new google.maps.InfoWindow();
+                                    var marker, i;
+                                    var markers = new Array();
+                                    for (i = 0; i < locations.length; i++) {
+                                        if (locations[i][3] == 1) {
+                                            if (locations[i][5] == 'active') {
+                                                marker = new google.maps.Marker({
+                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                                    icon: locations[i][6],
+                                                    map: map
+                                                });
+                                            }else{
+                                                marker = new google.maps.Marker({
+                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/07/Component-11-–-1.png',
+                                                    map: map
+                                                });
+                                            }
+                                        } else if (locations[i][3] == 2) {
+                                            if (locations[i][5] == 'active') {
+                                                marker = new google.maps.Marker({
+                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/07/Component-7-–-1.png',
+                                                    map: map
+                                                });
+                                            }else{
+                                                marker = new google.maps.Marker({
+                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/07/Component-9-–-1.png',
+                                                    map: map
+                                                });
+                                            }
+                                        } else if (locations[i][3] == 3) {
+                                            if (locations[i][5] == 'active') {
+                                                marker = new google.maps.Marker({
+                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/06/marker_charity-2.png',
+                                                    map: map
+                                                });
+                                            }else{
+                                                marker = new google.maps.Marker({
+                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/07/Component-10-–-1.png',
+                                                    map: map
+                                                });
+                                            }
+                                        } else if (locations[i][3] == 4) {
+                                            marker = new google.maps.Marker({
+                                                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                                icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ddd',
+                                                map: map
+                                            });
+                                        }
+                                        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                                            return function() {
+                                                infowindow.setContent(locations[i][0]);
+                                                infowindow.open(map, marker);
+                                            }
+                                        })(marker, i));
+                                        markers.push(marker);
+                                       
+                                        <?php
+                                      
+                                      $showmarker = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE email = '".$useremail."' AND service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                     
+                                    
+                                        if((($services->service_status)=='private')) {
+                                        if(($userId==$services->userId) || ($userId== 1)){ ?>
+                                        markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+                                        <?php }elseif(($showmarker != 0)){ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(false);  
+                                        });
+                                            <?php } ?>
+
+                                        <?php }else{ ?>
+                                            markers.forEach(element => {
+                                            element.setVisible(true);  
+                                        });
+                                        <?php }?>
+                                        
+                                    }
+                                }
+                            });
+
+
+                        
+
+
+                        });
+
+                   
+                   <?php     }  ?>
+
+
                       
                         //function camptypeid(rid,service_id,type) {
                         $(".service_status").click(function () {
@@ -1993,7 +2074,8 @@ function openSupportContact(request_id, userId , service_id){
             jQuery('#addCollections').modal('show');
             //google.maps.event.addDomListener(window, 'load', initialize);
             //initialize();
-
+                console.log(category_id);
+                console.log(service_id);
             jQuery.ajax({
                 type: "POST",
                 url: '../get_request_fields.php',

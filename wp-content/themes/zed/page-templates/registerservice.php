@@ -267,7 +267,13 @@ get_header();
      .select_drop {
     width: 100%;
 }
+#saveBtn{
+      margin-bottom: 20px;
+    }
 @media screen and (min-width:770px) {
+  #saveBtn{
+      margin-left: 40%;
+    }
   .stats-row {
     display: inline-flex;
     width: 100%;
@@ -997,6 +1003,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
       <p> Please check the box for custom Statistics</p>
         <label class="l-radio"><input type="radio" id="radioyes" class="radio radiobtn rdb1" name="stats_check" value="1"><span class="span1">YES</span></label>
         <label class="l-radio">  <input type="radio" id="radiono" class="radio radiobtn rdb1" name="stats_check" value="0"><span class="span1">NO</span></label>
+        <input type="hidden" name="service_id1" id="service_id1" value="">
         <p>Select category</p>
         <select class="select_drop phonedropdown" id="select_cat1" name="select_cat1" disabled="disabled">
           <option>Select any category</option>
@@ -1082,6 +1089,49 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
                 $("#select_drop3").attr("disabled", "disabled");
                 $("#select_cat1").attr("disabled", "disabled");
             }
+
+            var service_id1 = $("#service_id1").val();
+            jQuery.ajax({
+                      type: "POST",
+                      url: '../show_categories.php',
+                      data: 'id='+service_id1,
+                      success: function(response1)
+                      {
+
+                        console.log(service_id1);
+                        //  jQuery('#service_id').val(response1);
+                          console.log(response1);
+                          var data1 = JSON.parse(response1);
+                         // $('#select_cat1').empty();
+                         // $('#select_cat1').val(0);
+
+                          $('#select_cat1 option:not(:first)').remove();
+
+                          for (var i = 0; i < data1.length; i++) {
+                           
+
+                            var select_cat = "<option value="+ data1[i].category_id + " cat_name="+ data1[i].name +" >"+data1[i].name+"</option>";
+            // var select = '<option value=custom_field_name1>'+field_name+'</option>';
+              $('#select_cat1').append(select_cat);
+
+
+                          }
+
+ 
+
+
+
+                          }
+                      });
+
+
+
+
+
+
+
+
+
         });
     });
 
@@ -1104,12 +1154,16 @@ $('#select_cat1').change(function(){
         console.log(response);
           var data = JSON.parse(response);
 console.log(data);
-$('#select_drop1').empty();
-$('#select_drop2').empty();
-$('#select_drop3').empty();
+//$('#select_drop1').empty();
+//$('#select_drop2').empty();
+//$('#select_drop3').empty();
+
+$('#select_drop1 option:not(:first)').remove();
+$('#select_drop2 option:not(:first)').remove();
+$('#select_drop3 option:not(:first)').remove();
   for (var i = 0; i < data.length; i++) {
         //  foreach(data as dd){
-            var select = "<option value="+ data[i].id +">"+data[i].field_name+"</option>";
+            var select = "<option value="+ data[i].id +" opt_name="+ data[i].field_name +" >"+data[i].field_name+"</option>";
             
             $('#select_drop1').append(select);
             $('#select_drop2').append(select);
@@ -1120,7 +1174,7 @@ $('#select_drop3').empty();
           }
 
 
-  });
+   });
 
 });
 
@@ -1563,9 +1617,26 @@ var category = JSON.parse(response);
             success: function(response)
             {
                 jQuery('#service_id').val(response);
+                jQuery('#service_id1').val(response);
                 jQuery('#btn-submit').css('display', '');
                 jQuery('#btn-submit-loader').css('display', 'none');
                 jQuery('#changeStatus').modal('hide');
+
+         
+               // localStorage.setItem("service_id", response);
+
+                    /*    jQuery.ajax({
+                      type: "POST",
+                      url: '../show_categories.php',
+                      data: 'id='+response,
+                      success: function(response1)
+                      {
+                        //  jQuery('#service_id').val(response1);
+                          console.log(response1)
+                        
+
+                          }
+                      });*/
                 /* bootbox.alert("Status change successfully.", function(){ 
                     //window.location.reload(true);
                 }); */
@@ -1815,22 +1886,18 @@ var category = JSON.parse(response);
        
              // var select= for(let i=1;i<6;i++){ +'<option id='+ i+' value=custom_field_name'+ i +'>'+field_name+'</option>'+ }
              
-            var select = "<option value="+ response +" opt_name="+field_name+">"+field_name+"</option>";
-            
-
+        
           // var select = '<option value=custom_field_name1>'+field_name+'</option>';
 
-
-             $('#select_drop1').append(select);
-             $('#select_drop2').append(select);
-             $('#select_drop3').append(select);
-
-
               if(edit_collection_id == ''){
-                  var tr = '<tr class="collection_data_tr" id="collection_data_tr_'+response+'"><td>'+field_name+'</td><td>'+field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+response+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i><i class="fas fa-trash" onclick="deletecollection('+response+')></i></td></tr>';
+                //  var tr = '<tr class="collection_data_tr" id="collection_data_tr_'+response+'"><td>'+field_name+'</td><td>'+field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+response+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i><i class="fas fa-trash" onclick="deletecollection('+response+')></i></td></tr>';
+                  var tr = '<tr class="collection_data_tr" id="collection_data_tr_'+response+'"><td>'+field_name+'</td><td>'+field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+response+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i></td></tr>';
+
                   $('#data_collection').append(tr);
               }else{
-                var tr = '<td>'+field_name+'</td><td>'+field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+response+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i><i class="fas fa-trash" onclick="deletecollection('+response+')></i></td>';
+               // var tr = '<td>'+field_name+'</td><td>'+field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+response+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i><i class="fas fa-trash" onclick="deletecollection('+response+')></i></td>';
+                var tr = '<td>'+field_name+'</td><td>'+field_type+'</td><td><i class="fas fa-edit" onclick="editcollection('+response+')" data-toggle="modal" data-target="#modalSubscriptionForms"></i></td>';
+
                 $('#collection_data_tr_'+response).html(tr);
               }
 
@@ -1995,21 +2062,18 @@ var category = JSON.parse(response);
       var icon_img = $('#icon_id').find('option:selected').attr('data-thumbnail');
 
       if(is_category_edit == ''){
-        var tr = '<tr class="'+category_id+'"><td><img src="'+icon_img+'" width="50" height="50"></td><td>'+category_name+'</td><td><i class="fas fa-edit" onclick="editcat('+category_id+')" data-toggle="modal" href="#modalSubscriptionForm"></i><i class="fas fa-trash" onclick="deletecat('+category_id+')></i></td></tr>';
+      //  var tr = '<tr class="'+category_id+'"><td><img src="'+icon_img+'" width="50" height="50"></td><td>'+category_name+'</td><td><i class="fas fa-edit" onclick="deletecat('+category_id+')" data-toggle="modal" href="#modalSubscriptionForm"></i><i class="fas fa-trash-alt" onclick="editcat('+category_id+')"></i></td></tr>';
+        var tr = '<tr class="'+category_id+'"><td><img src="'+icon_img+'" width="50" height="50"></td><td>'+category_name+'</td><td><i class="fas fa-edit" onclick="editcat('+category_id+')" data-toggle="modal" href="#modalSubscriptionForm"></i></td></tr>';
+
         $('#category_table').append(tr);
       }else{
-        var tr = '<td><img src="'+icon_img+'" width="50" height="50"></td><td>'+category_name+'</td><td><i class="fas fa-edit" onclick="editcat('+category_id+')" data-toggle="modal" href="#modalSubscriptionForm"></i><i class="fas fa-trash" onclick="deletecat('+category_id+')></i></td>';
+       // var tr = '<td><img src="'+icon_img+'" width="50" height="50"></td><td>'+category_name+'</td><td><i class="fas fa-edit" onclick="editcat('+category_id+')" data-toggle="modal" href="#modalSubscriptionForm"></i><i class="fas fa-trash-alt" onclick="deletecat('+category_id+')"></i></td>';
+
+        var tr = '<td><img src="'+icon_img+'" width="50" height="50"></td><td>'+category_name+'</td><td><i class="fas fa-edit" onclick="editcat('+category_id+')" data-toggle="modal" href="#modalSubscriptionForm"></i></td>';
         $('.'+category_id).html(tr);
       }
 
-      
-      var select_cat = "<option value="+ category_id + " cat_name="+ category_name +" >"+category_name+"</option>";
-            
-
-            // var select = '<option value=custom_field_name1>'+field_name+'</option>';
   
-  
-               $('#select_cat1').append(select_cat);
 
       jQuery('.supporter_tr').css('display', '');
       jQuery('.collection_tr').css('display', '');

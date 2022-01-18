@@ -829,7 +829,7 @@ a.loc-icon {
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header btn-next">
-                    <button type="button" class="close"  style="" data-dismiss="modal" onclick="supportThemformreset()">&times;</button>
+                    <button type="button" class="close"   data-dismiss="modal" onclick="supportThemformreset()">&times;</button>
                     <h4 class="modal-title text-center" id="support_them_title">Support Them</h4>
                 </div>
                 <div class="modal-body">
