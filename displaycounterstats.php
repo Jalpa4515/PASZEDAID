@@ -18,9 +18,9 @@ $custom1 = 'custom_field_name';
 $custom11 = $custom1.$count1->sort ;
 
 if($count1->field_type == "Number"){
-$requestcount11 = $wpdb->get_row("SELECT SUM(`$custom11`)as cost FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."' ");
+$requestcount11 = $wpdb->get_row("SELECT SUM(`$custom11`)as cost FROM {$wpdb->prefix}service_request_data WHERE category_id = '".$id."' AND  service_id ='".$service_id."' ");
 }else{
- $requestcount11 = $wpdb->get_row("SELECT COUNT(`$custom11`)as cost FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."' ");
+ $requestcount11 = $wpdb->get_row("SELECT COUNT(`$custom11`)as cost FROM {$wpdb->prefix}service_request_data WHERE category_id = '".$id."' AND service_id ='".$service_id."' ");
 }
                                        
 
@@ -33,9 +33,9 @@ $custom2 = 'custom_field_name';
 $custom22 = $custom2.$count2->sort ;
 
 if($count2->field_type == "Number"){
-$requestcount22 = $wpdb->get_row("SELECT SUM(`$custom22`)as cost FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."' ");
+$requestcount22 = $wpdb->get_row("SELECT SUM(`$custom22`)as cost FROM {$wpdb->prefix}service_request_data WHERE category_id = '".$id."' AND service_id ='".$service_id."' ");
 }else{
-$requestcount22 = $wpdb->get_row("SELECT COUNT(`$custom22`)as cost FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."' ");
+$requestcount22 = $wpdb->get_row("SELECT COUNT(`$custom22`)as cost FROM {$wpdb->prefix}service_request_data WHERE category_id = '".$id."' AND service_id ='".$service_id."' ");
 }
 
 
@@ -50,9 +50,9 @@ $custom33 = $custom3.$count3->sort ;
 
 
 if($count3->field_type == "Number"){
-$requestcount33 = $wpdb->get_row("SELECT SUM(`$custom33`)as cost FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."' ");
+$requestcount33 = $wpdb->get_row("SELECT SUM(`$custom33`)as cost FROM {$wpdb->prefix}service_request_data WHERE category_id = '".$id."' AND service_id ='".$service_id."' ");
 }else{
-$requestcount33 = $wpdb->get_row("SELECT COUNT(`$custom33`)as cost FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."' ");
+$requestcount33 = $wpdb->get_row("SELECT COUNT(`$custom33`)as cost FROM {$wpdb->prefix}service_request_data WHERE category_id = '".$id."' AND service_id ='".$service_id."' ");
 }
 
 $banner1 = $results->banner1;

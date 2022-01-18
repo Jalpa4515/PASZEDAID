@@ -113,13 +113,13 @@ $wpdb->insert('wp_support_fields', array(
 $count_fields =  $wpdb->get_results("SELECT * FROM wp_counter_fields WHERE category_id =".$category_id);
 
     //$i = 1;
-  //  foreach($count_fields as $c){
+    foreach($count_fields as $c){
         $sql = $wpdb->prepare(
-            "UPDATE `wp_counter_fields` SET `service_id` = $service_id WHERE `id` = $count_fields->id"
+            "UPDATE `wp_counter_fields` SET `service_id` = $service_id WHERE `id` = $c->id"
         );
         $wpdb->query($sql);
     //    $i++;
- //   } 
+   } 
 
 
 

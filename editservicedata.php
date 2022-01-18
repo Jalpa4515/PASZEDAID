@@ -7,7 +7,7 @@ require_once('wp-config.php');
 // error_reporting(E_ALL);
 global $wpdb;
 $userId = $_POST['userId'];
-$category_id = $_POST['category_id'];
+//$category_id = $_POST['category_id'];
 $service_id = $_POST['service_id'];
 $service_name = $_POST['service_name'];
 $description = $_POST['description'];
@@ -21,6 +21,38 @@ if(!empty($_FILES['myFile']['name'])){
     $filename = round(microtime(true)) . '.' . end($temp);
     move_uploaded_file($_FILES["myFile"]["tmp_name"], "wp-content/uploads/services/" . $filename);
 }
+
+
+
+$categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as scr LEFT JOIN wp_service_categories as sc ON scr.category_id = sc.id WHERE scr.service_id = '".$service_id."'");
+
+foreach($categories as $val1){
+    $category_id=$val1->category_id;
+
+
+    $sort_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE sort  IS NULL AND type='request' AND  category_id = '".$category_id."' ORDER BY id ASC");
+
+    //}else{
+       // $sort_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE sort  IS NULL AND type='request' AND   category_id = '".$category_id."' ORDER BY id ASC");
+    
+    //}
+    if(!empty($sort_fields)){
+        $i = 1;
+        foreach($sort_fields as $s){
+            
+            $sql = $wpdb->prepare(
+                "UPDATE `wp_fields` SET `sort` = $i WHERE `id` = $s->id"
+            );
+            $wpdb->query($sql);
+            $i++;
+        } 
+    
+    }
+
+
+
+
+
 
 $request_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE category_id = '".$category_id."' AND type = 'request'");
 $arr = array();
@@ -37,15 +69,8 @@ if(!empty($request_fields)){
 }
 $request_fields = json_encode($arr);
 $wpdb->get_results("UPDATE wp_request_fields SET request_fields = '".$request_fields."' WHERE service_id ='".$service_id."' AND category_id='".$category_id."'");
-/* $wpdb->insert('wp_request_fields', array(
-    'category_id' => $category_id,
-    'service_id' => $service_id,
-    'request_fields' => $request_fields,
-    'status' => '1',
-    'is_draft' => '1',
-    'created_at' => date("Y-m-d H:i:s"),
-    'updated_at' => date("Y-m-d H:i:s"),
-)); */
+
+
 
 $support_fields =  $wpdb->get_results("SELECT * FROM wp_fields WHERE category_id = '".$category_id."' AND type = 'support'");
 $arr_support = array();
@@ -63,15 +88,32 @@ if(!empty($support_fields)){
 $support_fields = json_encode($arr_support);
 $wpdb->get_results("UPDATE wp_support_fields SET support_fields = '".$support_fields."' WHERE service_id ='".$service_id."' AND category_id='".$category_id."'");
 
-/* $wpdb->insert('wp_support_fields', array(
-    'category_id' => $category_id,
-    'service_id' => $service_id,
-    'support_fields' => $support_fields,
-    'status' => '1',
-    'is_draft' => '1',
-    'created_at' => date("Y-m-d H:i:s"),
-    'updated_at' => date("Y-m-d H:i:s"),
-)); */
+
+
+
+$count_fields =  $wpdb->get_results("SELECT * FROM wp_counter_fields WHERE category_id =".$category_id);
+
+    //$i = 1;
+    foreach($count_fields as $c){
+        $sql = $wpdb->prepare(
+            "UPDATE `wp_counter_fields` SET `service_id` = $service_id WHERE `id` = $c->id"
+        );
+        $wpdb->query($sql);
+    //    $i++;
+   } 
+
+
+
+
+
+
+
+
+
+
+}
+
+
 if (!empty($_FILES['myFile']['name'])) {
     $wpdb->get_results("UPDATE wp_services SET service_name = '".$service_name."', description = '".$description."', start_date = '".$start_date."', end_date = '".$end_date."', banner = '".$filename."'  WHERE id =" . $service_id);
 }else{
