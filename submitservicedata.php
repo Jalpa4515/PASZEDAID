@@ -10,7 +10,7 @@ $userId = $_POST['userId'];
 
 //$category_id = $_POST['category_id'];
 $service_id = $_POST['service_id'];
-$statistics_on_banner = $_POST['statistics_on_banner'];
+/*$statistics_on_banner = $_POST['statistics_on_banner'];
 $status_label1 = $_POST['status_label1'];
 $status_label2 = $_POST['status_label2'];
 $status_label3 = $_POST['status_label3'];
@@ -20,7 +20,7 @@ $banner_label3 = $_POST['banner_label3'];
 $select_drop1 = $_POST['select_drop1'];
 $select_drop2 = $_POST['select_drop2'];
 $select_drop3 = $_POST['select_drop3'];
-$stats_check = $_POST['stats_check'];
+$stats_check = $_POST['stats_check'];*/
 
 $categories = $wpdb->get_results("SELECT * FROM wp_service_category_relation as scr LEFT JOIN wp_service_categories as sc ON scr.category_id = sc.id WHERE scr.service_id = '".$service_id."'");
 //echo json_encode($categories);
@@ -109,7 +109,7 @@ $wpdb->insert('wp_support_fields', array(
 
 
 
-
+/*
 $count_fields =  $wpdb->get_results("SELECT * FROM wp_counter_fields WHERE category_id =".$category_id);
 
     //$i = 1;
@@ -122,7 +122,7 @@ $count_fields =  $wpdb->get_results("SELECT * FROM wp_counter_fields WHERE categ
    } 
 
 
-
+*/
 
 
 
@@ -138,7 +138,8 @@ $count_fields =  $wpdb->get_results("SELECT * FROM wp_counter_fields WHERE categ
 
 
 
-$resultsc = $wpdb->get_results("UPDATE wp_services SET is_draft = 0, admin_approved=0, enable_statistics = '".$statistics_on_banner."', status_label1 = '".$status_label1."', status_label2 = '".$status_label2."', status_label3 = '".$status_label3."', banner_label1 = '".$banner_label1."', banner_label2 = '".$banner_label2."', banner_label3 = '".$banner_label3."', stats_check = '".$stats_check."', count1 = '".$select_drop1."', count2 = '".$select_drop2."', count3 = '".$select_drop3."'  WHERE id =" . $service_id);
+//$resultsc = $wpdb->get_results("UPDATE wp_services SET is_draft = 0, admin_approved=0, enable_statistics = '".$statistics_on_banner."', status_label1 = '".$status_label1."', status_label2 = '".$status_label2."', status_label3 = '".$status_label3."', banner_label1 = '".$banner_label1."', banner_label2 = '".$banner_label2."', banner_label3 = '".$banner_label3."', stats_check = '".$stats_check."', count1 = '".$select_drop1."', count2 = '".$select_drop2."', count3 = '".$select_drop3."'  WHERE id =" . $service_id);
+$resultsc = $wpdb->get_results("UPDATE wp_services SET is_draft = 0, admin_approved=0  WHERE id =" . $service_id);
 
 
 $wpdb->get_results("UPDATE wp_service_categories SET is_draft = 0 WHERE id =" . $service_id);

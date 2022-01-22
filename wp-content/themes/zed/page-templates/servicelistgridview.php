@@ -385,8 +385,11 @@ a.loc-icon {
                                        
                                 
                                         ?>
+                                        
+
+
                                         <div class="tp-counter-grids" id="tp-counter-grids">  
-                                            <div class="grid">
+                                            <div class="grid" id="grid1">
                                                 <div>
                                                         <h2><span class="odometer" data-count="<?= count($requestcount1); ?>"><?= count($requestcount1); ?></span></h2>
                                                 </div>
@@ -396,20 +399,20 @@ a.loc-icon {
 
                                                
 
-                                            <div class="grid">
+                                            <div class="grid" id="grid2">
                                                 <div>
                                                 
                                                         <h2><span class="odometer" data-count="<?= count($requestcount2); ?>"><?= count($requestcount2); ?></span></h2>
                                                        
                                                 </div>
                                                
-                                                <p>1st out of top <?= count($categories_totalcount); ?> category</p>
+                                                <p>1st out of top <?= count($categories_totalcount); ?>  category</p>
                                             
                                             </div>
 
                                 
-
-                                            <div class="grid">
+                                            <?php if((count($categories_totalcount)) >= 2) { ?>
+                                            <div class="grid" id="grid3">
                                                 <div>
 
                                                        <h2><span class="odometer" data-count="<?= count($requestcount3); ?>"><?= count($requestcount3); ?></span></h2>
@@ -418,7 +421,20 @@ a.loc-icon {
                                                 <p>2nd out of top <?= count($categories_totalcount); ?> category</p>
                                            
                                             </div>
-                                            <div class="grid">
+                                            <?php }else{ ?>
+                                                <div class="grid" id="grid3" style="display: none;">
+                                                <div>
+
+                                                       <h2><span class="odometer" data-count="<?= count($requestcount3); ?>"><?= count($requestcount3); ?></span></h2>
+                                                </div>
+                                               
+                                                <p>2nd out of top <?= count($categories_totalcount); ?> category</p>
+                                           
+                                            </div>
+                                            <?php } ?>
+
+                                            <?php if((count($categories_totalcount)) >= 3) { ?>
+                                            <div class="grid" id="grid4">
                                                 <div>
 
                                                        <h2><span class="odometer" data-count="<?= count($requestcount4); ?>"><?= count($requestcount4); ?></span></h2>
@@ -427,6 +443,22 @@ a.loc-icon {
                                                 <p>Other categories</p>
                                            
                                             </div>
+                                            <?php }else{ ?>
+                                                <div class="grid" id="grid4" style="display: none;">
+                                                <div>
+
+                                                       <h2><span class="odometer" data-count="<?= count($requestcount4); ?>"><?= count($requestcount4); ?></span></h2>
+                                                </div>
+                                               
+                                                <p>Other categories</p>
+                                           
+                                            </div>
+                                            <?php } ?>
+
+
+
+
+
                                             </div>
                                        
                         </div>

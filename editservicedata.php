@@ -14,7 +14,7 @@ $description = $_POST['description'];
 $start_date = $_POST['start_date'];
 $end_date = $_POST['end_date'];
 
-$statistics_on_banner = $_POST['statistics_on_banner'];
+//$statistics_on_banner = $_POST['statistics_on_banner'];
 
 if(!empty($_FILES['myFile']['name'])){
     $temp = explode(".", $_FILES["myFile"]["name"]);
@@ -90,7 +90,7 @@ $wpdb->get_results("UPDATE wp_support_fields SET support_fields = '".$support_fi
 
 
 
-
+/*
 $count_fields =  $wpdb->get_results("SELECT * FROM wp_counter_fields WHERE category_id =".$category_id);
 
     //$i = 1;
@@ -101,7 +101,7 @@ $count_fields =  $wpdb->get_results("SELECT * FROM wp_counter_fields WHERE categ
         $wpdb->query($sql);
     //    $i++;
    } 
-
+*/
 
 
 
