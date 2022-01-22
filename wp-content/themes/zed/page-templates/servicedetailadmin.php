@@ -761,7 +761,7 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
     </div>-->
 
 
-    <div class="col-lg-12 col-md-12 col-12 valid">
+   <!-- <div class="col-lg-12 col-md-12 col-12 valid">
     <div>
      <div>
        <h3>Would you like to show statistics on banner?</h3>
@@ -789,7 +789,7 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
             <div class="counter-row">
             <p>Select field for counter</p>
         <select class="select_drop phonedropdown" id="select_drop1" name="select_drop1" disabled="disabled">
-          <option>Select any field</option>
+          <option value="0">Select any field</option>
         </select>
           
             </div>
@@ -799,7 +799,7 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
             <input type="text" id="banner_label2" class="" name="banner_label2" placeholder="Total Supports" maxlength="100" disabled="disabled"></div> 
             <div class="counter-row"><p>Select field for counter</p>
             <select class="select_drop phonedropdown" id="select_drop2" name="select_drop2" disabled="disabled">
-            <option>Select any field</option>
+            <option value="0">Select any field</option>
             </select>
          </div>
             </div><hr mb=2>
@@ -808,7 +808,7 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
             <input type="text" id="banner_label3" class="" name="banner_label3" placeholder="Total Closed Services" maxlength="100" disabled="disabled"></div>
             <div class="counter-row">  <p>Select field for counter</p>
             <select class="select_drop phonedropdown" id="select_drop3" name="select_drop3" disabled="disabled">
-            <option>Select any field</option>
+            <option value="0">Select any field</option>
             </select>
           </div>
           </div>
@@ -836,7 +836,7 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
             </tbody>
         </table>
         </div>
-          <script type="text/javascript">
+        <script type="text/javascript">
     $(function () {
         $("input[name='stats_check']").click(function () {
             if ($("#radioyes").is(":checked")) {
@@ -858,6 +858,49 @@ box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%) !important;
                 $("#select_drop3").attr("disabled", "disabled");
                 $("#select_cat1").attr("disabled", "disabled");
             }
+
+           /* var service_id1 = $("#service_id1").val();
+            jQuery.ajax({
+                      type: "POST",
+                      url: '../show_categories.php',
+                      data: 'id='+service_id1,
+                      success: function(response1)
+                      {
+
+                        console.log(service_id1);
+                        //  jQuery('#service_id').val(response1);
+                          console.log(response1);
+                          var data1 = JSON.parse(response1);
+                         // $('#select_cat1').empty();
+                         // $('#select_cat1').val(0);
+
+                          $('#select_cat1 option:not(:first)').remove();
+
+                          for (var i = 0; i < data1.length; i++) {
+                           
+
+                            var select_cat = "<option value="+ data1[i].category_id + " cat_name="+ data1[i].name +" >"+data1[i].name+"</option>";
+            // var select = '<option value=custom_field_name1>'+field_name+'</option>';
+              $('#select_cat1').append(select_cat);
+
+
+                          }
+
+ 
+
+
+
+                          }
+                      });
+*/
+
+
+
+
+
+
+
+
         });
     });
 
@@ -880,13 +923,16 @@ $('#select_cat1').change(function(){
         console.log(response);
           var data = JSON.parse(response);
 console.log(data);
-$('#select_drop1').empty();
-$('#select_drop2').empty();
-$('#select_drop3').empty();
+//$('#select_drop1').empty();
+//$('#select_drop2').empty();
+//$('#select_drop3').empty();
+
+$('#select_drop1 option:not(:first)').remove();
+$('#select_drop2 option:not(:first)').remove();
+$('#select_drop3 option:not(:first)').remove();
   for (var i = 0; i < data.length; i++) {
         //  foreach(data as dd){
-          var select = "<option value="+ data[i].id +" opt_name="+ data[i].field_name +" >"+data[i].field_name+"</option>";
-
+            var select = "<option value="+ data[i].id +" opt_name="+ data[i].field_name +" >"+data[i].field_name+"</option>";
             
             $('#select_drop1').append(select);
             $('#select_drop2').append(select);
@@ -931,9 +977,12 @@ type: "POST",
       success: function(response)
       {
 
- $('#select_drop1').empty();
-$('#select_drop2').empty();
-$('#select_drop3').empty();
+// $('#select_drop1').empty();
+//$('#select_drop2').empty();
+//$('#select_drop3').empty();
+$('#select_drop1 option:not(:first)').remove();
+$('#select_drop2 option:not(:first)').remove();
+$('#select_drop3 option:not(:first)').remove();
 $('#banner_label1').val("");
 $('#banner_label2').val("");
 $('#banner_label3').val("");
@@ -981,7 +1030,7 @@ var category = JSON.parse(response);
 </script>
 </div>
 
-    </div>
+    </div>-->
 
           <script>
         document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {

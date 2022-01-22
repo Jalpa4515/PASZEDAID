@@ -101,6 +101,22 @@ a.loc-icon {
 }
 
 @media (max-width:767px) {
+
+    div#tp-counter-grids {
+    overflow: hidden;
+    position: relative;
+    display: block;
+    justify-content: center;
+}
+
+    .grid {
+    width: 45%;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    position: relative;
+}
             
     .grid h2 {
     font-size: 25px;
@@ -115,7 +131,7 @@ a.loc-icon {
     color: #fff;
     font-weight: 500;
     font-size: 14px;
-    text-transform: capitalize;
+ 
 }
 .tp-breadcumb-wrap {
     margin-top: 45%;
@@ -156,7 +172,7 @@ a.loc-icon {
     color: #fff;
     font-weight: 500;
     font-size: 20px;
-    text-transform: capitalize;
+   
 }
     
 }
@@ -340,25 +356,40 @@ a.loc-icon {
 
                                 $requestcount1 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
 
+                                $categories_totalcount = $wpdb->get_results("SELECT * FROM wp_service_category_relation as scr LEFT JOIN wp_service_categories as sc ON scr.category_id = sc.id WHERE scr.service_id = '".$service_id."' ORDER BY scr.id ASC;");
 
-                                $requestcount2 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_support_data WHERE service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
 
-                                $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE request_status ='3' and service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
-                                                                        
+                                $categories_count1 = $wpdb->get_row("SELECT * FROM wp_service_category_relation as scr LEFT JOIN wp_service_categories as sc ON scr.category_id = sc.id WHERE scr.service_id = '".$service_id."' ORDER BY scr.id ASC LIMIT 0, 1;");
+                                $categories_count2 = $wpdb->get_row("SELECT * FROM wp_service_category_relation as scr LEFT JOIN wp_service_categories as sc ON scr.category_id = sc.id WHERE scr.service_id = '".$service_id."' ORDER BY scr.id ASC LIMIT 1, 1;");
+                                $categories_count3 = $wpdb->get_results("SELECT GROUP_CONCAT(category_id) FROM wp_service_category_relation as scr LEFT JOIN wp_service_categories as sc ON scr.category_id = sc.id WHERE scr.service_id = '".$service_id."' ORDER BY scr.id ASC LIMIT 2, 100;",ARRAY_A);
+                                
+                                $cat_countid1 = $categories_count1->category_id;
+                                $cat_countid2 = $categories_count2->category_id;
+                                $cat_countid3 = $categories_count3[0]['GROUP_CONCAT(category_id)'];
+                               
+
+
+                                $requestcount2 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."' AND category_id ='".$cat_countid1."'  ORDER BY id DESC", ARRAY_A);
+                                $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."' AND category_id ='".$cat_countid2."'  ORDER BY id DESC", ARRAY_A);
+                                $requestcount4 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE service_id ='".$service_id."' AND category_id  IN ($cat_countid3)  ORDER BY id DESC", ARRAY_A);
+
+                               // $requestcount2 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_support_data WHERE service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+
+                               // $requestcount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE request_status ='3' and service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+                                       
+                                
                                         ?>
-
-                                        <div class="counter_stats" id="counter_stats">
                                         <div class="tp-counter-grids" id="tp-counter-grids">  
                                             <div class="grid">
                                                 <div>
                                                         <h2><span class="odometer" data-count="<?= count($requestcount1); ?>"><?= count($requestcount1); ?></span></h2>
-                              
                                                 </div>
-                                                
-                                                <p>Total Services</p>
-                                           
-                                                
+                                                <p>Total service info</p>
                                             </div>
+
+
+                                               
+
                                             <div class="grid">
                                                 <div>
                                                 
@@ -366,20 +397,32 @@ a.loc-icon {
                                                        
                                                 </div>
                                                
-                                                <p>Total Supports</p>
+                                                <p>1st out of top <?= count($categories_totalcount); ?>  category</p>
                                             
                                             </div>
+
+                                
+
                                             <div class="grid">
                                                 <div>
 
                                                        <h2><span class="odometer" data-count="<?= count($requestcount3); ?>"><?= count($requestcount3); ?></span></h2>
                                                 </div>
                                                
-                                                <p>Total Close Services</p>
+                                                <p>2nd out of top <?= count($categories_totalcount); ?> category</p>
+                                           
+                                            </div>
+                                            <div class="grid">
+                                                <div>
+
+                                                       <h2><span class="odometer" data-count="<?= count($requestcount4); ?>"><?= count($requestcount4); ?></span></h2>
+                                                </div>
+                                               
+                                                <p>Other categories</p>
                                            
                                             </div>
                                             </div>
-                                            </div>
+                                            
                                        
                         </div>
                     </div>
@@ -425,6 +468,7 @@ a.loc-icon {
                                     <a class="add-icon" href="javascript:void(0)" onclick="openAddCollectionsPopup('<?= $service_id; ?>','<?= $val->category_id; ?>','<?= $userId; ?>')"> <img src="<?= BASE_URL?>wp-content/uploads/2021/04/add-1.png" width="20" height="20"></a>
                                     </li>
                                     <?php } ?>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -733,7 +777,7 @@ a.loc-icon {
                                         }
 
                                         if (empty($changeStatus)) {
-                                            if ((!empty($support_required)) && (($userId == $res['userId']) && $userId != 0) || ($emailid == $emailAddress) ||($userId == '1')) {
+                                            if ((($userId == $res['userId']) && $userId != 0) || ($useremail == $emailAddress) ||($userId == '1')) {
                                                 $chnageStatusBtn = '<a type="button" class="btn btn-next" style="margin-top: 10px;margin-bottom: 10px;background-color: #3d3d8a; color: white; margin-left: 0px;" onclick="openPopup('.$service_id.','.$category_id.','.$request_id.','.$userId.');">Close Request</a>';
                                         }else{
                                             $chnageStatusBtn='';
@@ -887,12 +931,12 @@ a.loc-icon {
 
 
 
-                            if($('.cat').is(":checked")) {
+                          /*  if($('.cat').is(":checked")) {
                             $("#tp-counter-grids").hide();
                            }else{
                             $("#tp-counter-grids").show();
 
-                           }
+                           }*/
 
 
                             console.log(selected1.join(","));            
@@ -1011,7 +1055,7 @@ a.loc-icon {
 
 
                             
-                            $.ajax({
+                         /*   $.ajax({
                                 type: "POST",
                                 url: '<?php echo BASE_URL . 'displaycounterstats.php' ?>',
                                 dataType: 'json',
@@ -1041,7 +1085,7 @@ a.loc-icon {
                                 },
 
                     
-                            });
+                            });*/
 
 
                         });
@@ -2074,8 +2118,7 @@ function openSupportContact(request_id, userId , service_id){
             jQuery('#addCollections').modal('show');
             //google.maps.event.addDomListener(window, 'load', initialize);
             //initialize();
-                console.log(category_id);
-                console.log(service_id);
+
             jQuery.ajax({
                 type: "POST",
                 url: '../get_request_fields.php',

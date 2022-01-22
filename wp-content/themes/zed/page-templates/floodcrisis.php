@@ -5,6 +5,30 @@ get_header();
 ?>
 <link rel='stylesheet' id='js_composer_front-css' href='<?= BASE_URL ?>wp-content/themes/alone/assets/css/jsc.css' type='text/css' media='all' />
 <style>
+    .mappop1{
+        width: auto;
+    }
+a.loc-icon {
+    position: absolute;
+   
+    margin: -33px 0px 10px 0px ;
+    left: 94%;
+}
+.custom-map-control-button {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  height: 40px;
+  cursor: pointer;
+}
+.custom-map-control-button:hover {
+  background: #ebebeb;
+}
     .bootbox-body {
         padding: 10px !important;
     }
@@ -43,9 +67,7 @@ get_header();
         position: fixed;
         z-index: 99999;
     }
-
-
-.wp {
+    .wp {
     padding: 10px 10px !important;
     background: #25D366 !important;
     margin-right: 10px;
@@ -53,8 +75,6 @@ get_header();
     color: #fff !important;
     box-shadow: 0 0 7px #ddd !important;
 }
-   
-
     .enquire-btn2 {
         text-transform: uppercase;
         transform: rotate(-90deg);
@@ -113,6 +133,19 @@ get_header();
     }
 
     @media (max-width:767px) {
+
+        .causeslistcounter {
+    margin-top: 5% !important;
+}
+
+.tp-counter-grids {
+    display: block !important;
+}
+
+a.loc-icon {
+    
+    left: 92%;
+}
         .card{
             width: 100%;
             margin-top: 42px !important;
@@ -122,9 +155,7 @@ get_header();
             display: block;
         }
 
-        .legendstextdesktop {
-            display: none;
-        }
+
 
         .modal.left .modal-dialog, .modal.right .modal-dialog {
             width: 100% !important;
@@ -368,7 +399,18 @@ get_header();
             margin-left: 0px !important;
             margin-right: 0px !important;
         }
+           /* .gm-style .gm-style-iw-c {
+            
+            height: 400vh !important;
+        }*/
     }
+   /* @media only screen and (min-device-width : 375px) and (max-device-width : 667px) {
+        .gm-style .gm-style-iw-c {
+            
+            height: 400vh !important;
+        }
+    }*/
+
 
     /* Main content */
     .main {
@@ -471,13 +513,81 @@ get_header();
     .pac-container {
         z-index: 1051 !important;
     }
+    .covid_page_section {
+     padding-top: 0 !important; 
+}
 </style>
+
+ <!-- .tp-breadcumb-area start -->
+ <div class="tp-breadcumb-area tp-bg2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="tp-breadcumb-wrap">
+                            <h2>Browse iNeed</h2>
+                        </div>
+                        <!-- .tp-counter-area start -->
+                        <div class="tp-counter-area causeslistcounter">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <?php
+                                        $resultscount1 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}flood_crisis_data  WHERE categoryId IN (8,9,10) ORDER BY id DESC", ARRAY_A);
+                                        $resultscount2 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}flood_crisis_data  WHERE categoryId = 8 ORDER BY id DESC", ARRAY_A);
+                                        $resultscount3 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}flood_crisis_data  WHERE categoryId = 10 ORDER BY id DESC", ARRAY_A);
+                                        $resultscount4 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}flood_crisis_data  WHERE categoryId = 9 ORDER BY id DESC", ARRAY_A);
+
+
+                                        
+                                        ?>
+                                        <div class="tp-counter-grids">
+                                            <div class="grid" id="maincount">
+                                                <div>
+                                                    <h2><span class="odometer" data-count="<?= count( $resultscount1); ?>"><?= count( $resultscount1); ?></span></h2>
+                                                </div>
+                                                <p>Total iNeed</p>
+                                            </div>
+                                            <div class="grid" id="rescuecount">
+                                                <div>
+                                                    <h2><span class="odometer" data-count="<?= count( $resultscount2); ?>"><?= count( $resultscount2); ?></span></h2>
+                                                </div>
+                                                <p>Rescue</p>
+                                            </div>
+                                            <div class="grid" id="medicalcount">
+                                                <div>
+                                                    <h2><span class="odometer" data-count="<?= count( $resultscount3); ?>"><?= count( $resultscount3); ?></span></h2>
+                                                </div>
+                                                <p>Medical</p>
+                                            </div>
+                                            <div class="grid" id="foodcount">
+                                                <div>
+                                                    <h2><span class="odometer" data-count="<?= count( $resultscount4); ?>"><?= count( $resultscount4); ?></span></h2>
+                                                </div>
+                                                <p>Food</p>
+                                            </div>
+                                            <!--<div class="grid">-->
+                                            <!--    <div>-->
+                                            <!--        <h2><span class="odometer" data-count="<?= count($resultsdonaccxe); ?>"><?= count($resultsdonaccxe); ?></span></h2>-->
+                                            <!--    </div>-->
+                                            <!--    <p>ZED EVENTS</p>-->
+                                            <!--</div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .tp-counter-area end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- .tp-breadcumb-area end -->
 
 <section class="bt-main-row bt-section-space sidebar-right section-padding sec-detail" role="main" itemprop="mainEntity" itemscope="itemscope" itemtype="http://schema.org/Give">
     <div class="container covid_page_section">
         
         <div class="widget search-widget section_between_space">
-            <input type="text" class="form-control serach locationtextboxcontrol" value="" name="location" id="location" placeholder="Enter address here" style="cursor: auto;padding: 10px !important;">
+            <input type="text" class="form-control serach locationtextboxcontrol searchField" value="" name="location" id="location" placeholder="Enter address here" style="cursor: auto;padding: 10px !important;">
         </div>
 
         <div class="row">
@@ -490,14 +600,10 @@ get_header();
                 <div>
                     <input type="checkbox" class="custom-control-input" checked style="display:none" id="locationChecked" name="locationChecked" />
                 </div>
-                
                 <?php
                 global $wpdb;
-                
                 $categorylist = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}covidcategories WHERE type=2", ARRAY_A);
                 $result_arr = (array) $categorylist;
-                
-
                 if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
                              $url = "https://";   
                         else  
@@ -514,7 +620,6 @@ get_header();
                 $url_components = parse_url($url);
                 parse_str($url_components['query'], $params);
                 $request_id = array_key_exists('id',$params) ? $params['id'] : -1;
-                
                 $userId = get_current_user_id();
                 $new_user_data = get_user_meta($userId);
                 // $new_user = get_user($userId);
@@ -527,6 +632,15 @@ get_header();
                 $emailid = $user->user_email;
 
                 $admin_email = get_option( 'admin_email' );
+
+				$adminEmails = get_users('role=Administrator');        
+    			$isLoggedInUserAdmin = false;
+            	foreach ($adminEmails as $admin) {
+	       			if($admin->user_email == $emailid) {
+	       				$isLoggedInUserAdmin = true;
+	       				break;			
+	       			}
+	 			}
                 ?>
                 <div class="tp-blog-sidebar">
                     <div class="widget category-widget">
@@ -543,6 +657,13 @@ get_header();
                                     </label>
                                 </div>
                             <?php $i++; } } ?>
+                            <div class="bor line_spacing_top_15">
+                                    <input type="checkbox" value=" " class="custom-control-input covidid" id="covidid11" 
+                                    name="covidid"  disabled/> <label class="custom-control-label " for="covidid1">
+                                    <img src="https://zedaid.org/wp-content/uploads/2021/08/finance_help.png" width="20" height="20" /> Finance Help 
+                                    <a class="add-icon" href="javascript:void(0)" onclick="location.href = '../start-campaign/'"> <img src="https://zedaid.org/wp-content/uploads/2021/04/add-1.png" width="20" height="20"></a>
+                                    </label>
+                                </div>
 
                             <!-- <div class="bor line_spacing_top_15">
                                 <input type="checkbox" value="2" class="custom-control-input covidid" id="covidid2" name="covidid" /> <label class="custom-control-label " for="covidid2"><img src="https://jedaitestbed.in/zed/wp-content/uploads/2021/04/injection.png" width="20" height="20" /> Remdesivir Injection <a class="add-icon" href="https://docs.google.com/forms/d/e/1FAIpQLSdJLHyM_ABs6TGDKq4YlPY4Xt8RKek2HaLK-7EpZZOlNVfICg/viewform?usp=sf_link" target="_blank"> <img src="https://zedaid.org/wp-content/uploads/2021/04/add-1.png" width="20" height="20"></a></label></div>
@@ -556,15 +677,15 @@ get_header();
                 </div>
              
                 <div class="tp-blog-sidebar legendstextdesktop">
-                    <div class="widget category-widget" id="service_status">
+                    <div class="widget category-widget"  id="service_status">
 
                         <label style="font-size: 18px;"><b>Legends</b></label>
 
                         <div class="row">
                             <div class="col-md-12 line_spacing_top_15">
-                                <input type="checkbox" id="fundraiser_check_service" name="service_status[]" value="1" class="service_status">
-                               <img src="<?= BASE_URL ?>wp-content/uploads/2021/08/request_open.png" />
-                               <label style="font-size: 15px;display: inline;">Request is open</label>
+                                <input type="checkbox" id="fundraiser_check_service" name="service_status[]" value="0" class="service_status">
+                                <img src="<?= BASE_URL ?>wp-content/uploads/2021/08/request_open.png" />
+                                <label style="font-size: 15px;display: inline;">Request is open</label>
                             </div>
                             <div class="col-md-12 line_spacing_top_15">
                                 <input type="checkbox" id="fundraiser_check_service" name="service_status[]" value="3" class="service_status">
@@ -572,12 +693,11 @@ get_header();
                                 <label style="font-size: 15px;display: inline;">Supporter has responded on Request.</label>
                             </div>
                             <div class="col-md-12 line_spacing_top_15">
-                                <input type="checkbox" id="fundraiser_check_service" name="service_status[]" value="4" class="service_status">
+                                <input type="checkbox" id="fundraiser_check_service" name="service_status[]" value="1" class="service_status">
                                 <img src="<?= BASE_URL ?>wp-content/uploads/2021/07/inactive-1.png" />
                                 <label style="font-size: 15px;display: inline;">Request is Closed</label>
                             </div>
                          </div>
-                         
                     </div>
                 </div>
 
@@ -588,7 +708,7 @@ get_header();
 
                     <hr>
 
-                    <!-- <p style="font-family: 'Open Sans';font-size: 18px;font-weight: 400;font-style: normal;letter-spacing: -0.6px;color: #282828;">Disclaimer : ZedAid is extending helping hand in providing availability information of various Covid support requirements. Users are requested to check the authenticity of the contacts given before proceeding (be aware of scammers, fraudsters, black marketers)</p> -->
+                    <!-- <p style="font-family: 'Open Sans';font-size: 18px;font-weight: 400;font-style: normal;letter-spacing: -0.6px;color: #282828;">Disclaimer : ZedAid is extending helping hands in providing availability information of various support requirements over digital channel. Users are requested to check the authenticity of the contacts given before proceeding as it is a crowd sourcing digital platform (be aware of scammers, fraudsters, black marketers).</p> -->
 
                 </div>
 
@@ -599,7 +719,7 @@ get_header();
 
             <div class="col-md-8">
 
-                <div id="mapholder2" class="d-none" style="width: 100%; height: 500px; position: relative; overflow: hidden;">
+                <div id="mapholder2" class="d-none" style="width: 100%; height: 600px; position: relative; overflow: hidden;">
                     <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);"></div>
                 </div>
 
@@ -610,26 +730,6 @@ get_header();
             </div>
 
             <div class="col-md-4 legendstextmobile">
-                <br>
-
-                <div class="">
-                    <label style="font-size: 18px;"><b>Legends:</b></label>
-                    <div id="service_status1">
-                        <input type="checkbox" id="fundraiser_check_service" name="service_status[]" value="1" class="service_status1">
-                        <img style="width: 16px;" src="<?= BASE_URL ?>wp-content/uploads/2021/08/request_open.png"/>
-                        <label style="font-size: 15px;display: inline;">Request is open</label>
-
-                        <input type="checkbox" id="fundraiser_check_service" name="service_status[]" value="3" class="service_status1">
-                        <img style="width: 16px;" src="<?= BASE_URL ?>wp-content/uploads/2021/08/orange_marker.png"/>
-                        <label style="font-size: 15px;display: inline;">Supporter has responded on Request.</label>
-
-                        <input type="checkbox" id="fundraiser_check_service" name="service_status[]" value="4" class="service_status1">
-                        <img style="width: 16px;" src="<?= BASE_URL ?>wp-content/uploads/2021/07/inactive-1.png"/>
-                        <label style="font-size: 15px;display: inline;">Request is Closed</label>
-                    </div>
-
-                </div>
-
                 <hr>
 
                 <div class="">
@@ -637,7 +737,7 @@ get_header();
 
                     <hr>
 
-                    <!-- <p style="font-family: 'Open Sans';font-size: 18px;font-weight: 400;font-style: normal;letter-spacing: -0.6px;color: #282828;">Disclaimer : ZedAid is extending helping hand in providing availability information of various Covid support requirements. Users are requested to check the authenticity of the contacts given before proceeding (be aware of scammers, fraudsters, black marketers)</p> -->
+                    <!-- <p style="font-family: 'Open Sans';font-size: 18px;font-weight: 400;font-style: normal;letter-spacing: -0.6px;color: #282828;">Disclaimer : ZedAid is extending helping hands in providing availability information of various support requirements over digital channel. Users are requested to check the authenticity of the contacts given before proceeding as it is a crowd sourcing digital platform (be aware of scammers, fraudsters, black marketers).</p> -->
                 </div>
 
             </div>
@@ -697,7 +797,8 @@ get_header();
 
                                     jQuery("#latitude").val(latitude);
                                     jQuery("#longitude").val(longitude);
-
+                                    localStorage.setItem('searchLat',latitude)
+                                    localStorage.setItem('searchLong',longitude)
                                     console.log(latitude + "==" + longitude);
 
                                     var mapCenter = new google.maps.LatLng(latitude, longitude); //Google map Coordinates
@@ -768,9 +869,20 @@ get_header();
                             jQuery("#longitude").val(longitude);
                             var zoomv = 10;
                         } else {
+                              /* jQuery("#latitude").val('20.5937');
+                            jQuery("#longitude").val('78.9629');
+                            var zoomv = 4; */
+                            var current_latitude = localStorage.getItem('current_latitude');
+                            var current_longitude = localStorage.getItem('current_longitude');
+                            if (current_latitude == '' || current_latitude == null) {
                             jQuery("#latitude").val('20.5937');
                             jQuery("#longitude").val('78.9629');
-                            var zoomv = 4;
+                            var zoomv = 6;
+                            }else{
+                                jQuery("#latitude").val(current_latitude);
+                                jQuery("#longitude").val(current_longitude);
+                                var zoomv = 10;
+                            }
                         }
 
                         var latitudec = jQuery("#latitude").val();
@@ -778,7 +890,6 @@ get_header();
 
                         var locations = [
                             <?php
-                    
                             foreach ($results as $res) {
                                 $pid = $res['id'];
                                 $title = $res['name'];
@@ -793,6 +904,7 @@ get_header();
 
                                 //$results_supports = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}support_them WHERE floodCrisisId = '".$pid."' AND userId = '".$userId."' ", ARRAY_A);
                                 $results_supports = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}support_them WHERE floodCrisisId = '".$pid."'", ARRAY_A);
+                                $results_change_status = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}support_change_status WHERE floodCrisisId = '".$pid."'", ARRAY_A);
 
                                 //$categoryName = '<span style="color:#2EC4F7 !important; float: left;">' . $res['categoryName'] . '</span> <span style="color:#2EC4F7 !important; float: right;cursor: pointer;"><a href="#" class="btn" style="color:#3d3d8a !important;" onclick="openPopup('.$pid.','.$status.');">Change Status</a></span>';
 
@@ -830,22 +942,58 @@ get_header();
                                 $lastUpdated = '<span style="color:black !important; font-size: 14px;">Last updatedAt: ' . date("d M Y h:i A", strtotime("+330 minutes", strtotime($res['updatedAt']))) . $verified_by . '</span>';
 
                                 $supportDetails = '';
+                                
+                                $contact= $results_supports[0]['mobile_number'] ;
+                                        $result_contact = substr($contact, 0, 5);
+                                        $result_contact .= "*****";
+                                        $support_email = $results_supports[0]['email'] ;
+                                
+
+
+                                 $supportButton = '<input type="hidden" id="support-email" value="'.$support_email.'"><input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><input type="hidden" id="support-phone" value="'.$contact.'"><button type="button" class="btn btn-next" style="margin-left:10px"  onclick="openSupportContact('.$pid.');"><i class="fa fa-envelope" style="padding-right:5px;"></i>Contact</button> ';  
+
+
+                                 
                                 if (!empty($results_supports)) {
-                                    if (!empty($results_supports[0]['organization_name'])) {
-                                        $supportDetails = '<br>Supporter Info:<br>Name: <b>'.$results_supports[0]['organization_name'].'</b><br>Contact: <b>'.$results_supports[0]['mobile_number'].'</b><br>Description: <b>'.$results_supports[0]['supportDetails'].'</b>';
+                         
+                                    if( ($supporter_id == $userId && $userId != '0') || ($userId != '0' && $userId == $res['userId']) || ($emailid == $emailAddress) || ($emailid == $results_supports[0]['email']) || ($userId == '1') ){
+                                       
+                                        if (!empty($results_supports[0]['organization_name'])) {
+                                            $supportDetails = '<br>Supporter Info:<br>Name: <b>'.$results_supports[0]['organization_name'].'</b><br>Contact: <b>'.$results_supports[0]['mobile_number'].'</b><br>Description: <b>'.$results_supports[0]['supportDetails'].'</b>';
+                                        }else{
+                                            $supportDetails = '<br>Supporter Info:<br>Name: <b>'.$results_supports[0]['name'].'</b><br>Contact: <b>'.$results_supports[0]['mobile_number'].'</b><br>Description: <b>'.$results_supports[0]['supportDetails'].'</b>';
+                                        }
+                                        
                                     }else{
-                                        $supportDetails = '<br>Supporter Info:<br>Name: <b>'.$results_supports[0]['name'].'</b><br>Contact: <b>'.$results_supports[0]['mobile_number'].'</b><br>Description: <b>'.$results_supports[0]['supportDetails'].'</b>';
+                                        if (!empty($results_supports[0]['organization_name'])) {
+                                            $supportDetails = '<br>Supporter Info:<br>Name: <b>'.$results_supports[0]['organization_name'].'</b><br>Contact: <b>'.$result_contact.'</b>'.$supportButton.'<br>Description: <b>'.$results_supports[0]['supportDetails'].'</b>';
+                                        }else{
+                                            $supportDetails = '<br>Supporter Info:<br>Name: <b>'.$results_supports[0]['name'].'</b><br>Contact: <b>'.$result_contact.'</b>'.$supportButton.'<br>Description: <b>'.$results_supports[0]['supportDetails'].'</b>';
+                                        }
+                                    }
+
+
+                                    if(!empty($results_change_status)){
+                                        $supportDetails .= '<br><br>iNeed Fullfill Info:<br>Name: <b>'.$results_change_status[0]['name'].'</b><br>Contact: <b>'.$results_change_status[0]['mobileNumber'].'</b><br>Description: <b>'.$results_change_status[0]['supportDetails'].'</b>';
                                     }
 
                                     // $supportDetails = '<br>Name: <b>'.$results_supports[0]['name'].'</b><br>Support Info: <b>'.$results_supports[0]['supportDetails'].'</b>';
-
                                     if ( ($supporter_id == $userId && $userId != '0') || ($userId != '0' && $userId == $res['userId']) || ($emailid == $emailAddress) || ($emailid == $results_supports[0]['email']) || ($userId == '1') ) {
-                                        if ($status == '0' || $status == '3') {
-                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopup('.$pid.','.$userId.');">Change Status</button>';
-                                        }else{
-                                            $chnageStatusBtn = '';
+                                        if ($status == '0') {
+                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopup('.$pid.','.$userId.');">iNeed Fullfill</button>';
                                         }
-                                    }else{
+                                        elseif ($status == '1') {
+                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopupreopen('.$pid.','.$userId.');">Reopen Status</button>';
+                                        } elseif ($status == '3') {
+                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopup('.$pid.','.$userId.');">iNeed Fullfill</button>';
+
+                                            $chnageStatusBtn1 = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openCancelrequest('.$pid.','.$userId.');">cancel request</button>';
+                                        }
+                                        else{
+                                            $chnageStatusBtn = '';
+                                            $chnageStatusBtn1='';
+                                        }
+                                        }else{
                                         if ($status == '0') {
 
                                             if($loginPhoneNumber != $mobileNumber){
@@ -864,21 +1012,38 @@ get_header();
                                     }
                                     if ($status == '0') {
                                         if((($userId == $res['userId']) && $userId != 0) || ($emailid == $emailAddress)){
-                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopup('.$pid.','.$userId.');">Change Status</button>';
+                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopup('.$pid.','.$userId.');">iNeed Fullfill</button>';
                                         }else if ($loginPhoneNumber != $mobileNumber) {
                                             $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopupSupportThem('.$pid.','.$status.','.$userId.');">Support Them</button>';
                                         } else if($userId == 0){
                                             $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopupSupportThem('.$pid.','.$status.','.$userId.');">Support Them</button>';
                                         }else{
-                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopup('.$pid.','.$userId.');">Change Status</button>';
+                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopup('.$pid.','.$userId.');">iNeed Fullfill</button>';
                                         }
-                                    }else{
+                                    }elseif($status =='1'){
+                                        if((($userId == $res['userId']) && $userId != 0) || ($emailid == $emailAddress)){
+                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopupreopen('.$pid.','.$userId.');">Reopen Status</button>';
+                                        }else{
+                                            $chnageStatusBtn = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openPopupreopen('.$pid.','.$userId.');">Reopen Status</button>';
+                                        }
+
+                                    }elseif($status =='3'){
+                                        if(($supporter_id == $userId && $userId != '0') || ($userId != '0' && $userId == $res['userId']) || ($emailid == $emailAddress) || ($emailid == $results_supports[0]['email'])||($loginPhoneNumber == $mobileNumber)){
+                                            $chnageStatusBtn1 = '';
+                                        }else{
+                                            $chnageStatusBtn1 = '<input type="hidden" id="status-title-'.$pid.'" value="'.$title.'"><br><br><button type="button" class="btn btn-next" onclick="openCancelrequest('.$pid.','.$userId.');">cancel request</button>';
+
+                                        }
+
+                                    }
+                                    else{
                                         $chnageStatusBtn = '';
+                                        $chnageStatusBtn1='';
                                     }
                                 }
                                 $mstatus = $res['status'];
                                 
-                                
+
                                 $link="https://jedaidevbed.in/zedaid/i-need/?id=$pid";
                               
                               
@@ -888,15 +1053,14 @@ get_header();
                              <a href="https://api.whatsapp.com/send?text=<?php echo $message_to_send; ?>">Share on WhatsApp <i class="fa fa-whatsapp"></i></a>*/
                                 
 
-                                ?>['<div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;"><?php echo $categoryName; ?><br><br><?php echo $title; ?><br><br>Location: <?php echo $res['address']; ?><br>Contact: <?php echo $res['mobileNumber']; ?><br>Description: <?php echo $res['description']; ?><br><br><?= $lastUpdated; ?><br><?= $supportDetails.$chnageStatusBtn; ?><br><br><?php echo 'Share via : '; ?>
-                                <a target="_blank" href="https://api.whatsapp.com/send?text=<?= $link; ?>" class="bn"><i class="fa fa-whatsapp wp"></i></a><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?= $link; ?>" class="bn"><i class="ti-facebook fb"></i></a><a target="_blank" href="http://twitter.com/share?text=<?= $link; ?>" class="bn"><i class="ti-twitter-alt tw"></i></a></div><br>', <?php echo $res['latitude']; ?>, <?php echo $res['longitude']; ?>, <?php echo $res['categoryId']; ?>, <?php echo $mstatus; ?>,<?php echo $pid; ?>, 15],
+                             ?>['<div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;"><?php echo $categoryName; ?><br><br><?php echo $title; ?><br><br>Location: <?php echo $res['address']; ?><br>Contact: <?php echo $res['mobileNumber']; ?><br>Description: <?php echo $res['description']; ?><br><br><?= $lastUpdated; ?><br><?= $supportDetails.$chnageStatusBtn; ?><?= $chnageStatusBtn1; ?><br><br><?php echo 'Share via : '; ?>
+                             <a target="_blank" href="https://api.whatsapp.com/send?text=<?= $link; ?>" class="bn"><i class="fa fa-whatsapp wp"></i></a><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?= $link; ?>" class="bn"><i class="ti-facebook fb"></i></a><a target="_blank" href="http://twitter.com/share?text=<?= $link; ?>" class="bn"><i class="ti-twitter-alt tw"></i></a></div><br>', <?php echo $res['latitude']; ?>, <?php echo $res['longitude']; ?>, <?php echo $res['categoryId']; ?>, <?php echo $mstatus; ?>,<?php echo $pid; ?>, 15],
 
                                 <?php  
                             } ?>
                         ];
-                        
-                        console.log(locations);
 
+                        console.log(locations);
 
                         var map = new google.maps.Map(document.getElementById('mapholder2'), {
                             zoom: zoomv,
@@ -912,9 +1076,7 @@ get_header();
                         for (i = 0; i < locations.length; i++) {
                             console.log(locations[i]);
                             console.log(locations[i]);
-                            
-                              
-                         
+
                             if (locations[i][3] == 8) {
                                 if (locations[i][4] == 1) {
                                     marker = new google.maps.Marker({
@@ -996,29 +1158,21 @@ get_header();
                                     });
                                 }
                             }
-                            
                             if ( locations[i][5] == <?php echo $request_id; ?> ) 
                             {
                                 infowindow.setContent(locations[i][0]);
                                 infowindow.open(map, marker);
                             }  
-
-                        
-                    
-                         
-                        
-                        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                            return function() {
-                                infowindow.setContent(locations[i][0]);
-                                infowindow.open(map, marker);
-                            }
-                        })(marker, i));
-                        
-                        
+                            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                                return function() {
+                                    infowindow.setContent(locations[i][0]);
+                                    infowindow.open(map, marker);
+                                }
+                            })(marker, i));
                         }
 
                     }
-                    
+
                     // initMap();
 
                     if (jQuery("#locationChecked").prop('checked') == true) {
@@ -1072,8 +1226,51 @@ get_header();
                     });
 
                     //Location
-
                     jQuery('.covidid').click(function() {
+
+                      /* 
+                        if($('#covidid8').is(":checked")) {
+                            $("#maincount").hide();
+                            $("#rescuecount").show();
+                            $("#medicalcount").hide();
+                            $("#foodcount").hide();
+                           }else{
+                            $("#maincount").show();
+                            $("#rescuecount").show();
+                            $("#medicalcount").show();
+                            $("#foodcount").show();
+                           }
+
+                           if($('#covidid9').is(":checked")) {
+                            $("#maincount").hide();
+                            $("#rescuecount").hide();
+                            $("#medicalcount").hide();
+                            $("#foodcount").show();
+                           }else{
+                            $("#maincount").show();
+                            $("#rescuecount").show();
+                            $("#medicalcount").show();
+                            $("#foodcount").show();
+                           }
+
+
+
+                           if($('#covidid10').is(":checked")) {
+                            $("#maincount").hide();
+                            $("#rescuecount").hide();
+                            $("#medicalcount").show();
+                            $("#foodcount").hide();
+                           }else{
+                            $("#maincount").show();
+                            $("#rescuecount").show();
+                            $("#medicalcount").show();
+                            $("#foodcount").show();
+                           }
+
+*/
+
+
+                        var type="category";
                         console.log("Covid Clicked");
                         //showLoadingBar();
                         var rid = '';
@@ -1129,7 +1326,7 @@ get_header();
                         // return false;
                         if (this.checked) {
 
-                            if (jQuery(this).val() == 8) {
+                          /*  if (jQuery(this).val() == 8) {
                                 rid = rid + ',8';
                             }
 
@@ -1144,19 +1341,70 @@ get_header();
                             if (jQuery(this).val() == 11) {
                                 rid = rid + ',11';
                             }
-                            
+                            var selected = new Array();
+                        jQuery("#service_status input[type=checkbox]:checked").each(function () {
+                            selected.push(this.value);
+                        });
+                            */
+                            var selected1 = new Array();
+                        if ($('#covidid8').is(':checked')) {
+                                selected1.push($('#covidid8').val());
+                            }
+
+                            if ($('#covidid9').is(':checked')) {
+                                selected1.push($('#covidid9').val());
+                            }
+
+                            if ($('#covidid10').is(':checked')) {
+                                selected1.push($('#covidid10').val());
+                            }
+
+                            if ($('#covidid11').is(':checked')) {
+                                selected1.push($('#covidid11').val());
+                            }
+
+                           
+                        var selected = new Array();
+                        jQuery("#service_status input[type=checkbox]:checked").each(function () {
+                            selected.push(this.value);
+                        });
+
+
                             console.log(rid);
                             jQuery.ajax({
                                 type: "POST",
                                 url: '<?php echo BASE_URL . 'filterfloodcrisis.php' ?>',
                                 dataType: 'json',
                                 data: {
-                                    id: rid
+                                    id: selected1.join(","),
+                                    status_id: selected.join(","),
+                                    type: type
                                 }, //--> send id of checked checkbox on other page
                                 success: function(data) {
 
                                     jQuery("#errorMap").addClass("d-none");
                                     jQuery("#mapholder2").removeClass("d-none");
+                                    var searchLat =   localStorage.getItem('searchLat');
+                                    var searchLong =   localStorage.getItem('searchLong');
+
+                                    if(jQuery('#location').val() != 0){
+                                        jQuery("#latitude").val(searchLat);
+                                    jQuery("#longitude").val(searchLong);
+                                    var zoomv = 10;
+
+                                    }else{
+                                    var current_latitude = localStorage.getItem('current_latitude');
+                                    var current_longitude = localStorage.getItem('current_longitude');
+                                     if (current_latitude == '' || current_latitude == null) {
+                                    jQuery("#latitude").val('20.5937');
+                                    jQuery("#longitude").val('78.9629');
+                                    var zoomv = 6;
+                                    }else{
+                                    jQuery("#latitude").val(current_latitude);
+                                    jQuery("#longitude").val(current_longitude);
+                                    var zoomv = 10;
+                                    }
+                                }
 
                                     var latitudec = jQuery("#latitude").val();
                                     var longitudec = jQuery("#longitude").val();
@@ -1164,7 +1412,7 @@ get_header();
                                     var locations = data;
 
                                     var map = new google.maps.Map(document.getElementById('mapholder2'), {
-                                        zoom: 4,
+                                        zoom: zoomv,
                                         mapTypeControl: false,
                                         center: new google.maps.LatLng(latitudec, longitudec),
                                         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -1292,26 +1540,52 @@ get_header();
                             if (jQuery(this).val() == 4) {
                                 rid = rid;
                             }
+
+                            var selected = new Array();
+                        jQuery("#service_status input[type=checkbox]:checked").each(function () {
+                            selected.push(this.value);
+                        });
                             console.log(rid);
                             jQuery.ajax({
                                 type: "POST",
                                 url: '<?php echo BASE_URL . 'filterfloodcrisis.php' ?>',
                                 dataType: 'json',
                                 data: {
-                                    id: rid
+                                    id: rid,
+                                    status_id: selected.join(","),
+                                    type: type
                                 }, //--> send id of checked checkbox on other page
                                 success: function(data) {
 
                                     jQuery("#errorMap").addClass("d-none");
                                     jQuery("#mapholder2").removeClass("d-none");
+                                    var searchLat =   localStorage.getItem('searchLat');
+                                    var searchLong =   localStorage.getItem('searchLong');
 
+                                    if(jQuery('#location').val() != 0){
+                                        jQuery("#latitude").val(searchLat);
+                                    jQuery("#longitude").val(searchLong);
+                                    var zoomv = 10;
+                                    }else{
+                                    var current_latitude = localStorage.getItem('current_latitude');
+                                    var current_longitude = localStorage.getItem('current_longitude');
+                                     if (current_latitude == '' || current_latitude == null) {
+                                    jQuery("#latitude").val('20.5937');
+                                    jQuery("#longitude").val('78.9629');
+                                    var zoomv = 6;
+                                    }else{
+                                    jQuery("#latitude").val(current_latitude);
+                                    jQuery("#longitude").val(current_longitude);
+                                    var zoomv = 10;
+                                    }
+                                }
                                     var latitudec = jQuery("#latitude").val();
                                     var longitudec = jQuery("#longitude").val();
 
                                     var locations = data;
 
                                     var map = new google.maps.Map(document.getElementById('mapholder2'), {
-                                        zoom: 4,
+                                        zoom: zoomv,
                                         mapTypeControl: false,
                                         center: new google.maps.LatLng(latitudec, longitudec),
                                         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -1420,25 +1694,66 @@ get_header();
                     });
 
                     jQuery('.service_status').click(function() {
-                        var type="status";
+                       // var type="status";
 
+                        var selected1 = new Array();
+                        if ($('#covidid8').is(':checked')) {
+                                selected1.push($('#covidid8').val());
+                            }
+
+                            if ($('#covidid9').is(':checked')) {
+                                selected1.push($('#covidid9').val());
+                            }
+
+                            if ($('#covidid10').is(':checked')) {
+                                selected1.push($('#covidid10').val());
+                            }
+
+                            if ($('#covidid11').is(':checked')) {
+                                selected1.push($('#covidid11').val());
+                            }
+
+                           
                         var selected = new Array();
                         jQuery("#service_status input[type=checkbox]:checked").each(function () {
                             selected.push(this.value);
                         });
-                        
+                        console.log("id1:"+selected1.join(","));
+                        console.log("id2:"+selected.join(","));
                         jQuery.ajax({
                             type: "POST",
                             url: '<?php echo BASE_URL . 'filterfloodcrisis.php' ?>',
                             dataType: 'json',
                             data: {
                                 id: selected.join(","),
-                                type: type
+                                cat_id: selected1.join(","),
+                                type: 'status'
                             }, //--> send id of checked checkbox on other page
                             success: function(data) {
 
                                 jQuery("#errorMap").addClass("d-none");
                                 jQuery("#mapholder2").removeClass("d-none");
+
+                                var searchLat =   localStorage.getItem('searchLat');
+                                    var searchLong =   localStorage.getItem('searchLong');
+
+                                    if(jQuery('#location').val() != 0){
+                                        jQuery("#latitude").val(searchLat);
+                                    jQuery("#longitude").val(searchLong);
+                                    var zoomv = 10;
+                                    }else{
+                                    var current_latitude = localStorage.getItem('current_latitude');
+                                    var current_longitude = localStorage.getItem('current_longitude');
+                                     if (current_latitude == '' || current_latitude == null) {
+                                    jQuery("#latitude").val('20.5937');
+                                    jQuery("#longitude").val('78.9629');
+                                    var zoomv = 6;
+                                    }else{
+                                    jQuery("#latitude").val(current_latitude);
+                                    jQuery("#longitude").val(current_longitude);
+                                    var zoomv = 10;
+                                    }
+                                }
 
                                 var latitudec = jQuery("#latitude").val();
                                 var longitudec = jQuery("#longitude").val();
@@ -1446,7 +1761,7 @@ get_header();
                                 var locations = data;
 
                                 var map = new google.maps.Map(document.getElementById('mapholder2'), {
-                                    zoom: 4,
+                                    zoom: zoomv,
                                     mapTypeControl: false,
                                     center: new google.maps.LatLng(latitudec, longitudec),
                                     mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -1627,14 +1942,15 @@ get_header();
                                 </div>
                                 <div class="form-group valid">
                                     <label class="lbform">Address</label>
-                                    <input type="text" id="address1" name="address" placeholder="Enter Address" class="form-control">
+                                    <input type="text" id="address1" name="address" placeholder="Enter Address"  class="form-control" style="width: 95% !important;">
+                                   <a class="loc-icon" id="pop" href="#"><img src="<?= BASE_URL ?>wp-content/uploads/2021/08/request_open.png"></a>
                                     <span id="error-address1"></span>
                                 </div>
-                                <input type="hidden" name="lat" id="lat" value="19.076011">
-                                <input type="hidden" name="lng" id="lng" value="72.877600">
+                                <input type="hidden" name="lat" id="lat" value="">
+                                <input type="hidden" name="lng" id="lng" value="">
                                 <div class="form-group valid">
                                     <label class="lbform">Description</label>
-                                    <textarea id="desc1" name="desc" class="form-control" maxlength="100"></textarea>
+                                    <textarea id="desc1" name="desc" class="form-control" maxlength="500"></textarea>
                                     <span id="error-desc1"></span>
                                 </div>
                             </div>
@@ -1689,7 +2005,7 @@ get_header();
                                 </div>
                                 <div class="form-group valid">
                                     <label class="lbform">Description</label>
-                                    <textarea id="desc2" name="desc" class="form-control" maxlength="100"></textarea>
+                                    <textarea id="desc2" name="desc" class="form-control" maxlength="500"></textarea>
                                     <span id="error-desc2"></span>
                                 </div>
                             </div>
@@ -1711,7 +2027,7 @@ get_header();
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" onclick="formreset()">&times;</button>
-                        <h4 class="modal-title text-center" id="change_status">Change Status</h4>
+                        <h4 class="modal-title text-center" id="change_status">iNeed Fullfill</h4>
                     </div>
                     <div class="modal-body">
                         <form id="frmChangeStatus" action="<?php echo BASE_URL ?>changestatus.php" enctype="multipart/form-data" method="post" class="f1">
@@ -1752,6 +2068,100 @@ get_header();
             </div>
         </div>
         <!-- End -->
+        <!---Support COntact --->
+        <div class="modal fade" id="supportContact" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" onclick="formreset()">&times;</button>
+                        <h4 class="modal-title text-center" id="change_status">Contact Supporter</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmsupportContact" action="<?php echo BASE_URL ?>contactsupporter.php" enctype="multipart/form-data" method="post" class="f1">
+                        <input type="hidden" value="<?= $userId; ?>" name="userId" />
+                            <input type="hidden" value="" name="pid" id="pid"/>
+                        <br>
+                            <div class="mainvalid">
+                                <div class="form-group valid">
+                                    <label class="lbform">Name</label>
+                                    <input type="text" id="name" value="" name="name" placeholder="Enter Name" maxlength="50" class="form-control">
+                                    <span id="error-name"></span> 
+                                </div>
+                                <div class="form-group valid">
+                                    <label class="lbform">Email</label>
+                                    <input type="text" id="email" value="" name="email" placeholder="Enter Email" maxlength="100" class="form-control">
+                                    <span id="error-email"></span>
+                                </div>
+                                <div class="form-group valid">
+                                    <label class="lbform">Phone Number</label>
+                                    <input type="text" id="phone_number" value="" name="phone_number" placeholder="Enter Phone Number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" minlength="10" maxlength="10" class="form-control">
+                                    <span id="error-mobile_number"></span>
+                                </div>
+                                <div class="form-group valid">
+                                    <label class="lbform">Reason for help</label>
+                                    <textarea id="supportDetails" name="supportDetails" class="form-control"></textarea>
+                                    <span id="error-supportDetails"></span>
+                                </div>
+                            </div>
+                            <div class="f1-buttons">
+                                <button type="button" id="btn-submit-supporthelp" class="btn btn-next">Submit</button>
+                               
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
+
+
+        <!---Support Cancel --->
+        <div class="modal fade" id="supportCancel" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" onclick="formreset()">&times;</button>
+                        <h4 class="modal-title text-center" id="change_status">Contact Supporter</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmsupportCancel" action="<?php echo BASE_URL ?>supportcancel.php" enctype="multipart/form-data" method="post" class="f1">
+                        <input type="hidden" value="<?= $userId; ?>" name="userId" />
+                            <input type="hidden" value="" name="pid" id="pid"/>
+                        <br>
+                            <div class="mainvalid">
+                                <div class="form-group valid">
+                                    <label class="lbform">Name</label>
+                                    <input type="text" id="name" value="" name="name" placeholder="Enter Name" maxlength="50" class="form-control">
+                                    <span id="error-name"></span> 
+                                </div>
+                                <div class="form-group valid">
+                                    <label class="lbform">Email</label>
+                                    <input type="text" id="email" value="" name="email" placeholder="Enter Email" maxlength="100" class="form-control">
+                                    <span id="error-email"></span>
+                                </div>
+                                <div class="form-group valid">
+                                    <label class="lbform">Phone Number</label>
+                                    <input type="text" id="phone_number" value="" name="phone_number" placeholder="Enter Phone Number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" minlength="10" maxlength="10" class="form-control">
+                                    <span id="error-mobile_number"></span>
+                                </div>
+                                <div class="form-group valid">
+                                    <label class="lbform">Reason for cancel</label>
+                                    <textarea id="supportDetails" name="supportDetails" class="form-control"></textarea>
+                                    <span id="error-supportDetails"></span>
+                                </div>
+                            </div>
+                            <div class="f1-buttons">
+                                <button type="button" id="btn-submit-supporthelp" class="btn btn-next">Submit</button>
+                               
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
 
         <!-- successmsg -->
         <div class="modal fade" id="successmsg" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
@@ -1768,7 +2178,257 @@ get_header();
             </div>
         </div>
         <!-- End -->
+        <!-- map=popup -->
+        <div class="modal fade  " id="map-pop" tabindex="-1" role="dialog" aria-labelledby="startfunrmodalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mappop1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title text-center" id="exampleModalLongTitle">Location</h4>
+                    </div>
+                    <div class="modal-body">
+                    <div class="contact-map" id="mapholder" style="width: 100%;  height: 460px;border-radius: 10px;">
+      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
 
+
+ <script>
+
+
+        function initialize() {
+            $( document ).ready(function() {
+latitude = 20.5937;
+ longitude = 78.9629;
+
+  var mapCenter = new google.maps.LatLng(latitude, longitude);
+ setMap(mapCenter, latitude, longitude, '');
+ 
+
+});
+
+var geocoder = new google.maps.Geocoder();
+
+var autocomplete = new google.maps.places.Autocomplete($("#address1")[0], {});
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+  var place = autocomplete.getPlace();
+  var address = place.formatted_address;
+  geocoder.geocode({
+    'address': address
+  }, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      var latitude = results[0].geometry.location.lat();
+      var longitude = results[0].geometry.location.lng();
+      var mapCenter = new google.maps.LatLng(latitude, longitude); //Google map Coordinates
+      setMap(mapCenter, latitude, longitude, '');
+
+      
+
+    }
+    console.log(latitude);
+   console.log(longitude);
+
+   jQuery("#lat").val(latitude);
+    jQuery("#lng").val(longitude);
+
+
+   var map;
+   map = new google.maps.Map(document.getElementById('mapholder'), {
+            center: mapCenter,
+            zoom: 16					
+          });
+    marker =  new google.maps.Marker({
+                      position: new google.maps.LatLng(latitude, longitude),
+                      map: map,
+                draggable:true,
+                animation: google.maps.Animation.DROP,
+                  });
+
+                  
+
+    google.maps.event.addListener(marker, 'dragend', function() 
+    {
+    geocodePosition(marker.getPosition());
+    lat1 = this.getPosition().lat();
+    long1 = this.getPosition().lng();
+
+
+    jQuery("#lat").val(lat1);
+    jQuery("#lng").val(long1);
+
+    console.log(lat1);
+    console.log(long1);
+    });
+
+      function geocodePosition(pos) 
+      {
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode
+          ({
+              latLng: pos
+
+          }, 
+              function(results, status) 
+              {
+                  if (status == google.maps.GeocoderStatus.OK) 
+                  {
+                      $("#address1").val(results[0].formatted_address);
+                      $("#mapErrorMsg").hide(100);
+                  } 
+                  else 
+                  {
+                      $("#mapErrorMsg").html('Cannot determine address at this location.'+status).show(100);
+                  }
+              }
+
+              
+          );
+      }
+    
+  });
+});
+
+
+
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+function setMap(mapCenter, latitude = 0, longitude = 0, locations = '') {
+    var map; 
+var india = {lat:20.5937, lng:78.9629};
+    function addYourLocationButton(map, marker) 
+{
+var controlDiv = document.createElement('div');
+	
+	var firstChild = document.createElement('button');
+	firstChild.style.backgroundColor = '#fff';
+	firstChild.style.border = 'none';
+	firstChild.style.outline = 'none';
+	firstChild.style.width = '40px';
+	firstChild.style.height = '40px';
+	firstChild.style.borderRadius = '50px';
+	firstChild.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
+	firstChild.style.cursor = 'pointer';
+	firstChild.style.marginRight = '10px';
+	firstChild.style.padding = '5px 6px';
+	firstChild.title = 'Your Location';
+	controlDiv.appendChild(firstChild);
+	
+	var secondChild = document.createElement('div');
+	secondChild.style.margin = '5px';
+	secondChild.style.width = '18px';
+	secondChild.style.height = '18px';
+	secondChild.style.backgroundImage = 'url(https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-1x.png)';
+	secondChild.style.backgroundSize = '180px 18px';
+	secondChild.style.backgroundPosition = '0px 0px';
+	secondChild.style.backgroundRepeat = 'no-repeat';
+	secondChild.id = 'you_location_img';
+	firstChild.appendChild(secondChild);
+
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+
+    firstChild.addEventListener('click', function() {
+		var imgX = '0';
+		var animationInterval = setInterval(function(){
+			if(imgX == '-18') imgX = '0';
+			else imgX = '-18';
+			$('#you_location_img').css('background-position', imgX+'px 0px');
+		}, 500);
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+				marker.setPosition(latlng);
+				map.setCenter(latlng);
+				clearInterval(animationInterval);
+				$('#you_location_img').css('background-position', '-144px 0px');
+			});
+		}
+		else{
+			clearInterval(animationInterval);
+			$('#you_location_img').css('background-position', '0px 0px');
+		}
+	});
+    controlDiv.index = 1;
+	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+}
+
+
+var map = new google.maps.Map(document.getElementById('mapholder'), {
+  zoom: 15,
+  center: new google.maps.LatLng(latitude, longitude),
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+var myMarker = new google.maps.Marker({
+		map: map,
+		animation: google.maps.Animation.DROP,
+        draggable:true,
+		//position: india
+	});  
+	addYourLocationButton(map, myMarker);
+
+
+    google.maps.event.addListener(myMarker, 'position_changed', function() 
+    {
+    geocodePosition(myMarker.getPosition());
+    lat1 = this.getPosition().lat();
+    long1 = this.getPosition().lng();
+
+
+    jQuery("#lat").val(lat1);
+     jQuery("#lng").val(long1);
+
+    console.log(lat1);
+    console.log(long1);
+    });
+
+
+    google.maps.event.addListener(myMarker, 'dragend', function() 
+    {
+    geocodePosition(myMarker.getPosition());
+    lat1 = this.getPosition().lat();
+    long1 = this.getPosition().lng();
+
+
+    jQuery("#lat").val(lat1);
+     jQuery("#lng").val(long1);
+
+    console.log(lat1);
+    console.log(long1);
+    });
+
+    
+   
+
+    function geocodePosition(pos) 
+      {
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode
+          ({
+              latLng: pos
+
+          }, 
+              function(results, status) 
+              {
+                  if (status == google.maps.GeocoderStatus.OK) 
+                  {
+                      $("#address1").val(results[0].formatted_address);
+                      $("#mapErrorMsg").hide(100);
+                  } 
+                  else 
+                  {
+                      $("#mapErrorMsg").html('Cannot determine address at this location.'+status).show(100);
+                  }
+              }
+
+              
+          );
+      }
+    
+
+}
+</script>
     </div>
 </section>
 <?php
@@ -1777,6 +2437,12 @@ get_footer();
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 
 <script>
+    $(document).ready(function () {
+        $("#pop").click(function () {
+            $('#map-pop').modal('show'); 
+        });
+    });
+
     jQuery('.status-available').css('display','none');
     jQuery('.status-tobeavailable').css('display','none');
     jQuery('.status-notavailable').css('display','none');
@@ -1786,6 +2452,7 @@ get_footer();
         jQuery("#email1").val("");
         jQuery("#phone_number1").val("");
         jQuery("#address1").val("");
+        jQuery("#mapholder").val("");
         jQuery("#desc1").val("");
         jQuery("#desc1").text("");
         jQuery("#addCollections").trigger("reset");
@@ -1821,7 +2488,7 @@ get_footer();
         jQuery("#error-status").html("<span id='error-status' style=''></span>");
         jQuery("#error-mobile_number").html("<span id='error-mobile_number' style=''></span>");
     }
-
+/*
     jQuery('body').click(function (event) 
     {
         if(!jQuery(event.target).closest('#changeStatus').length && !jQuery(event.target).is('#changeStatus')) {
@@ -1865,7 +2532,7 @@ get_footer();
             jQuery("#error-address2").html("<span id='error-address2' style=''></span>");
             jQuery("#error-mobile_number2").html("<span id='error-mobile_number2' style=''></span>");
         }
-    });
+    });*/
 
     function openPopup(pid, userId){
         /* if(userId == 0){
@@ -1877,7 +2544,20 @@ get_footer();
         jQuery('#changeStatus').modal('show');
         jQuery('#pid').val(pid);
     }
+    function openSupportContact(pid, userId){
+       
+       jQuery('#supportContact').modal('show');
+       jQuery('#pid').val(pid);
+   }
+   
 
+
+   function openCancelrequest(pid, userId){
+      
+      jQuery('#supportCancel').modal('show');
+      jQuery('#pid').val(pid);
+  }
+  
     function openPopupSupportThem(pid, status, userId){
         /* if(userId == 0){
             window.location.href = "<?php echo get_site_url(); ?>/login";
@@ -1891,7 +2571,7 @@ get_footer();
 
     function openAddCollectionsPopup(categoryId,categoryName,userId){
 
-        var geocoder = new google.maps.Geocoder();
+      /*  var geocoder = new google.maps.Geocoder();
 
         var input = document.getElementById('address1');
         var autocomplete = new google.maps.places.Autocomplete(input);
@@ -1913,7 +2593,7 @@ get_footer();
                     console.log(latitude + "==" + longitude);
                 }
             });
-        });
+        });*/
 
         /* if(userId == 0){
             window.location.href = "<?php echo get_site_url(); ?>/login";
@@ -2224,10 +2904,12 @@ get_footer();
                 data: 'categoryId='+categoryId+'&address='+address+'&name='+name+'&email='+email+'&phone_number='+phone_number+'&description='+desc+'&latitude='+latitude+'&longitude='+longitude+'&userId='+userId,
                 success: function(response)
                 {
+
+                    console.log(response);
                     jQuery('#btn-submit-food').css('display', '');
                     jQuery('#btn-submit-loader-food').css('display', 'none');
                     jQuery('#addCollections').modal('hide');
-                    bootbox.alert("Record added successfully.", function(){ 
+                    bootbox.alert("Don't loose patiance, we are trying to locate someboday around you for help.", function(){ 
                         jQuery("#frm1")[0].reset();
                         window.location.reload(true);
                     });
@@ -2383,5 +3065,118 @@ get_footer();
             jQuery('#btn-submit').css('display', '');
             jQuery('#btn-submit-loader').css('display', 'none');
         }
+    });
+    
+
+    function openPopupreopen(pid, userId){
+        /* if(userId == 0){
+            window.location.href = "<?php echo get_site_url(); ?>/login";
+        }else{  
+            jQuery('#changeStatus').modal('show');
+            jQuery('#pid').val(pid);
+        } */
+        //jQuery('#changeStatus').modal('show');
+       jQuery('#pid').val(pid);
+
+
+       jQuery.ajax({
+                type: "POST",
+                url: '../reopenfloodstatus.php',
+                data: 'pid='+pid+'&userId='+userId,
+                success: function(response)
+                {
+                    //jQuery('#btn-submit').css('display', '');
+                   // jQuery('#btn-submit-loader').css('display', 'none');
+                  //  jQuery('#changeStatus').modal('hide');
+                    bootbox.alert("Status reopen successfully.", function(){ 
+                       window.location.reload(true);
+                    });
+                }
+            });
+    }
+
+   // jQuery('#btn-submit-reopen').on('click', function() {
+   
+
+   //     });
+
+
+
+   jQuery('#btn-submit-supporthelp').on('click', function() {
+		
+        
+        var name = document.getElementById("name").value;
+       
+
+        var email = document.getElementById("email").value;
+       
+
+       
+
+        var supportDetails = document.getElementById("supportDetails").value;
+       
+
+        var mobile_number = document.getElementById("phone_number").value;
+       
+
+        
+
+            jQuery.ajax({
+                type: "POST",
+                url: '../contactsupporter.php',
+                data: 'pid='+pid+'&supportDetails='+supportDetails+'&name='+name+'&email='+email+'&phone_number='+phone_number+'&userId='+userId,
+                success: function(response)
+                {
+                    jQuery('#btn-submit-supporthelp').css('display', '');
+                    jQuery('#btn-submit-loader-supporthelp').css('display', 'none');
+                    jQuery('#changeStatus').modal('hide');
+                    bootbox.alert("Details send successfully.", function(){ 
+                      window.location.reload(true);
+                    // window.location.href='../contactsupporter.php';
+                   });
+                }
+            });
+        
+    });
+
+
+
+
+    
+   jQuery('#btn-submit-cancelrequest').on('click', function() {
+		
+        
+        var name = document.getElementById("name").value;
+       
+
+        var email = document.getElementById("email").value;
+       
+
+       
+
+        var supportDetails = document.getElementById("supportDetails").value;
+       
+
+        var mobile_number = document.getElementById("phone_number").value;
+       
+
+        
+
+            jQuery.ajax({
+                type: "POST",
+                url: '../supportcancel.php',
+                data: 'pid='+pid+'&supportDetails='+supportDetails+'&name='+name+'&email='+email+'&phone_number='+phone_number+'&userId='+userId,
+                success: function(response)
+                {
+                    jQuery('#btn-submit-cancelrequest').css('display', '');
+                    jQuery('#btn-submit-loader-cancelrequest').css('display', 'none');
+                    jQuery('#changeStatus').modal('hide');
+                    bootbox.alert("Support request has been cancelled.", function(){ 
+                      window.location.reload(true);
+                    // window.location.href='../contactsupporter.php';
+                   });
+                }
+            });
+        
     });
 </script>

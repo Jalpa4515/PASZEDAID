@@ -103,6 +103,7 @@ foreach ($resultscc as $res) {
     $fundtitle = $res['name'];
     $mobile_number = $res['mobile_number'];
     $address0 = $res['address'];
+    $emailAddress = $res['email'];
     $description0 = $res['description'];
     //$shareurl = BASE_URL . 'fundraiser-detail/?id=' . $res['id'];
     $goal_amount = '0';
@@ -171,7 +172,7 @@ foreach ($resultscc as $res) {
     $supportButton = '<input type="hidden" id="support-email" value="'.$email.'"><input type="hidden" id="status-title-'.$request_id.'" value="'.$title.'"><input type="hidden" id="support-phone" value="'.$contact.'"><button type="button" class="btn1 btn-next" style="margin-left:5px"  onclick="openSupportContact('.$service_id.','.$category_id.','.$request_id.','.$userId.');"><i class="fa fa-envelope" style="padding-right:5px;"></i>Request for Support</button> ';
 
     if(!empty($supports)){
-        if(($userId != '0' && $userId == $services->userId) || ($userId == '1') ){
+        if(($userId != '0' && $userId == $services->userId) ||  ($userId == '1') ){
             if(!empty($iconpin)){
                 $icon_name = BASE_URL."/icon-mappin/".$iconpin->icon2;
             }else{
@@ -189,11 +190,24 @@ foreach ($resultscc as $res) {
         $supp .= '<br> Supporter Info:<br> Name: <b>'.$supports['name'] .'</b> <br> Email: <b> '.$result_email.'</b> <br> Mobile Number: <b>'.$result_contact.'</b> &nbsp; '.$supportButton.' <br> Address: <b>'.$result_address.'</b> <br> '.$req1.'<br>';
         }
     }else{
+        if (empty($changeStatus)) {
+            if (!empty($support_required)) {
         $supp .= '<br><a class="btn btn-next" style="background-color: #3d3d8a; color: white; margin-left: 0px;" onclick="openPopupSupportThem('.$service_id.','.$category_id.','.$request_id.');">Support Them</a>';
+            }
+        }
     }
 
     if (empty($changeStatus)) {
-        $chnageStatusBtn = '<a type="button" class="btn btn-next" style="background-color: #3d3d8a; color: white; margin-left: 0px; margin-top: 10px;" onclick="openPopup('.$service_id.','.$category_id.','.$request_id.','.$userId.');">Change Status</a>';
+       
+        //$chnageStatusBtn = '<a type="button" class="btn btn-next" style="background-color: #3d3d8a; color: white; margin-left: 0px; margin-top: 10px;" onclick="openPopup('.$service_id.','.$category_id.','.$request_id.','.$userId.');">Change Status</a>';
+    
+        if ((($userId == $services->userId) && $userId != 0) || ($user_email == $emailAddress) ||($userId == '1')) {
+            $chnageStatusBtn = '<a type="button" class="btn btn-next" style="margin-top: 10px;margin-bottom: 10px;background-color: #3d3d8a; color: white; margin-left: 0px;" onclick="openPopup('.$service_id.','.$category_id.','.$request_id.','.$userId.');">Close Request</a>';
+    }else{
+        $chnageStatusBtn='';
+    }
+    
+    
     }else{
         if(!empty($iconpin)){
             $icon_name = BASE_URL."/icon-mappin/".$iconpin->icon3;
@@ -204,7 +218,7 @@ foreach ($resultscc as $res) {
     }
 
     
-    $alldata[$i][] = '<div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;"><div class="/ccc/" style="text-align: center;"></div><br><div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;margin-left: 5%;">'.$fundtitle.' <br>Mobile Number: <b>'.$mobile_number.'</b> <br> Address: <b>'.$address0.'</b><br>Description: <b>'.$description0.'</b><br> '.$req.' '.$supp.' <br> '.$chnageStatusBtn.' </div><div class="" style="margin: 10px 0 0 0;text-align:center;color: '.$closedc.';"><b style="font-weight: 500;text-align:center">'.$closed.'</b></div><div class="" style="margin: 10px 0 0 0;margin-left: 5%;text-align:center"><b >'.$zed_verified.'</b></div></div>';
+    $alldata[$i][] = '<div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;"><div class="/ccc/" style="text-align: center;"></div><br><div class="" style="margin: 10px 0 0 0;font-size: 15px;font-weight: 500;margin-left: 5%;">'.$fundtitle.' <br>Mobile Number: <b>'.$mobile_number.'</b> <br>Email: <b>'.$emailAddress.'</b><br> Address: <b>'.$address0.'</b><br>Description: <b>'.$description0.'</b><br> '.$req.' '.$supp.' <br> '.$chnageStatusBtn.' </div><div class="" style="margin: 10px 0 0 0;text-align:center;color: '.$closedc.';"><b style="font-weight: 500;text-align:center">'.$closed.'</b></div><div class="" style="margin: 10px 0 0 0;margin-left: 5%;text-align:center"><b >'.$zed_verified.'</b></div></div>';
     $alldata[$i][] = $res['latitude'];
     $alldata[$i][] = $res['longitude'];
     $alldata[$i][] = 1;

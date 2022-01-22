@@ -996,7 +996,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
     </div>-->
 
 
-   <div class="tab mainvalid">
+  <!-- <div class="tab mainvalid">
    <div>
      <div>
        <h3>Would you like to show statistics on banner?</h3>
@@ -1007,9 +1007,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
         <p>Select category</p>
         <select class="select_drop phonedropdown" id="select_cat1" name="select_cat1" disabled="disabled">
           <option>Select any category</option>
-         <!-- <option value="201" cat_name="category1" >category1</option>
-          <option value="202" cat_name="category2" >category2</option>
-          <option value="203" cat_name="category3" >category3</option>-->
+      
         </select>
       </div>
     </br>
@@ -1020,7 +1018,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
             <div class="counter-row">
             <p>Select field for counter</p>
         <select class="select_drop phonedropdown" id="select_drop1" name="select_drop1" disabled="disabled">
-          <option>Select any field</option>
+          <option value="0" opt_name="-">Select any field</option>
         </select>
           
             </div>
@@ -1030,7 +1028,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
             <input type="text" id="banner_label2" class="" name="banner_label2" placeholder="Total Supports" maxlength="100" disabled="disabled"></div> 
             <div class="counter-row"><p>Select field for counter</p>
             <select class="select_drop phonedropdown" id="select_drop2" name="select_drop2" disabled="disabled">
-            <option>Select any field</option>
+            <option value="0" opt_name="-">Select any field</option>
             </select>
          </div>
             </div><hr mb=2>
@@ -1039,7 +1037,7 @@ $icons = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_icons WHERE st
             <input type="text" id="banner_label3" class="" name="banner_label3" placeholder="Total Closed Services" maxlength="100" disabled="disabled"></div>
             <div class="counter-row">  <p>Select field for counter</p>
             <select class="select_drop phonedropdown" id="select_drop3" name="select_drop3" disabled="disabled">
-            <option>Select any field</option>
+            <option value="0" opt_name="-">Select any field</option>
             </select>
           </div>
           </div>
@@ -1208,9 +1206,12 @@ type: "POST",
       success: function(response)
       {
 
- $('#select_drop1').empty();
-$('#select_drop2').empty();
-$('#select_drop3').empty();
+// $('#select_drop1').empty();
+//$('#select_drop2').empty();
+//$('#select_drop3').empty();
+$('#select_drop1 option:not(:first)').remove();
+$('#select_drop2 option:not(:first)').remove();
+$('#select_drop3 option:not(:first)').remove();
 $('#banner_label1').val("");
 $('#banner_label2').val("");
 $('#banner_label3').val("");
@@ -1260,7 +1261,7 @@ var category = JSON.parse(response);
 
 
 
-    </div>
+    </div>-->
 
 
     <div class="tab mainvalid">
@@ -1315,8 +1316,8 @@ var category = JSON.parse(response);
     <!-- Circles which indicates the steps of the form: -->
     <div style="text-align:center;margin-top:40px;">
       <span class="step"></span>
-      <span class="step"></span>
-      <!--<span class="step"></span>-->
+     <!--  <span class="step"></span>
+     <span class="step"></span>-->
       <span class="step"></span>
       <span class="step"></span>
     </div>

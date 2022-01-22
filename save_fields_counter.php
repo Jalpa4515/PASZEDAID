@@ -8,9 +8,28 @@ global $wpdb;
 $category_id = $_POST['category_id'];
 //$service_id = $_POST['service_id'];
 $category_name = $_POST['cat_name'];
-$banner_label1 = $_POST['banner_label1'];
-$banner_label2 = $_POST['banner_label2'];
-$banner_label3 = $_POST['banner_label3'];
+
+
+if(empty($_POST['banner_label1'])){
+    $banner_label1 = "-";
+}else{
+    $banner_label1 = $_POST['banner_label1'];
+}
+
+if(empty($_POST['banner_label2'])){
+    $banner_label2 = "-";
+}else{
+    $banner_label2 = $_POST['banner_label2'];
+}
+
+if(empty($_POST['banner_label3'])){
+    $banner_label3 = "-";
+}else{
+    $banner_label3 = $_POST['banner_label3'];
+}
+
+
+
 $select_drop1 = $_POST['select_drop1'];
 $select_drop2 = $_POST['select_drop2'];
 $select_drop3 = $_POST['select_drop3'];

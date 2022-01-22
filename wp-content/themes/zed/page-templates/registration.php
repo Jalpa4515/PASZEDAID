@@ -97,6 +97,8 @@ get_header();
                                     $fname = $wpdb->escape($_POST['first_name']);
                                     $lname = $wpdb->escape($_POST['last_name']);
                                     $phone = $_POST['phone_number'] . $_POST['phoneNumber'];
+                                    $lat = $_POST['latitude'];
+                                    $long = $_POST['longitude'];
                                     $ffname = $fname . " " . $lname;
                                     // Check email address is present and valid  
                                     $email = $wpdb->escape($_POST['user_email']);
@@ -126,6 +128,8 @@ get_header();
                                         $user = get_user_by('id', $new_user_id);
                                         wp_set_current_user($new_user_id, $user->user_login);
                                         wp_set_auth_cookie($new_user_id);
+                                        $sql23 = $wpdb->prepare("INSERT INTO `wp_userdetails` (user_id, first_name,last_name,email,phone_number,latitude,longitude) VALUES ('".$new_user_id."', '".$fname."', '".$lname."', '".$email."', '".$phone."', '".$lat."', '".$long."')");
+                                        $wpdb->query($sql23);
                                         do_action('wp_login', $user->user_login, $user);
                                         $returnUrl = $wpdb->escape($_POST['redirect_to']);
                                         unset($_COOKIE['register_data']);
@@ -196,6 +200,10 @@ get_header();
                                 }
                                 ?>
                                 <input type="hidden" name="redirect_to" value="<?= $redirect_to; ?>">
+                                
+                                <input type="hidden" id="latitude" name="latitude" value="">
+                                <input type="hidden" id="longitude" name="longitude" value="">
+                                
                                 <div class="col-lg-12 col-md-12 col-12">
                                     <!-- <label for="name">First Name</label> -->
                                     <input value="<?= $_POST['first_name'] ? $_POST['first_name'] : ''; ?>" required type="text" id="first_name" name="first_name" placeholder="Your first name here.." maxlength="50">
@@ -287,6 +295,15 @@ get_header();
     <script src="<?php echo bloginfo('template_directory'); ?>/js/jquery-plugin-collection.js"></script>
     <!-- Custom script for this template -->
     <script src="<?php echo bloginfo('template_directory'); ?>/js/script.js"></script>
+    <script>
+                                $latitude = localStorage.getItem("current_latitude");
+                                $longitude = localStorage.getItem("current_longitude");
+                                
+                        
+                                $("#latitude").val($latitude);
+                                $("#longitude").val($longitude);
+                                </script>
+
     <script>
         $(".reveal").on('click', function() {
             var $pwd = $(".pwd");

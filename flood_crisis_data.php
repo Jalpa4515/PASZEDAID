@@ -45,7 +45,7 @@ $admin_email = get_option( 'admin_email' );
 $to = $email; //info@zedaid.org
 
 
-$subject = 'New Flood Request Register';
+$subject = 'New iNeed! Request Register';
 $from = 'info@zedaid.org';
 
 // To send HTML mail, the Content-type header must be set
@@ -72,5 +72,69 @@ $message2 = str_replace('{{DESCRIPTION}}', $description, $message2);
 $message2 = str_replace('{{LINK}}', "https://zedaid.org/i-need/", $message2);
 wp_mail($to, $subject, $message2, $headers);
 
-echo 'true';
+
+
+
+
+
+
+/*
+
+$resultsc = $wpdb->get_results("SELECT *, ( 6371 * acos( cos( radians( $latitude) ) * cos( radians( `latitude` ) ) * cos( radians( `longitude` ) - radians($longitude) ) + sin( radians($latitude) ) * sin( radians( `latitude` ) ) ) ) AS distance FROM `wp_userdetails` HAVING distance <= 40 ORDER BY distance ASC;
+",ARRAY_A);
+
+$resultsc1 = $wpdb->get_results("SELECT *, ( 6371 * acos( cos( radians( $latitude) ) * cos( radians( `latitude` ) ) * cos( radians( `longitude` ) - radians($longitude) ) + sin( radians($latitude) ) * sin( radians( `latitude` ) ) ) ) AS distance FROM `wp_userdetails` HAVING distance <= 100 ORDER BY distance ASC;
+",ARRAY_A);
+
+$resultsc2 = $wpdb->get_results("SELECT *, ( 6371 * acos( cos( radians( $latitude) ) * cos( radians( `latitude` ) ) * cos( radians( `longitude` ) - radians($longitude) ) + sin( radians($latitude) ) * sin( radians( `latitude` ) ) ) ) AS distance FROM `wp_userdetails` HAVING distance <= 300 ORDER BY distance ASC;
+",ARRAY_A);
+
+
+echo $resultsc;
+echo $resultsc1;
+echo $resultsc2;
+
+
+foreach($resultsc as $emailuser)
+{
+   
+echo $to = $emailuser['email']; //info@zedaid.org
+
+$subject = 'New iNeed! Request';
+$from = 'info@zedaid.org';
+
+// To send HTML mail, the Content-type header must be set
+$headers  = 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+// Create email headers
+$headers .= 'From: ZED Foundation <' . $from . '>'. "\r\n" .
+    'Reply-To: ' . $from . "\r\n" .
+    'CC: ' . $admin_email . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+    
+$file = 'email/flood_view.html';
+$myfile = fopen($file, "r") or die("Unable to open file!");
+$message2 = fread($myfile,filesize($file));
+
+// $message2 = str_replace('{{Name}}', $login_user_name , $message2);
+$message2 = str_replace('{{FLOOD}}', $name, $message2);
+$message2 = str_replace('{{REQUEST_TYPE}}', $categoryName, $message2);
+$message2 = str_replace('{{NAME}}', $name, $message2);
+$message2 = str_replace('{{EMAIL}}', $email, $message2);
+$message2 = str_replace('{{CONTACT_NUMBER}}', $phone_number, $message2);
+$message2 = str_replace('{{DESCRIPTION}}', $description, $message2);
+$message2 = str_replace('{{LINK}}', "https://zedaid.org/i-need/", $message2);
+wp_mail($to, $subject, $message2, $headers);
+} 
+
+
+
+
+
+
+*/
+
+
+////echo 'true';
 exit;

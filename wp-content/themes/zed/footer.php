@@ -163,12 +163,10 @@
         <div id="ball-loader"></div>
     </div>
 </div>
-<?php
-session_start();
-?>
-<input type="hidden" name="current_latitude" id="current_latitude" value="<?= $_SESSION["latitude"]; ?>">
+
+<!--<input type="hidden" name="current_latitude" id="current_latitude" value="<?= $_SESSION["latitude"]; ?>">
 <input type="hidden" name="current_longitude" id="current_longitude" value="<?= $_SESSION["longitude"]; ?>">
-<!-- All JavaScript files
+ All JavaScript files
     ================================================== -->
 <script src="<?php echo bloginfo('template_directory'); ?>/js/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
@@ -204,7 +202,10 @@ session_start();
     var lat = $('#current_latitude').val();
     var lng = $('#current_longitude').val();
 
-    if (lat == '') {
+    var current_latitude = localStorage.getItem('current_latitude');
+    var current_longitude = localStorage.getItem('current_longitude');
+
+    if (current_latitude == '' || current_latitude == null) {
         showPosition();
     }
 
@@ -213,6 +214,8 @@ session_start();
             navigator.geolocation.getCurrentPosition(function(position) {
                 $('#current_latitude').val(position.coords.latitude);
                 $('#current_longitude').val(position.coords.longitude);
+                localStorage.setItem('current_latitude', position.coords.latitude);
+                localStorage.setItem('current_longitude', position.coords.longitude);
 
                 jQuery.ajax({
                     type: "POST",
