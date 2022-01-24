@@ -383,7 +383,7 @@ a.loc-icon {
 
 
 
-
+                                        <div class="main-banner" id="main-banner">
                                         <div class="tp-counter-grids" id="tp-counter-grids">  
                                             <div class="grid" id="grid1">
                                                 <div>
@@ -395,7 +395,7 @@ a.loc-icon {
 
                                                
 
-                                            <div class="grid" id="grid2">
+                                            <div class="grid" id="grid<?= $cat_countid1; ?>">
                                                 <div>
                                                 
                                                         <h2><span class="odometer" data-count="<?= count($requestcount2); ?>"><?= count($requestcount2); ?></span></h2>
@@ -408,7 +408,7 @@ a.loc-icon {
 
                                 
                                             <?php if((count($categories_totalcount)) >= 2) { ?>
-                                            <div class="grid" id="grid3">
+                                            <div class="grid" id="grid<?= $cat_countid2; ?>">
                                                 <div>
 
                                                        <h2><span class="odometer" data-count="<?= count($requestcount3); ?>"><?= count($requestcount3); ?></span></h2>
@@ -453,7 +453,7 @@ a.loc-icon {
 
 
 
-
+                                            </div>
 
                                             </div>
                                             
@@ -490,6 +490,7 @@ a.loc-icon {
                                 <label style="font-size: 18px;    margin-bottom: 23px;"><b>Categories</b></label>
                                 <ul>
                                     <?php foreach($categories as $val) {
+                                       
                                         $icon_id = $val->icon_id;
                                         $iconpin = $wpdb->get_row("SELECT * FROM wp_service_icons WHERE id = '".$icon_id."'");
                                         if(!empty($iconpin)){
@@ -497,8 +498,10 @@ a.loc-icon {
                                         }else{
                                             $icon_name = BASE_URL."wp-content/uploads/services/".$val->icon;
                                         }
+
+                                         
                                     ?>
-                                    <li class="bor"><a href="javascript:void(0)" style="display: inline;"><input type="checkbox" id="fundraiser_check" name="camp_type[]" class="cat" value="<?= $val->category_id;?>"></a><img src="<?= $icon_name ?>" width="20" height="20" style="margin-right: 2% !important; color: #777 !important;"/><?= $val->name;?>
+                                    <li class="bor"><a href="javascript:void(0)" style="display: inline;"><input type="checkbox" id="fundraiser_check" name="camp_type[]" class="cat  banner_cat<?= $val->category_id; ?>" value="<?= $val->category_id;?>" labelname="<?= $val->name;?>"></a><img src="<?= $icon_name ?>" width="20" height="20" style="margin-right: 2% !important; color: #777 !important;"/><?= $val->name;?>
                                     <a class="add-icon" href="javascript:void(0)" onclick="openAddCollectionsPopup('<?= $service_id; ?>','<?= $val->category_id; ?>','<?= $userId; ?>')"> <img src="<?= BASE_URL?>wp-content/uploads/2021/04/add-1.png" width="20" height="20"></a>
                                     </li>
                                     <?php } ?>
@@ -506,6 +509,7 @@ a.loc-icon {
                                 </ul>
                             </div>
                         </div>
+
                         <div class="tp-blog-sidebar legendstextdesktop">
                             <div class="widget category-widget" id="service_status">
 
@@ -950,9 +954,19 @@ a.loc-icon {
                         
 
 
-                        <?php if(($services->stats_check) == 1) { ?>
+                       
                    
                             $(".cat").click(function () {
+
+                                if($('.cat').is(":checked")) {
+                            $("#tp-counter-grids").hide();
+                           }else{
+                            $("#tp-counter-grids").show();
+                            jQuery('.main_grids').css('display', 'none');
+                           }
+
+
+
                             var type="category";
                             //console.log(rid);
                             var service_id = $('#1service_id').val();
@@ -963,14 +977,48 @@ a.loc-icon {
                                 selected1.push(this.value);
                             });
 
+                            var selected00 = new Array();
+                            $("#cat input[type=checkbox]:checked").each(function () {
+                                selected00.push($(this).attr('labelname'))
+                            });
+
+                            $.ajax({
+                                type: "POST",
+                                url: '<?php echo BASE_URL . 'displaycounterstats.php' ?>',
+                                dataType: 'json',
+                                data: {
+                                    id: selected1.join(","),
+                                    service_id: service_id,
+                                    labelname:selected00.join(",")
+                                  
+                                }, 
+                                success: function(data) {
+                                 console.log(data);
+                                 //$('#modalSubscriptionForm').modal('show'); 
+                jQuery('.main_grids').css('display', 'none');
+              
+              var labelname = selected00.join(",");
+                 console.log( data );
+   
+            
+                   
+   
+                   var tr = '<div class="tp-counter-grids main_grids"  id="main_grids"><div class="grid"><div><h2><span class="odometer" data-count="'+data.length+'">'+data.length+'</span></h2></div><p>'+labelname+'</p></div></div>';
+                  
+                   $('#main-banner').append(tr);
+                
+                   if((data.length == 0) && (labelname== "")){
+                    jQuery('.main_grids').css('display', 'none');
+                   }
+                   
+        
+                                },
+
+                    
+                            });
 
 
-                          /*  if($('.cat').is(":checked")) {
-                            $("#tp-counter-grids").hide();
-                           }else{
-                            $("#tp-counter-grids").show();
-
-                           }*/
+                            
 
 
                             console.log(selected1.join(","));            
@@ -1089,178 +1137,12 @@ a.loc-icon {
 
 
                             
-                         /*   $.ajax({
-                                type: "POST",
-                                url: '<?php echo BASE_URL . 'displaycounterstats.php' ?>',
-                                dataType: 'json',
-                                data: {
-                                    id: selected1.join(","),
-                                    service_id: service_id
-                                  
-                                }, 
-                                success: function(data) {
-                                 console.log(data);
-                                 //$('#modalSubscriptionForm').modal('show'); 
-                jQuery('.main_grids').css('display', 'none');
-              
-              
-                 console.log( data );
-   
-                 $.each(data,function(key,val){
-                   //console.log( "Key: " + key + ", Value: " + val.id );
-   
-                  // jQuery('#collection_data_tr_'+val.id).css('display', 'none');
-   
-                   var tr = '<div class="tp-counter-grids main_grids"  id="main_grids"><div class="grid"><div><h2><span class="odometer" data-count="'+val.counter1+'">'+val.counter1+'</span></h2></div><p>'+val.banner1+'</p></div><div class="grid"><div><h2><span class="odometer" data-count="'+val.counter2+'">'+val.counter2+'</span></h2></div><p>'+val.banner2+'</p></div><div class="grid"><div><h2><span class="odometer" data-count="'+val.counter3+'">'+val.counter3+'</span></h2></div><p>'+val.banner3+'</p></div></div>';
-                   $('#counter_stats').append(tr);
-                 });
-
-        
-                                },
-
-                    
-                            });*/
+                           
 
 
                         });
 
-                   <?php  }else{  ?>
-
-
-
-                    $(".cat").click(function () {
-                            var type="category";
-                            //console.log(rid);
-                            var service_id = $('#1service_id').val();
-                            var user_id = $('#1user_id').val();
-                            var user_email = $('#1user_email').val();
-                            var selected1 = new Array();
-                            $("#cat input[type=checkbox]:checked").each(function () {
-                                selected1.push(this.value);
-                            });
-
-                            console.log(selected1.join(","));            
-                            $.ajax({
-                                type: "POST",
-                                url: '<?php echo BASE_URL . 'servicefiltermap.php' ?>',
-                                dataType: 'json',
-                                data: {
-                                    id: selected1.join(","),
-                                    service_id: service_id,
-                                    user_id: user_id,
-                                    user_email: user_email,
-                                    type: type
-                                }, //--> send id of checked checkbox on other page
-                                success: function(data) {
-                                    $("#errorMap").addClass("d-none");
-                                    $("#mapholder2").removeClass("d-none");
-                                    var latitudec = $("#latitude").val();
-                                    var longitudec = $("#longitude").val();
-                                    var locations = data;
-                                    var map = new google.maps.Map(document.getElementById('mapholder2'), {
-                                        zoom: 4,
-                                        center: new google.maps.LatLng(latitudec, longitudec),
-                                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                                    });
-                                    var infowindow = new google.maps.InfoWindow();
-                                    var marker, i;
-                                    var markers = new Array();
-                                    for (i = 0; i < locations.length; i++) {
-                                        if (locations[i][3] == 1) {
-                                            if (locations[i][5] == 'active') {
-                                                marker = new google.maps.Marker({
-                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                                                    icon: locations[i][6],
-                                                    map: map
-                                                });
-                                            }else{
-                                                marker = new google.maps.Marker({
-                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/07/Component-11-–-1.png',
-                                                    map: map
-                                                });
-                                            }
-                                        } else if (locations[i][3] == 2) {
-                                            if (locations[i][5] == 'active') {
-                                                marker = new google.maps.Marker({
-                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/07/Component-7-–-1.png',
-                                                    map: map
-                                                });
-                                            }else{
-                                                marker = new google.maps.Marker({
-                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/07/Component-9-–-1.png',
-                                                    map: map
-                                                });
-                                            }
-                                        } else if (locations[i][3] == 3) {
-                                            if (locations[i][5] == 'active') {
-                                                marker = new google.maps.Marker({
-                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/06/marker_charity-2.png',
-                                                    map: map
-                                                });
-                                            }else{
-                                                marker = new google.maps.Marker({
-                                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                                                    icon: '<?= BASE_URL ?>wp-content/uploads/2021/07/Component-10-–-1.png',
-                                                    map: map
-                                                });
-                                            }
-                                        } else if (locations[i][3] == 4) {
-                                            marker = new google.maps.Marker({
-                                                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                                                icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ddd',
-                                                map: map
-                                            });
-                                        }
-                                        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                                            return function() {
-                                                infowindow.setContent(locations[i][0]);
-                                                infowindow.open(map, marker);
-                                            }
-                                        })(marker, i));
-                                        markers.push(marker);
-                                       
-                                        <?php
-                                      
-                                      $showmarker = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE email = '".$useremail."' AND service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
-                                     
-                                    
-                                        if((($services->service_status)=='private')) {
-                                        if(($userId==$services->userId) || ($userId== 1)){ ?>
-                                        markers.forEach(element => {
-                                            element.setVisible(true);  
-                                        });
-                                        <?php }elseif(($showmarker != 0)){ ?>
-                                            markers.forEach(element => {
-                                            element.setVisible(true);  
-                                        });
-                                        <?php }else{ ?>
-                                            markers.forEach(element => {
-                                            element.setVisible(false);  
-                                        });
-                                            <?php } ?>
-
-                                        <?php }else{ ?>
-                                            markers.forEach(element => {
-                                            element.setVisible(true);  
-                                        });
-                                        <?php }?>
-                                        
-                                    }
-                                }
-                            });
-
-
-                        
-
-
-                        });
-
-                   
-                   <?php     }  ?>
+                  
 
 
                       

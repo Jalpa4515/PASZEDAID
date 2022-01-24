@@ -7,7 +7,7 @@ global $wpdb;
 //counter 1
 $id = ltrim(rtrim($_POST['id'], ','), ',');
 $service_id = $_POST['service_id'];
-
+/*
 $results = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}counter_fields WHERE category_id = '".$id."' ");
 
 
@@ -131,10 +131,12 @@ if(!empty($results1)){
     ));
     $last_status_updated_id = $wpdb->insert_id;
 }
+*/    
+//$results00 =  $wpdb->get_results("SELECT * FROM wp_display_counter WHERE category_id =" .$id);
 
-    
-$results00 =  $wpdb->get_results("SELECT * FROM wp_display_counter WHERE category_id =" .$id);
-echo json_encode($results00);
+$requestcount1 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}service_request_data WHERE category_id='".$id."' AND service_id ='".$service_id."'  ORDER BY id DESC", ARRAY_A);
+
+echo json_encode($requestcount1);
 
 
 

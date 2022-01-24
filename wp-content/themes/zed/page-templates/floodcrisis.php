@@ -131,17 +131,19 @@ a.loc-icon {
     .fa.fa-thumbs-o-down {
         vertical-align: text-top;
     }
-
+    .tp-counter-area .tp-counter-grids .grid h2{
+    line-height: 65px !important;
+}
     @media (max-width:767px) {
 
         .causeslistcounter {
     margin-top: 5% !important;
 }
-
+/*
 .tp-counter-grids {
     display: block !important;
 }
-
+*/
 a.loc-icon {
     
     left: 92%;
@@ -540,7 +542,8 @@ a.loc-icon {
 
                                         
                                         ?>
-                                        <div class="tp-counter-grids">
+                                        <div class="main-banner" id="main-banner">
+                                        <div class="tp-counter-grids" id="tp-counter-grids">
                                             <div class="grid" id="maincount">
                                                 <div>
                                                     <h2><span class="odometer" data-count="<?= count( $resultscount1); ?>"><?= count( $resultscount1); ?></span></h2>
@@ -571,6 +574,7 @@ a.loc-icon {
                                             <!--    </div>-->
                                             <!--    <p>ZED EVENTS</p>-->
                                             <!--</div>-->
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -651,7 +655,7 @@ a.loc-icon {
                             ?>
                                 <div class="bor <?php if($i > 1){?> line_spacing_top_15 <?php } ?>">
                                     <input type="checkbox" value="<?= $rec['id']; ?>" class="custom-control-input covidid" id="covidid<?= $rec['id']; ?>" 
-                                    name="covidid" /> <label class="custom-control-label " for="covidid1">
+                                    name="covidid" labelname= "<?= $rec['title']; ?>" /> <label class="custom-control-label " for="covidid1">
                                     <img src="<?= $rec['icon']; ?>" width="20" height="20" /> <?= $rec['title']; ?> 
                                     <a class="add-icon" href="javascript:void(0)" onclick="openAddCollectionsPopup('<?= $rec['id']; ?>','<?= $rec['title']; ?>','<?= $userId; ?>')"> <img src="https://zedaid.org/wp-content/uploads/2021/04/add-1.png" width="20" height="20"></a>
                                     </label>
@@ -1228,46 +1232,13 @@ a.loc-icon {
                     //Location
                     jQuery('.covidid').click(function() {
 
-                      /* 
-                        if($('#covidid8').is(":checked")) {
-                            $("#maincount").hide();
-                            $("#rescuecount").show();
-                            $("#medicalcount").hide();
-                            $("#foodcount").hide();
+                        if($('.covidid').is(":checked")) {
+                            $("#tp-counter-grids").hide();
                            }else{
-                            $("#maincount").show();
-                            $("#rescuecount").show();
-                            $("#medicalcount").show();
-                            $("#foodcount").show();
+                            $("#tp-counter-grids").show();
+                            jQuery('.main_grids').css('display', 'none');
                            }
 
-                           if($('#covidid9').is(":checked")) {
-                            $("#maincount").hide();
-                            $("#rescuecount").hide();
-                            $("#medicalcount").hide();
-                            $("#foodcount").show();
-                           }else{
-                            $("#maincount").show();
-                            $("#rescuecount").show();
-                            $("#medicalcount").show();
-                            $("#foodcount").show();
-                           }
-
-
-
-                           if($('#covidid10').is(":checked")) {
-                            $("#maincount").hide();
-                            $("#rescuecount").hide();
-                            $("#medicalcount").show();
-                            $("#foodcount").hide();
-                           }else{
-                            $("#maincount").show();
-                            $("#rescuecount").show();
-                            $("#medicalcount").show();
-                            $("#foodcount").show();
-                           }
-
-*/
 
 
                         var type="category";
@@ -1346,28 +1317,89 @@ a.loc-icon {
                             selected.push(this.value);
                         });
                             */
+                            var selected00 = new Array();
                             var selected1 = new Array();
                         if ($('#covidid8').is(':checked')) {
                                 selected1.push($('#covidid8').val());
+                               selected00.push($(this).attr('labelname'))
                             }
 
                             if ($('#covidid9').is(':checked')) {
                                 selected1.push($('#covidid9').val());
+                               selected00.push($(this).attr('labelname'))
                             }
 
                             if ($('#covidid10').is(':checked')) {
                                 selected1.push($('#covidid10').val());
+                                selected00.push($(this).attr('labelname'))
                             }
 
                             if ($('#covidid11').is(':checked')) {
                                 selected1.push($('#covidid11').val());
+                               // selected00.push($(this).attr('labelname'))
                             }
 
                            
                         var selected = new Array();
+                        
                         jQuery("#service_status input[type=checkbox]:checked").each(function () {
                             selected.push(this.value);
+                            
                         });
+
+
+                      //  var element = $('.covidid').find(':checked'); 
+                      //  var labelname = $('.covidid').is(":checked").attr("labelname");
+
+
+                     // console.log(selected00.join(","));
+///$('.covidid input[type=checkbox]:checked').each(function() {
+   // selected00.push($(this).attr('labelname'));
+//});
+                        
+                //console.log(selected00.join(","));
+                        $.ajax({
+                                type: "POST",
+                                url: '<?php echo BASE_URL . 'displayineedstats.php' ?>',
+                                dataType: 'json',
+                                data: {
+                                    id: selected1.join(","),
+                                    labelname : selected00.join(",")
+                                    
+                                  
+                                }, 
+                                success: function(data) {
+                                 console.log(data);
+                                 //$('#modalSubscriptionForm').modal('show'); 
+                jQuery('.main_grids').css('display', 'none');
+              
+              
+                 //console.log( data );
+                var labelname = selected00.join(",");
+                 
+                   //console.log( "Key: " + key + ", Value: " + val.id );
+   
+                  // jQuery('#collection_data_tr_'+val.id).css('display', 'none');
+   
+                   var tr = '<div class="tp-counter-grids main_grids"  id="main_grids"><div class="grid"><div><h2><span class="odometer" data-count="'+data.length+'">'+data.length+'</span></h2></div><p>'+labelname+'</p></div></div>';
+                   $('#main-banner').append(tr);
+                
+
+        
+                                },
+
+                    
+                            });
+
+
+
+
+
+
+
+
+
+
 
 
                             console.log(rid);
