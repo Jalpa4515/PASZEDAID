@@ -387,7 +387,7 @@ a.loc-icon {
                                         ?>
                                         
 
-
+                                        <div class="main-banner" id="main-banner">
                                         <div class="tp-counter-grids" id="tp-counter-grids">  
                                             <div class="grid" id="grid1">
                                                 <div>
@@ -458,7 +458,7 @@ a.loc-icon {
 
 
 
-
+                                        </div>
                                             </div>
                                        
                         </div>
@@ -495,7 +495,7 @@ a.loc-icon {
 
                     <div class="col-md-4" style="margin-top: 5%;">
                         <div class="tp-blog-sidebar">
-                            <div class="widget category-widget">
+                            <div class="widget category-widget" id="cat">
                                 <label style="font-size: 18px;    margin-bottom: 23px;"><b>Categories</b></label>
                                 
                                 <ul>
@@ -508,13 +508,84 @@ a.loc-icon {
                                             $icon_name = BASE_URL."/wp-content/uploads/services/".$val->icon;
                                         }
                                     ?>
-                                    <li class="bor"><a onclick="camptypeid('<?= $val->category_id;?>')" href="javascript:void(0)" style="display: inline;"><input type="checkbox" id="fundraiser_check" name="camp_type[]" value="<?= $val->category_id;?>"></a><img src="<?= $icon_name ?>" width="20" height="20" style="margin-right: 2% !important; color: #777 !important;"/><?= $val->name;?>
+                                    <li class="bor"><a onclick="camptypeid('<?= $val->category_id;?>')" href="javascript:void(0)" style="display: inline;"><input type="checkbox" id="fundraiser_check" class="cat  banner_cat<?= $val->category_id; ?>" name="camp_type[]" value="<?= $val->category_id;?>" labelname="<?= $val->name;?>"></a><img src="<?= $icon_name ?>" width="20" height="20" style="margin-right: 2% !important; color: #777 !important;"/><?= $val->name;?>
                                     <a class="add-icon" href="javascript:void(0)" onclick="openAddCollectionsPopup('<?= $val->service_id; ?>','<?= $val->category_id; ?>','<?= $userId; ?>')"> <img src="https://zedaid.org/wp-content/uploads/2021/04/add-1.png" width="20" height="20"></a>
                                     </li>
                                     <?php } ?>
                                 </ul>
                             </div>
                         </div>
+
+
+
+
+                        <script>
+                    $(".cat").click(function () {
+
+                    if($('.cat').is(":checked")) {
+                    $("#tp-counter-grids").hide();
+                    }else{
+                    $("#tp-counter-grids").show();
+                    jQuery('.main_grids').css('display', 'none');
+                    }
+
+                    var service_id = $('#slug').val();
+                var selected1 = new Array();
+                            $("#cat input[type=checkbox]:checked").each(function () {
+                                selected1.push(this.value);
+                            });
+
+
+                var selected00 = new Array();
+                            $("#cat input[type=checkbox]:checked").each(function () {
+                                selected00.push($(this).attr('labelname'))
+                            });
+
+
+                            $.ajax({
+                                type: "POST",
+                                url: '<?php echo BASE_URL . 'displaycounterstats.php' ?>',
+                                dataType: 'json',
+                                data: {
+                                    id: selected1.join(","),
+                                    service_id: service_id,
+                                    labelname:selected00.join(",")
+                                  
+                                }, 
+                                success: function(data) {
+                                 console.log(data);
+                                 //$('#modalSubscriptionForm').modal('show'); 
+                jQuery('.main_grids').css('display', 'none');
+              
+              var labelname = selected00.join(",");
+                 console.log( data );
+   
+            
+                   
+   
+                   var tr = '<div class="tp-counter-grids main_grids"  id="main_grids"><div class="grid"><div><h2><span class="odometer" data-count="'+data.length+'">'+data.length+'</span></h2></div><p>'+labelname+'</p></div></div>';
+                  
+                   $('#main-banner').append(tr);
+                
+                   if((data.length == 0) && (labelname== "")){
+                    jQuery('.main_grids').css('display', 'none');
+                   }
+                   
+        
+                                },
+
+                    
+                            });
+
+
+                });
+
+
+                
+
+
+
+                        </script>
                         
                         <!-- <div class="tp-blog-sidebar legendstextdesktop">
                             <div class="widget category-widget">
